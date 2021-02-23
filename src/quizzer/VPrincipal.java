@@ -19,7 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import objetos.Pregunta;
-import org.sqlite.JDBC;
+//import org.sqlite.JDBC;
+
 /**
  *
  * @author Benjimon41
@@ -33,11 +34,13 @@ public class VPrincipal extends javax.swing.JFrame {
         initComponents();
         this.btnPlay.setEnabled(false);
         this.btnScores.setEnabled(false);
-        this.btnStudy.setEnabled(false);
+
         Pregunta x = new Pregunta("a", "b", "c", "d", "e");
         System.out.println(x.isUsada());
         this.lb_conexion.setText("Conexión local");
+        this.connectRemote();
         this.connectLocal();
+
         /*timer para desaparecer el anuncio de conexion
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         Runnable task1 = () -> this.pan_conexion.setVisible(false);
@@ -48,16 +51,21 @@ public class VPrincipal extends javax.swing.JFrame {
         Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
             try {
                 con = DriverManager.getConnection("jdbc:sqlserver://189.173.55.191:1433;databaseName=Quizzer", "sa", "lalito24");
             } catch (SQLException ex) {
                 Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("" + ex.toString());
             }
+
             System.out.println("Connected");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Algo salió mal con conexión con la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE);
             System.err.println(ex.getMessage());
+
         }
+
     }
 
     public void connectLocal() throws ClassNotFoundException {
@@ -67,7 +75,9 @@ public class VPrincipal extends javax.swing.JFrame {
         Connection con = null;
         try {
             con = DriverManager.getConnection(url);
-            if (con != null) System.out.println("Connected2");
+            if (con != null) {
+                System.out.println("Connected2");
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -212,6 +222,18 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void btnStudyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudyActionPerformed
         // TODO add your handling code here:
+        Estudiar n;
+        try {
+            n = new Estudiar();
+            n.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnStudyActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
