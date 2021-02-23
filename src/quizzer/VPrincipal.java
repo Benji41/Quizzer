@@ -5,14 +5,21 @@
  */
 package quizzer;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import objetos.Pregunta;
-
+import org.sqlite.JDBC;
 /**
  *
  * @author Benjimon41
@@ -22,13 +29,48 @@ public class VPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form VPrincipal
      */
-    public VPrincipal() {
+    public VPrincipal() throws InterruptedException, ClassNotFoundException {
         initComponents();
         this.btnPlay.setEnabled(false);
         this.btnScores.setEnabled(false);
         this.btnStudy.setEnabled(false);
-        Pregunta x = new Pregunta("a","b","c","d","e");
+        Pregunta x = new Pregunta("a", "b", "c", "d", "e");
         System.out.println(x.isUsada());
+        this.lb_conexion.setText("Conexión local");
+        this.connectLocal();
+        /*timer para desaparecer el anuncio de conexion
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        Runnable task1 = () -> this.pan_conexion.setVisible(false);
+        service.scheduleAtFixedRate(task1, 2, 9, TimeUnit.SECONDS);*/
+    }
+
+    public void connectRemote() {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try {
+                con = DriverManager.getConnection("jdbc:sqlserver://189.173.55.191:1433;databaseName=Quizzer", "sa", "lalito24");
+            } catch (SQLException ex) {
+                Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Connected");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Algo salió mal con conexión con la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public void connectLocal() throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        URL path = getClass().getResource("/resource/localdb.db");
+        String url = "jdbc:sqlite:" + path.getFile().substring(1);
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url);
+            if (con != null) System.out.println("Connected2");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**
@@ -46,6 +88,8 @@ public class VPrincipal extends javax.swing.JFrame {
         btnUploadQuestions = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
         btnQuit = new javax.swing.JButton();
+        pan_conexion = new javax.swing.JPanel();
+        lb_conexion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,6 +130,27 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         });
 
+        pan_conexion.setBackground(new java.awt.Color(153, 255, 153));
+        pan_conexion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lb_conexion.setText("Conexión remota");
+
+        javax.swing.GroupLayout pan_conexionLayout = new javax.swing.GroupLayout(pan_conexion);
+        pan_conexion.setLayout(pan_conexionLayout);
+        pan_conexionLayout.setHorizontalGroup(
+            pan_conexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan_conexionLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(lb_conexion)
+                .addGap(23, 23, 23))
+        );
+        pan_conexionLayout.setVerticalGroup(
+            pan_conexionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan_conexionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lb_conexion))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,19 +158,25 @@ public class VPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnUploadQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnUploadQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                     .addComponent(btnScores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnStudy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                    .addComponent(btnAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPlay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(btnQuit)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pan_conexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addContainerGap()
+                .addComponent(pan_conexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
                 .addComponent(btnPlay)
                 .addGap(18, 18, 18)
                 .addComponent(btnStudy)
@@ -119,7 +190,7 @@ public class VPrincipal extends javax.swing.JFrame {
                         .addComponent(btnAdmin)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(btnQuit)
                         .addGap(20, 20, 20))))
         );
@@ -177,19 +248,14 @@ public class VPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VPrincipal().setVisible(true);
-                Connection con = null;
                 try {
-                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                     try {
-                        con = DriverManager.getConnection("jdbc:sqlserver://189.173.55.191:1433;databaseName=Quizzer", "sa", "lalito24");
-                    } catch (SQLException ex) {
+                        new VPrincipal().setVisible(true);
+                    } catch (ClassNotFoundException ex) {
                         Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println("Connected");
-                } catch (ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(null, "Algo salió mal con conexión con la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    System.err.println(ex.getMessage());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -202,5 +268,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnScores;
     private javax.swing.JButton btnStudy;
     private javax.swing.JButton btnUploadQuestions;
+    private static javax.swing.JLabel lb_conexion;
+    private javax.swing.JPanel pan_conexion;
     // End of variables declaration//GEN-END:variables
 }
