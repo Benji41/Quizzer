@@ -26,6 +26,7 @@ public class VPrincipal extends javax.swing.JFrame {
         initComponents();
         this.btnPlay.setEnabled(false);
         this.btnScores.setEnabled(false);
+        this.btnStudy.setEnabled(false);
         Pregunta x = new Pregunta("a","b","c","d","e");
         System.out.println(x.isUsada());
     }
