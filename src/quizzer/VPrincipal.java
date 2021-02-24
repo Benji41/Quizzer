@@ -5,6 +5,7 @@
  */
 package quizzer;
 
+import Score.VScore;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,7 +33,7 @@ public class VPrincipal extends javax.swing.JFrame {
     public VPrincipal() throws InterruptedException, ClassNotFoundException {
         initComponents();
         this.btnPlay.setEnabled(false);
-        this.btnScores.setEnabled(false);
+        //this.btnScores.setEnabled(false);
         this.btnStudy.setEnabled(false);
         Pregunta x = new Pregunta("a", "b", "c", "d", "e");
         System.out.println(x.isUsada());
@@ -204,6 +205,9 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void btnScoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoresActionPerformed
         // TODO add your handling code here:
+        VScore vs = new VScore();
+        vs.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnScoresActionPerformed
 
     private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
