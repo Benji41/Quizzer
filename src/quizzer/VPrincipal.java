@@ -43,7 +43,7 @@ public class VPrincipal extends javax.swing.JFrame {
         Runnable task1 = () -> this.pan_conexion.setVisible(false);
         service.scheduleAtFixedRate(task1, 2, 9, TimeUnit.SECONDS);*/
     }
-
+    
     public void connectRemote() {
         Connection con = null;
         try {
