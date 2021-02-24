@@ -63,7 +63,7 @@ public class VPrincipal extends javax.swing.JFrame {
 
     public void connectLocal() throws ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        URL path = getClass().getResource("/resource/localdb.db");
+        URL path = getClass().getResource("/resource/localdbog.db");
         String url = "jdbc:sqlite:" + path.getFile().substring(1);
         Connection con = null;
         try {
