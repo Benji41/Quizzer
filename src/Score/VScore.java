@@ -5,6 +5,13 @@
  */
 package Score;
 
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author denia
@@ -70,23 +77,28 @@ public class VScore extends javax.swing.JFrame {
                 jBMultiMouseClicked(evt);
             }
         });
+        jBMulti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMultiActionPerformed(evt);
+            }
+        });
         getContentPane().add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, -1));
 
         tabla1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Tiempo", "Puntuación", "Fecha"
+                "Resultado", "Tiempo", "Puntuación", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -98,6 +110,7 @@ public class VScore extends javax.swing.JFrame {
             tabla1.getColumnModel().getColumn(0).setResizable(false);
             tabla1.getColumnModel().getColumn(1).setResizable(false);
             tabla1.getColumnModel().getColumn(2).setResizable(false);
+            tabla1.getColumnModel().getColumn(3).setResizable(false);
         }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 390, 260));
@@ -115,12 +128,12 @@ public class VScore extends javax.swing.JFrame {
                 "Ganador", "Puntuación", "Fecha"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
         jScrollPane3.setViewportView(tabla2);
@@ -158,7 +171,39 @@ public class VScore extends javax.swing.JFrame {
         jPlayer1.setVisible(false);
         tabla2.setVisible(true);
         labelMulti.setVisible(true);
+        
+        //Conexion
+        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            URL path = getClass().getResource("/resource/localdbog.db");
+            String url = "jdbc:sqlite:" + path.getFile().substring(1);
+            Connection con = DriverManager.getConnection(url);
+            
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM ScoreMulti";
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()){
+                String winner = rs.getString("Winner");
+                String scorem = String.valueOf(rs.getInt("ScoreM"));
+                String datem = rs.getString("Date");
+                
+                String tbData[] = {winner, scorem, datem};
+                DefaultTableModel tblMode1 = (DefaultTableModel)tabla2.getModel();
+                tblMode1.addRow(tbData);
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_jBMultiMouseClicked
+
+    private void jBMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMultiActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jBMultiActionPerformed
 
     /**
      * @param args the command line arguments
