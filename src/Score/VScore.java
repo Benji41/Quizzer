@@ -16,6 +16,8 @@ public class VScore extends javax.swing.JFrame {
      */
     public VScore() {
         initComponents();
+        tabla2.setVisible(false);
+        labelMulti.setVisible(false);
     }
 
     /**
@@ -27,21 +29,136 @@ public class VScore extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPlayer1 = new javax.swing.JLabel();
+        jBack = new javax.swing.JButton();
+        jBPlayer = new javax.swing.JButton();
+        jBMulti = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla1 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabla2 = new javax.swing.JTable();
+        labelMulti = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(475, 420));
+        setPreferredSize(new java.awt.Dimension(510, 440));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPlayer1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jPlayer1.setText("Puntuación: Un jugador");
+        getContentPane().add(jPlayer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 256, 49));
+
+        jBack.setText("Back");
+        jBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 359, -1, -1));
+
+        jBPlayer.setText("1 Jugador");
+        jBPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBPlayerMouseClicked(evt);
+            }
+        });
+        getContentPane().add(jBPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
+
+        jBMulti.setText("Mas Jugadores");
+        jBMulti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBMultiMouseClicked(evt);
+            }
+        });
+        getContentPane().add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, -1));
+
+        tabla1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tiempo", "Puntuación", "Fecha"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tabla1);
+        if (tabla1.getColumnModel().getColumnCount() > 0) {
+            tabla1.getColumnModel().getColumn(0).setResizable(false);
+            tabla1.getColumnModel().getColumn(1).setResizable(false);
+            tabla1.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 390, 260));
+
+        tabla2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tabla2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Ganador", "Puntuación", "Fecha"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tabla2);
+        if (tabla2.getColumnModel().getColumnCount() > 0) {
+            tabla2.getColumnModel().getColumn(0).setResizable(false);
+            tabla2.getColumnModel().getColumn(1).setResizable(false);
+            tabla2.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 390, 260));
+
+        labelMulti.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        labelMulti.setText("Puntuación: Multijugador");
+        getContentPane().add(labelMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jBackActionPerformed
+
+    private void jBPlayerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBPlayerMouseClicked
+        // TODO add your handling code here:
+        tabla1.setVisible(true);
+        jPlayer1.setVisible(true);
+        tabla2.setVisible(false);
+        labelMulti.setVisible(false);
+    }//GEN-LAST:event_jBPlayerMouseClicked
+
+    private void jBMultiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBMultiMouseClicked
+        // TODO add your handling code here:
+        tabla1.setVisible(false);
+        jPlayer1.setVisible(false);
+        tabla2.setVisible(true);
+        labelMulti.setVisible(true);
+    }//GEN-LAST:event_jBMultiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +196,14 @@ public class VScore extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBMulti;
+    private javax.swing.JButton jBPlayer;
+    private javax.swing.JButton jBack;
+    private javax.swing.JLabel jPlayer1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel labelMulti;
+    private javax.swing.JTable tabla1;
+    private javax.swing.JTable tabla2;
     // End of variables declaration//GEN-END:variables
 }
