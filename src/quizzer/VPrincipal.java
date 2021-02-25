@@ -5,7 +5,6 @@
  */
 package quizzer;
 
-import Score.VScore;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;

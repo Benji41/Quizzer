@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Score;
+package quizzer;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -48,7 +48,6 @@ public class VScore extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(475, 420));
-        setPreferredSize(new java.awt.Dimension(510, 440));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         label.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
