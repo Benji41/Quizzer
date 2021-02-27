@@ -29,22 +29,8 @@ public class Estudiar extends javax.swing.JFrame {
     DefaultTableModel modelo;
     Connection con;
 
-    public Estudiar() throws ClassNotFoundException, InterruptedException, SQLException {
+    public Estudiar(Connection con) throws ClassNotFoundException, InterruptedException, SQLException {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            try {
-                con = DriverManager.getConnection("jdbc:sqlserver://189.173.55.191:1433;databaseName=Quizzer", "sa", "lalito24");
-            } catch (SQLException ex) {
-                Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("" + ex.toString());
-            }
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Algo salió mal con conexión con la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            System.err.println(ex.getMessage());
-
-        }
-
         String Categoria = "select distinct Categoria from dbo.Preguntas;";
         ResultSet rs = null;
         PreparedStatement ps = con.prepareStatement(Categoria);
@@ -57,6 +43,11 @@ public class Estudiar extends javax.swing.JFrame {
         tamañoTabla();
 
     }
+
+    private Estudiar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     void tamañoTabla() {
         pye.getColumnModel().getColumn(0).setPreferredWidth(695);
@@ -173,7 +164,13 @@ public class Estudiar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
-        // TODO add your handling code here:
+        try {
+            new VPrincipal().setVisible(true);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_btnbackActionPerformed
 
@@ -244,15 +241,7 @@ public class Estudiar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Estudiar().setVisible(true);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Estudiar().setVisible(true);
             }
         });
     }

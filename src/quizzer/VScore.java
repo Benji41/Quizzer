@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import quizzer.VPrincipal;
 
@@ -19,13 +21,16 @@ import quizzer.VPrincipal;
  */
 public class VScore extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VScore
-     */
-    public VScore() {
+    Connection con= null;
+    public VScore(Connection con ) {
         initComponents();
+        this.con = con;
         jScrollPane3.setVisible(false);
         ShowtableSingle();
+    }
+
+    private VScore() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -142,10 +147,14 @@ public class VScore extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackActionPerformed
-        // TODO add your handling code here:
-        //VPrincipal vp = new VPrincipal();
-        
-        
+        try {
+            new VPrincipal().setVisible(true);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(VScore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VScore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
     }//GEN-LAST:event_jBackActionPerformed
 
     private void jBPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPlayerActionPerformed
@@ -163,18 +172,11 @@ public class VScore extends javax.swing.JFrame {
         
         CleanTables();
 
-        //Conexion
-
-        Connection con = null;
+        //Conexion  
         Statement st = null;
 
         try {
-            Class.forName("org.sqlite.JDBC");
-            URL path = getClass().getResource("/resource/localdbog.db");
-            String url = "jdbc:sqlite:" + path.getFile().substring(1);
-            con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
-
             st = con.createStatement();
             String sql = "SELECT * FROM ScoreMulti;";
             ResultSet rs = st.executeQuery(sql);
@@ -191,7 +193,7 @@ public class VScore extends javax.swing.JFrame {
             }
             rs.close();
             st.close();
-            con.close();
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -204,15 +206,9 @@ public class VScore extends javax.swing.JFrame {
         jScrollPane2.setVisible(true);
         
         //Conexion
-        
-        Connection con = null;
         Statement st = null;
         
         try {
-            Class.forName("org.sqlite.JDBC");
-            URL path = getClass().getResource("/resource/localdbog.db");
-            String url = "jdbc:sqlite:" + path.getFile().substring(1);
-            con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
             
             st = con.createStatement();
@@ -232,7 +228,7 @@ public class VScore extends javax.swing.JFrame {
             }
             rs.close();
             st.close();
-            con.close();
+          
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
