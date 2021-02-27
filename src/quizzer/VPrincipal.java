@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -58,16 +59,15 @@ public class VPrincipal extends javax.swing.JFrame {
         this.btnScores.setEnabled(false);
         this.btnAdmin.setEnabled(false);
         this.lb_conexion.setText("Esperando a servicios online");
-        urlR[0] = "jdbc:sqlserver://189.173.55.191:1433;databaseName=Quizzer";
+        urlR[0] = "jdbc:sqlserver://189.173.190.140:1433;databaseName=Quizzer";
         urlR[1] = "sa";
         urlR[2] = "lalito24";
         urlL = "jdbc:sqlite:" + path.getFile().substring(1);
         this.connectLocal();
         t = new Timer();
         this.busqueda();
-        this.connectLocal();
     }
-
+    
     public void busqueda() {
         TimerTask tl = new TimerTask() {
             int time = 2;
@@ -90,6 +90,8 @@ public class VPrincipal extends javax.swing.JFrame {
                             VPrincipal.this.pan_conexion.setBackground(Color.green.brighter());
                             VPrincipal.this.btnPlay.setEnabled(true);
                             VPrincipal.this.repaint();
+                            Thread.sleep(1000);
+                            VPrincipal.this.pan_conexion.setVisible(false);
                             cancel();
                         } catch (InterruptedException ex) {
                             Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +114,7 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         };
         TimerTask tr = new TimerTask() {
-            int time = 2;
+            int time = 3;
 
             @Override
             public void run() {
@@ -121,13 +123,20 @@ public class VPrincipal extends javax.swing.JFrame {
                 if (time != 0) {
                     if (VPrincipal.this.connectRemote() != null) {
                         try {
-                            Thread.sleep(500);
+                            Thread.sleep(1000);
                             lb_conexion.setText("Conectado con servicio online");
                             VPrincipal.this.btnPlay.setEnabled(true);
                             VPrincipal.this.btnStudy.setEnabled(true);
                             VPrincipal.this.btnUploadQuestions.setEnabled(true);
                             VPrincipal.this.pan_conexion.setBackground(Color.green.brighter());
                             VPrincipal.this.repaint();
+                            Thread.sleep(500);
+                            try {
+                                VPrincipal.this.cargarPreguntasCatRemoto();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            VPrincipal.this.pan_conexion.setVisible(false);
                             cancel();
                         } catch (InterruptedException ex) {
                             Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,17 +162,19 @@ public class VPrincipal extends javax.swing.JFrame {
     }
 
     public Connection connectRemote() {
-
+        
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
+            System.out.println("entro1");
             con = DriverManager.getConnection(urlR[0], urlR[1], urlR[2]);
+            System.out.println(con);
             System.out.println("Connected1");
         } catch (SQLException ex) {
-            ex.getMessage().contains("The query has timed out");
+            System.out.println(ex);
         }
         return con;
     }
@@ -187,7 +198,36 @@ public class VPrincipal extends javax.swing.JFrame {
         return con2;
     }
 
-    public void cargarPreguntasCatRemoto() {
+    public void cargarPreguntasCatRemoto() throws SQLException {
+        ResultSet rs;
+        PreparedStatement ps;
+        ps = con.prepareStatement(this.queryQuest);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String q = rs.getString("Pregunta");
+            String c = rs.getString("Categoria");
+            String ans = rs.getString("RespuestaCorrecta");
+            String wr1 = rs.getString("RespuestaIncorrecta1");
+            String wr2 = rs.getString("RespuestaIncorrecta2");
+            System.out.println(q + c + ans + wr1 + wr2);
+            this.preguntas
+                    .add(new Pregunta(q, c, ans, wr1, wr2));
+        }
+        ps.close();
+        rs.close();
+        ps = null;
+        rs = null;
+        ps = con.prepareStatement(this.queryCat);
+        rs = rs = ps.executeQuery();
+        while (rs.next()) {
+            String c = rs.getString("Categoria");
+            this.categorias.add(c);
+        }
+        ps.close();
+        rs.close();
+        System.out.println("pre" + this.preguntas);
+        System.out.println("que" + this.categorias);
 
     }
 
@@ -410,7 +450,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
     private void btnStudyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudyActionPerformed
         try {
-            t.cancel();
             new Estudiar(con).setVisible(true);
             this.setVisible(false);
         } catch (ClassNotFoundException ex) {

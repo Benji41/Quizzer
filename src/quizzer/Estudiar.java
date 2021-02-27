@@ -31,6 +31,7 @@ public class Estudiar extends javax.swing.JFrame {
 
     public Estudiar(Connection con) throws ClassNotFoundException, InterruptedException, SQLException {
         initComponents();
+        this.con = con;
         String Categoria = "select distinct Categoria from dbo.Preguntas;";
         ResultSet rs = null;
         PreparedStatement ps = con.prepareStatement(Categoria);
