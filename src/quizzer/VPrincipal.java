@@ -157,7 +157,6 @@ public class VPrincipal extends javax.swing.JFrame {
                 }
             }
         };
-
         t.schedule(tr, 0, 1000);
     }
 
@@ -428,7 +427,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUploadQuestionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadQuestionsActionPerformed
-        System.out.println(con);
+        new SubirPreguntas(this.con).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnUploadQuestionsActionPerformed
 

@@ -7,6 +7,8 @@ package quizzer;
 
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -31,7 +33,6 @@ public class TableroVersion0 extends javax.swing.JFrame {
         c2.asignarImagen(1);
         jPanel1.add(c.cell);
         jPanel1.add(c2.cell);
-
     }
 
     /**
