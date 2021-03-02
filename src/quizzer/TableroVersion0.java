@@ -5,6 +5,7 @@
  */
 package quizzer;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -12,29 +13,91 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
 import objetos.Celda;
+
 /**
  *
  * @author Benjimon41
  */
 public class TableroVersion0 extends javax.swing.JFrame {
-
-    
+Celda[][] grid= new Celda[3][3];
     public TableroVersion0() throws IOException {
         initComponents();
         setDefaultCloseOperation(TableroVersion0.EXIT_ON_CLOSE);
         setBounds(100, 100, 500, 500);
-        //jPanel1.setLayout(new GridLayout(4, 10));
-        Celda c = new Celda(new JLabel());
-        c.asignarPosicionPanel(0, 0);
-        Celda c2 = new Celda(new JLabel());
-        c2.asignarPosicionPanel(20, 40);
-        c.asignarImagen(0);
-        c2.asignarImagen(1);
-        jPanel1.add(c.cell);
-        jPanel1.add(c2.cell);
+        //this.jPanel1.setVisible(false);
+        this.dibujarTabla(9);
+        this.cargarValores(9);
     }
+    public void dibujarTabla(int n){
+        
+        for (int i = 0; i < Math.sqrt(n); i++) {
+            for (int j = 0; j < Math.sqrt(n); j++) {
+                Celda c = new Celda(new JLabel(), 0);
+                c.asignarPosicionPanel(j*40, i*40);
+                c.cell.setSize(40,40);
+                c.cell.setBorder(new LineBorder(Color.BLACK));
+                c.cell.setOpaque(true);
+                grid[i][j]=c;
+                jPanel1.add(c.cell);
+            }
+        }
+    }
+    
+    public void cargarValores(int n) throws IOException{
+        int value = 1;
+         
+        int minCol = (int) (Math.sqrt(n)-1);
+        int minRow = (int) (Math.sqrt(n)-1);
+         
+        int maxCol = 0;
+        int maxRow = 0;
+         
+        while (value <= n)
+        {
+            for (int i = minCol; i >= maxCol; i--)
+            {
+                grid[minRow][i].asignarValor(value);
+                if(value==1)grid[minRow][i].asignarImagen(0);
+                if(value==n)grid[minRow][i].asignarImagen(1);
+                value++;
+            }
+            
+            for (int i = minRow-1; i >= maxRow; i--) 
+            { 
+                grid[i][maxCol].asignarValor(value);
+                if(value==n)grid[minRow][i].asignarImagen(1);
+                value++; 
+            }
+           
+            for (int i = maxCol+1; i <= minCol; i++)
+            {
+                grid[maxRow][i].asignarValor(value);
+                if(value==n)grid[minRow][i].asignarImagen(1);
+                value++;
+            }
+           
+            for (int i = maxRow+1; i <= minRow-1; i++) 
+            {
+                grid[i][minCol].asignarValor(value);
+                if(value==n)grid[minRow][i].asignarImagen(1);
+                value++;
+            }
+            
+            
 
+             
+            minCol--;
+             
+            minRow--;
+             
+            maxCol++;
+             
+            maxRow++;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +121,7 @@ public class TableroVersion0 extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 127, Short.MAX_VALUE)
+            .addGap(0, 171, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -71,7 +134,7 @@ public class TableroVersion0 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 173, Short.MAX_VALUE))
+                .addGap(0, 129, Short.MAX_VALUE))
         );
 
         pack();

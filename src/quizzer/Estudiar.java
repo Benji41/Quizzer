@@ -5,6 +5,11 @@
  */
 package quizzer;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +19,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import objetos.GestionCeldas;
 
 /**
  *
@@ -28,10 +39,13 @@ public class Estudiar extends javax.swing.JFrame {
      */
     DefaultTableModel modelo;
     Connection con;
+    JTableHeader th;
 
     public Estudiar(Connection con) throws ClassNotFoundException, InterruptedException, SQLException {
         initComponents();
         this.con = con;
+        th = pye.getTableHeader();
+
         String Categoria = "select distinct Categoria from dbo.Preguntas;";
         ResultSet rs = null;
         PreparedStatement ps = con.prepareStatement(Categoria);
@@ -41,7 +55,7 @@ public class Estudiar extends javax.swing.JFrame {
             info = rs.getString("Categoria");
             categorias.addItem(info);
         }
-        tamañoTabla();
+        custom(th);
 
     }
 
@@ -49,9 +63,17 @@ public class Estudiar extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    void custom(JTableHeader th) {
 
-    void tamañoTabla() {
-        pye.getColumnModel().getColumn(0).setPreferredWidth(695);
+//        pye.getTableHeader().setFont(new Font("Tahoma", 1, 14));
+//        pye.getTableHeader().setForeground(Color.BLACK);
+        pye.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color (191,135,86),Color.BLACK));
+        pye.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color (191,135,86),Color.BLACK));
+
+        pye.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("pregunta"));
+        pye.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("respuesta"));
+        pye.setRowHeight(30);
+        pye.getColumnModel().getColumn(0).setPreferredWidth(795);
         pye.getColumnModel().getColumn(1).setPreferredWidth(200);
     }
 
@@ -64,7 +86,7 @@ public class Estudiar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new FondoPanel();
         jLabel1 = new javax.swing.JLabel();
         categorias = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -72,15 +94,23 @@ public class Estudiar extends javax.swing.JFrame {
         btnback = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Estudia la categoría que deseas:");
 
+        categorias.setBackground(new java.awt.Color(255, 255, 255));
+        categorias.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        categorias.setForeground(new java.awt.Color(0, 0, 0));
+        categorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         categorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoriasActionPerformed(evt);
             }
         });
 
+        pye.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         pye.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -109,7 +139,12 @@ public class Estudiar extends javax.swing.JFrame {
             pye.getColumnModel().getColumn(1).setPreferredWidth(150);
         }
 
+        btnback.setBackground(new java.awt.Color(255, 255, 255));
+        btnback.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnback.setForeground(new java.awt.Color(51, 51, 51));
         btnback.setText("Volver");
+        btnback.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnback.setPreferredSize(new java.awt.Dimension(60, 30));
         btnback.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnbackActionPerformed(evt);
@@ -121,40 +156,40 @@ public class Estudiar extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(categorias, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnback))
-                        .addGap(0, 648, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(17, 17, 17)
+                                .addComponent(btnback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(categorias, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(61, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(categorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnback)
-                .addContainerGap())
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,6 +197,7 @@ public class Estudiar extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
@@ -209,7 +245,7 @@ public class Estudiar extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Estudiar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        tamañoTabla();
+        custom(th);
     }//GEN-LAST:event_categoriasActionPerformed
 
     /**
@@ -255,4 +291,41 @@ public class Estudiar extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable pye;
     // End of variables declaration//GEN-END:variables
+ class FondoPanel extends JPanel {
+
+        private Image imagen;
+
+        @Override
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/resource/fondo.jpg")).getImage();
+
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
+            setOpaque(false);
+
+            super.paint(g);
+        }
+    }
+
+    public class MyRenderer extends DefaultTableCellRenderer {
+
+        Color background;
+        Color foreground;
+        Font font;
+
+        public MyRenderer(Color background, Color foreground) {
+            super();
+            this.background = background;
+            this.foreground = foreground;
+            this.font = new Font("Tahoma", 1, 14);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            comp.setBackground(background);
+            comp.setForeground(foreground);
+            comp.setFont(font);
+            return comp;
+        }
+    }
 }

@@ -5,6 +5,9 @@
  */
 package quizzer;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +15,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import objetos.GestionCeldas;
 import quizzer.VPrincipal;
 
 /**
@@ -21,16 +27,44 @@ import quizzer.VPrincipal;
  */
 public class VScore extends javax.swing.JFrame {
 
-    Connection con= null;
-    public VScore(Connection con ) {
+    Connection con = null;
+    DefaultTableModel tblModel1 = new DefaultTableModel();
+    DefaultTableModel tblModel2 = new DefaultTableModel();
+    public VScore(Connection con) {
+
         initComponents();
         this.con = con;
-        jScrollPane3.setVisible(false);
+        tablaMulti.setVisible(false);
         ShowtableSingle();
     }
 
     private VScore() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void custom1() {
+        tablaMulti.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaMulti.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaMulti.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaMulti.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("respuesta"));
+        tablaMulti.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("pregunta"));
+        tablaMulti.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("pregunta"));
+
+        tablaMulti.setRowHeight(30);
+
+    }
+
+    void custom2() {
+        tablaSingle.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaSingle.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaSingle.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaSingle.getColumnModel().getColumn(3).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaSingle.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("respuesta"));
+        tablaSingle.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("pregunta"));
+        tablaSingle.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("pregunta"));
+        tablaSingle.getColumnModel().getColumn(3).setCellRenderer(new GestionCeldas("pregunta"));
+        tablaSingle.getColumnModel().getColumn(0).setPreferredWidth(55);
+        tablaSingle.setRowHeight(30);
     }
 
     /**
@@ -42,46 +76,57 @@ public class VScore extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaSingle = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaMulti = new javax.swing.JTable();
         jBack = new javax.swing.JButton();
         jBPlayer = new javax.swing.JButton();
         jBMulti = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tablaMulti = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaSingle = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(52, 64, 53));
         setMinimumSize(new java.awt.Dimension(475, 420));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setResizable(false);
 
-        label.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(52, 64, 53));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(140, 84, 35), 10));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        label.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        label.setForeground(new java.awt.Color(255, 255, 255));
         label.setText("Puntuación: Un jugador");
-        getContentPane().add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 300, 49));
+        label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 500, 49));
 
-        jBack.setText("Back");
-        jBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBackActionPerformed(evt);
+        tablaSingle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tablaSingle.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Resultado", "Tiempo", "Puntuación", "Fecha"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        getContentPane().add(jBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 359, -1, -1));
+        jScrollPane2.setViewportView(tablaSingle);
+        if (tablaSingle.getColumnModel().getColumnCount() > 0) {
+            tablaSingle.getColumnModel().getColumn(0).setResizable(false);
+            tablaSingle.getColumnModel().getColumn(1).setResizable(false);
+            tablaSingle.getColumnModel().getColumn(2).setResizable(false);
+            tablaSingle.getColumnModel().getColumn(3).setResizable(false);
+        }
 
-        jBPlayer.setText("1 Jugador");
-        jBPlayer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBPlayerActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jBPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
-
-        jBMulti.setText("Mas Jugadores");
-        jBMulti.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMultiActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 360, -1, -1));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 500, 390));
 
         tablaMulti.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tablaMulti.setModel(new javax.swing.table.DefaultTableModel(
@@ -114,36 +159,61 @@ public class VScore extends javax.swing.JFrame {
             tablaMulti.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 390, 260));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 500, 390));
 
-        tablaSingle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tablaSingle.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Resultado", "Tiempo", "Puntuación", "Fecha"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jBack.setBackground(new java.awt.Color(255, 255, 255));
+        jBack.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jBack.setForeground(new java.awt.Color(0, 0, 0));
+        jBack.setText("Volver");
+        jBack.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jBack.setPreferredSize(new java.awt.Dimension(65, 30));
+        jBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBackActionPerformed(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaSingle);
-        if (tablaSingle.getColumnModel().getColumnCount() > 0) {
-            tablaSingle.getColumnModel().getColumn(0).setResizable(false);
-            tablaSingle.getColumnModel().getColumn(1).setResizable(false);
-            tablaSingle.getColumnModel().getColumn(2).setResizable(false);
-            tablaSingle.getColumnModel().getColumn(3).setResizable(false);
-        }
+        jPanel1.add(jBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, -1, -1));
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 390, 260));
+        jBPlayer.setBackground(new java.awt.Color(255, 255, 255));
+        jBPlayer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jBPlayer.setForeground(new java.awt.Color(0, 0, 0));
+        jBPlayer.setText("1 Jugador");
+        jBPlayer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jBPlayer.setMinimumSize(new java.awt.Dimension(85, 23));
+        jBPlayer.setPreferredSize(new java.awt.Dimension(85, 30));
+        jBPlayer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBPlayerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jBPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 500, -1, -1));
+
+        jBMulti.setBackground(new java.awt.Color(255, 255, 255));
+        jBMulti.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jBMulti.setForeground(new java.awt.Color(0, 0, 0));
+        jBMulti.setText("Mas Jugadores");
+        jBMulti.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jBMulti.setPreferredSize(new java.awt.Dimension(115, 30));
+        jBMulti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMultiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+        );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackActionPerformed
@@ -161,16 +231,20 @@ public class VScore extends javax.swing.JFrame {
         // TODO add your handling code here:
         CleanTables();
         ShowtableSingle();
-        
+
     }//GEN-LAST:event_jBPlayerActionPerformed
 
     private void jBMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMultiActionPerformed
         // TODO add your handling code here:
+
         label.setText("Puntuación: Multijugador");
+        tablaMulti.setVisible(true);
         jScrollPane3.setVisible(true);
+        tablaSingle.setVisible(false);
         jScrollPane2.setVisible(false);
-        
+
         CleanTables();
+        custom1();
 
         //Conexion  
         Statement st = null;
@@ -181,74 +255,80 @@ public class VScore extends javax.swing.JFrame {
             String sql = "SELECT * FROM ScoreMulti;";
             ResultSet rs = st.executeQuery(sql);
 
-            while(rs.next()){
+            while (rs.next()) {
                 String winner = rs.getString("Winner");
                 String scorem = String.valueOf(rs.getInt("ScoreM"));
                 String datem = rs.getString("Date");
 
                 String tbData[] = {winner, scorem, datem};
-                DefaultTableModel tblModel = (DefaultTableModel)tablaMulti.getModel();
-                tblModel.addRow(tbData);
+                tblModel2 = (DefaultTableModel) tablaMulti.getModel();
+                tblModel2.addRow(tbData);
 
             }
             rs.close();
             st.close();
-            
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
+
     }//GEN-LAST:event_jBMultiActionPerformed
 
-    public void ShowtableSingle(){
+    public void ShowtableSingle() {
+        custom2();
         label.setText("Puntuación: Un Jugador");
-        jScrollPane3.setVisible(false);
+        tablaMulti.setVisible(false);
+        tablaSingle.setVisible(true);
         jScrollPane2.setVisible(true);
-        
+        jScrollPane3.setVisible(false);
+
         //Conexion
         Statement st = null;
-        
+
         try {
             con.setAutoCommit(false);
-            
+
             st = con.createStatement();
             String sql = "SELECT * FROM ScoreSingle;";
             ResultSet rs = st.executeQuery(sql);
             
-            while(rs.next()){
+            while (rs.next()) {
                 String status = rs.getString("Outcome");
                 String duration = rs.getString("Duration");
                 String score = String.valueOf(rs.getInt("Score"));
                 String date = rs.getString("Date");
-                
-                String tbData[] = {status, duration, score,date};
-                DefaultTableModel tblModel = (DefaultTableModel)tablaSingle.getModel();
-                tblModel.addRow(tbData);
-                
+                tblModel1 = (DefaultTableModel) tablaSingle.getModel();
+                String tbData[] = {status, duration, score, date};
+                tblModel1.addRow(tbData);
+
             }
             rs.close();
             st.close();
-          
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
+        custom2();
+
     }
-    
-    public void CleanTables(){
+
+    public void CleanTables() {
         DefaultTableModel tbS = (DefaultTableModel) tablaSingle.getModel();
-        int a1 = tbS.getRowCount()-1;
-        for (int i = a1; i >= 0; i--) {          
-        tbS.removeRow(tbS.getRowCount()-1);
+        int a1 = tbS.getRowCount() - 1;
+        for (int i = a1; i >= 0; i--) {
+            tbS.removeRow(tbS.getRowCount() - 1);
         }
-        
+
         DefaultTableModel tbM = (DefaultTableModel) tablaMulti.getModel();
-        int a2 = tbM.getRowCount()-1;
-        for (int i = a2; i >= 0; i--) {          
-        tbM.removeRow(tbM.getRowCount()-1);
+        int a2 = tbM.getRowCount() - 1;
+        for (int i = a2; i >= 0; i--) {
+            tbM.removeRow(tbM.getRowCount() - 1);
         }
-    
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -288,10 +368,32 @@ public class VScore extends javax.swing.JFrame {
     private javax.swing.JButton jBMulti;
     private javax.swing.JButton jBPlayer;
     private javax.swing.JButton jBack;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel label;
     private javax.swing.JTable tablaMulti;
     private javax.swing.JTable tablaSingle;
     // End of variables declaration//GEN-END:variables
+public class MyRenderer extends DefaultTableCellRenderer {
+
+        Color background;
+        Color foreground;
+        Font font;
+
+        public MyRenderer(Color background, Color foreground) {
+            super();
+            this.background = background;
+            this.foreground = foreground;
+            this.font = new Font("Tahoma", 1, 14);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            comp.setBackground(background);
+            comp.setForeground(foreground);
+            comp.setFont(font);
+            return comp;
+        }
+    }
 }

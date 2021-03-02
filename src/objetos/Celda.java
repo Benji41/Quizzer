@@ -23,14 +23,27 @@ import javax.swing.border.LineBorder;
 public class Celda extends JLabel {
 
     public JLabel cell;
+    public int valor;
+    public Jugador player;
 
-    public Celda(JLabel panel) {
+    public Celda(JLabel panel, int valor) {
         this.cell = panel;
+        this.cell.setText(String.valueOf(valor));
         this.cell.setSize(30, 30);
         this.cell.setOpaque(true);
         this.cell.setBackground(Color.green);
         this.cell.setBorder(new LineBorder(Color.BLACK));
     }
+    
+    public Celda(JLabel panel, Jugador player) {
+        this.cell = panel;
+        this.player = player;
+        this.cell.setSize(30, 30);
+        this.cell.setOpaque(true);
+        this.cell.setBackground(Color.green);
+        this.cell.setBorder(new LineBorder(Color.BLACK));
+    }
+    
 
     public void asignarImagen(int SE) throws IOException {
         if (SE == 0) {
@@ -62,5 +75,9 @@ public class Celda extends JLabel {
 
     public Point getPanelPosicion() {
         return cell.getLocation();
+    }
+    
+    public void asignarValor(int valor){
+       cell.setText(String.valueOf(valor));
     }
 }
