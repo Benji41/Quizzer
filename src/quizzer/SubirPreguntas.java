@@ -12,8 +12,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class SubirPreguntas extends javax.swing.JFrame {
+
     Connection con;
     DefaultListModel listado = new DefaultListModel();
+
     public SubirPreguntas(Connection con) {
         initComponents();
         this.con = con;
@@ -24,11 +26,12 @@ public class SubirPreguntas extends javax.swing.JFrame {
             while (rs.next()) {
                 CategoriaCB.addItem(rs.getString(1));
             }
+            CategoriaCB.addItem("Nueva categoría");
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -135,7 +138,7 @@ public class SubirPreguntas extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -153,13 +156,14 @@ public class SubirPreguntas extends javax.swing.JFrame {
                             .addComponent(ResIncorrTF2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSubir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addComponent(CategoriaLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(CategoriaCB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(CategoriaCB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSubir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(138, 138, 138))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -195,9 +199,9 @@ public class SubirPreguntas extends javax.swing.JFrame {
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSubir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -223,14 +227,26 @@ public class SubirPreguntas extends javax.swing.JFrame {
         respuestaIncorrecta2 = ResIncorrTF2.getText();
         if (!pregunta.isEmpty() & !respuestaCorrecta.isEmpty() & !respuestaIncorrecta1.isEmpty() & !respuestaIncorrecta2.isEmpty()) {
             PreguntasGuardadasJL.setModel(listado);
-            listado.addElement(pregunta + ", " + categoria + ", " + respuestaCorrecta + ", " + respuestaIncorrecta1 + ", " + respuestaIncorrecta2);
+            if (categoria.equals("Nueva categoría")) {
+                String nuevaCategoria = JOptionPane.showInputDialog(null, "Escribe la nueva categoría:", "Nueva categoría", JOptionPane.QUESTION_MESSAGE);
+                if (nuevaCategoria != null) {
+                    listado.addElement(pregunta + ", " + nuevaCategoria + ", " + respuestaCorrecta + ", " + respuestaIncorrecta1 + ", " + respuestaIncorrecta2);
+                    PreguntaTF.setText("");
+                    ResCorrTF.setText("");
+                    ResIncorrTF1.setText("");
+                    ResIncorrTF2.setText("");
+                }
+            } else {
+                listado.addElement(pregunta + ", " + categoria + ", " + respuestaCorrecta + ", " + respuestaIncorrecta1 + ", " + respuestaIncorrecta2);
+                PreguntaTF.setText("");
+                ResCorrTF.setText("");
+                ResIncorrTF1.setText("");
+                ResIncorrTF2.setText("");
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Campos vacíos no están permitidos.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        PreguntaTF.setText("");
-        ResCorrTF.setText("");
-        ResIncorrTF1.setText("");
-        ResIncorrTF2.setText("");
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -244,35 +260,39 @@ public class SubirPreguntas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
-        String sql = "SELECT * FROM Preguntas";
-        String texto;
-        ArrayList<String> preguntas = new ArrayList<>();
-        try {
-            Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {
-                preguntas.add(rs.getString(2));
-            }
-            sql = "INSERT INTO Preguntas (Pregunta, Categoria, RespuestaCorrecta, RespuestaIncorrecta1, RespuestaIncorrecta2) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement PS = con.prepareStatement(sql);
-            for (int i = 0; i < PreguntasGuardadasJL.getModel().getSize(); i++) {
-                texto = PreguntasGuardadasJL.getModel().getElementAt(i);
-                String[] palabras = texto.split(", ");
-                String pregunta = palabras[0];
-                if (!preguntas.contains(pregunta)) {
-                    PS.setString(1, pregunta);
-                    preguntas.add(pregunta);
+        if (PreguntasGuardadasJL.getModel().getSize() != 0) {
+            String sql = "SELECT * FROM Preguntas";
+            String texto;
+            ArrayList<String> preguntas = new ArrayList<>();
+            try {
+                Statement stm = con.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while (rs.next()) {
+                    preguntas.add(rs.getString(2));
                 }
-                PS.setString(2, palabras[1]);
-                PS.setString(3, palabras[2]);
-                PS.setString(4, palabras[3]);
-                PS.setString(5, palabras[4]);
-                PS.executeUpdate();
-                PS.close();
+                sql = "INSERT INTO Preguntas (Pregunta, Categoria, RespuestaCorrecta, RespuestaIncorrecta1, RespuestaIncorrecta2) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement PS = con.prepareStatement(sql);
+                for (int i = 0; i < PreguntasGuardadasJL.getModel().getSize(); i++) {
+                    texto = PreguntasGuardadasJL.getModel().getElementAt(i);
+                    String[] palabras = texto.split(", ");
+                    String pregunta = palabras[0];
+                    if (!preguntas.contains(pregunta)) {
+                        PS.setString(1, pregunta);
+                        preguntas.add(pregunta);
+                    }
+                    PS.setString(2, palabras[1]);
+                    PS.setString(3, palabras[2]);
+                    PS.setString(4, palabras[3]);
+                    PS.setString(5, palabras[4]);
+                    PS.executeUpdate();
+                    PS.close();
+                }
+                JOptionPane.showMessageDialog(null, "Datos añadidos con éxito", "Añadir", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Algo salió mal con la conexión a la base de datos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                System.err.println(ex.getMessage());
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Algo salió mal con la conexión a la base de datos.", "ERROR", JOptionPane.ERROR_MESSAGE);
-            System.err.println(ex.getMessage());
+            listado.removeAllElements();
         }
     }//GEN-LAST:event_btnSubirActionPerformed
 

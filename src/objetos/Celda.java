@@ -25,26 +25,23 @@ public class Celda extends JLabel {
     public JLabel cell;
     public int valor;
     public Jugador player;
+    public int [] pos = new int[2];
 
     public Celda(JLabel panel, int valor) {
         this.cell = panel;
-        this.cell.setText(String.valueOf(valor));
+        this.valor=valor;
         this.cell.setSize(30, 30);
         this.cell.setOpaque(true);
         this.cell.setBackground(Color.green);
         this.cell.setBorder(new LineBorder(Color.BLACK));
     }
     
-    public Celda(JLabel panel, Jugador player) {
+    public Celda(JLabel panel, int valor, Jugador player) {
         this.cell = panel;
+        this.valor=valor;
         this.player = player;
-        this.cell.setSize(30, 30);
-        this.cell.setOpaque(true);
-        this.cell.setBackground(Color.green);
-        this.cell.setBorder(new LineBorder(Color.BLACK));
     }
     
-
     public void asignarImagen(int SE) throws IOException {
         if (SE == 0) {
             URL path = getClass().getResource("/resource/start.png");
@@ -58,14 +55,10 @@ public class Celda extends JLabel {
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
-    }
-
-    public void asignarColor(int color) {
-        if (color == 0) {
-            cell.setBackground(Color.yellow);
-        }
-        if (color == 1) {
-            cell.setBackground(Color.yellow);
+        if (SE == 2) {
+            URL path = getClass().getResource("/resource/image-asset.png");
+            BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
+            cell.setIcon(new ImageIcon(myPicture));
         }
     }
 
@@ -73,11 +66,19 @@ public class Celda extends JLabel {
         cell.setLocation(x, y);
     }
 
-    public Point getPanelPosicion() {
-        return cell.getLocation();
+    public int[] getPanelPosicion() {
+        pos[0]=cell.getLocation().x;
+        pos[1]=cell.getLocation().y;
+        return pos;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
     }
     
-    public void asignarValor(int valor){
-       cell.setText(String.valueOf(valor));
-    }
+    
 }

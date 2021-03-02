@@ -16,7 +16,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.border.LineBorder;
 import objetos.Celda;
 import objetos.Jugador;
@@ -25,113 +27,135 @@ import objetos.Jugador;
  *
  * @author Benjimon41
  */
-public class TableroVersion0 extends javax.swing.JFrame {
-Celda[][] grid;
-Map<Integer, int[]> hash = new HashMap<>();
+public class TableroVersion0v2 extends javax.swing.JFrame {
 
-    public TableroVersion0() throws IOException {
-        int n =9;
+    Celda[][] grid;
+    Map<Integer, int[]> hash = new HashMap<>();
+    JLayeredPane lp = new JLayeredPane();
+    int n;
+    public TableroVersion0v2() throws IOException {
         initComponents();
-        setDefaultCloseOperation(TableroVersion0.EXIT_ON_CLOSE);
-        setBounds(100, 100, 500, 500);
-        //this.jPanel1.setVisible(false);
-        
+        n = 9;
         grid= new Celda[(int)Math.sqrt(n)][(int)Math.sqrt(n)];
+        //frame
+        setDefaultCloseOperation(TableroVersion0.EXIT_ON_CLOSE);
+        this.setSize(1000, 750);
+        //layered
+        switch(n)
+        {
+            case 9:
+                lp.setBounds(150, 5, 550, 250);
+            break;
+            
+            case 16:
+                lp.setBounds(150, 5, 550, 250);
+            break;
+            
+            case 49:
+                lp.setBounds(150, 5, 550, 250);
+            break;
+            
+            case 64:
+                lp.setBounds(150, 5, 550, 250);
+            break;
+            
+        }
+        lp.setOpaque(true);
+        lp.setBackground(Color.yellow);
+        this.add(lp);
+        //tablero
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        System.out.println(Arrays.asList(hash));
-       
     }
-    public void dibujarTabla(int n){
-        
+
+    public void dibujarTabla(int n) {
+
         for (int i = 0; i < Math.sqrt(n); i++) {
             for (int j = 0; j < Math.sqrt(n); j++) {
                 Celda c = new Celda(new JLabel(), 0);
-                c.asignarPosicionPanel(j*80, i*60);
-                c.cell.setSize(80,60);
+                c.cell.setBounds(j * 80,i * 60,80,60);
                 c.cell.setBorder(new LineBorder(Color.BLACK));
-                c.cell.setOpaque(true);
-                grid[i][j]=c;
-                jPanel1.add(c.cell);
+                grid[i][j] = c;
+                lp.add(c.cell,Integer.valueOf(0));
+                //jPanel1.add(c.cell);
             }
         }
     }
-    
-    public void cargarValores(int n) throws IOException{
+
+    public void cargarValores(int n) throws IOException {
         int value = 1;
-         
-        int minCol = (int) (Math.sqrt(n)-1);
-        int minRow = (int) (Math.sqrt(n)-1);
-         
+
+        int minCol = (int) (Math.sqrt(n) - 1);
+        int minRow = (int) (Math.sqrt(n) - 1);
+
         int maxCol = 0;
         int maxRow = 0;
-         
-        while (value <= n)
-        {
-            for (int i = minCol; i >= maxCol; i--)
-            {
-                grid[minRow][i].setValor(value);
-                this.direccion(value,grid[minRow][i].getPanelPosicion());
-                if(value==1)grid[minRow][i].asignarImagen(0);
-                if(value==n)grid[minRow][i].asignarImagen(1);
-                value++;
-            }
-            
-            for (int i = minRow-1; i >= maxRow; i--) 
-            { 
-                grid[i][maxCol].setValor(value);
-                this.direccion(value,grid[i][maxCol].getPanelPosicion());
-                if(value==n)grid[i][maxCol].asignarImagen(1);
-                value++; 
-            }
-           
-            for (int i = maxCol+1; i <= minCol; i++)
-            {
-                grid[maxRow][i].setValor(value);
-                this.direccion(value,grid[maxRow][i].getPanelPosicion());
-                if(value==n)grid[maxRow][i].asignarImagen(1);
-                value++;
-            }
-           
-            for (int i = maxRow+1; i <= minRow-1; i++) 
-            {
-                grid[i][minCol].setValor(value);
-                this.direccion(value,grid[i][minCol].getPanelPosicion());
-                if(value==n)grid[i][minCol].asignarImagen(1);
-                value++;
-            }
-            
-            
 
-             
+        while (value <= n) {
+            for (int i = minCol; i >= maxCol; i--) {
+                grid[minRow][i].setValor(value);
+                this.direccion(value, grid[minRow][i].getPanelPosicion());
+                if (value == 1) {
+                    grid[minRow][i].asignarImagen(0);
+                }
+                if (value == n) {
+                    grid[minRow][i].asignarImagen(1);
+                }
+                value++;
+            }
+
+            for (int i = minRow - 1; i >= maxRow; i--) {
+                grid[i][maxCol].setValor(value);
+                this.direccion(value, grid[i][maxCol].getPanelPosicion());
+                if (value == n) {
+                    grid[i][maxCol].asignarImagen(1);
+                }
+                value++;
+            }
+
+            for (int i = maxCol + 1; i <= minCol; i++) {
+                grid[maxRow][i].setValor(value);
+                this.direccion(value, grid[maxRow][i].getPanelPosicion());
+                if (value == n) {
+                    grid[maxRow][i].asignarImagen(1);
+                }
+                value++;
+            }
+
+            for (int i = maxRow + 1; i <= minRow - 1; i++) {
+                grid[i][minCol].setValor(value);
+                this.direccion(value, grid[i][minCol].getPanelPosicion());
+                if (value == n) {
+                    grid[i][minCol].asignarImagen(1);
+                }
+                value++;
+            }
+
             minCol--;
-             
+
             minRow--;
-             
+
             maxCol++;
-             
+
             maxRow++;
         }
     }
-    
-    public void direccion(int valor, int [] posicion){
+
+    public void direccion(int valor, int[] posicion) {
         hash.put(valor, posicion);
     }
     
-    public void cargarJugadores() throws IOException{
+    public void cargarJugadores() throws IOException {
         //for (int i : this.hash.get(1)) {}
-        Jugador p = new Jugador("benji",0);
+        Jugador p = new Jugador("benji", 0);
         Celda cP1 = new Celda(new JLabel(), 0, p);
         cP1.asignarImagen(2);
-        cP1.cell.setSize(80,80);
-        //cP1.asignarPosicionPanel(p.getPosicionX(),p.getPosicionY());
-        cP1.cell.setOpaque(true);
-        System.out.println(cP1.cell);
-        this.jPanel1.add(cP1.cell);
-        
+        cP1.cell.setBounds(hash.get(1)[0],hash.get(1)[1],40,40);
+        lp.add(cP1.cell,Integer.valueOf(1));
+        // this.jPanel1.add(cP1.cell);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,39 +165,9 @@ Map<Integer, int[]> hash = new HashMap<>();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        getContentPane().setLayout(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -210,15 +204,14 @@ Map<Integer, int[]> hash = new HashMap<>();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new TableroVersion0().setVisible(true);
+                    new TableroVersion0v2().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(TableroVersion0.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TableroVersion0v2.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
