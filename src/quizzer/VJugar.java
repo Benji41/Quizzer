@@ -29,7 +29,6 @@ import objetos.StopWatch;
  * @author Benjimon41
  */
 public class VJugar extends javax.swing.JFrame {
-
     //exterior
     int tipo;
     int n;

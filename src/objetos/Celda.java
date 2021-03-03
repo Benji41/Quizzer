@@ -44,8 +44,8 @@ public class Celda extends JLabel {
     }
     
     public void asignarColor(int color){
-        if(color ==0) this.cell.setBackground(Color.yellow);
-        if(color ==1) this.cell.setBackground(Color.white);
+        if(color ==0) this.cell.setBackground(Color.LIGHT_GRAY);
+        if(color ==1) this.cell.setBackground(Color.blue);
             
     }
     

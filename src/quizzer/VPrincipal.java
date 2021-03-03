@@ -77,6 +77,7 @@ public class VPrincipal extends javax.swing.JFrame {
         this.btnAdmin.setEnabled(false);
         players.add (x);
         players.add (y);
+        players.add (z);
         //players.add (z);
         this.lb_conexion.setText("Esperando a servicios online");
         urlR[0] = "jdbc:sqlserver://189.173.160.110:1433;databaseName=Quizzer";
