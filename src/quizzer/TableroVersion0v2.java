@@ -42,10 +42,14 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
     Celda lbScoreScore2;
     Celda lbScoreApodo3;
     Celda lbScoreScore3;
+    Celda cP1;
+    Celda cP2;
+    Celda cP3;
+    int tipo = 1;
 
     public TableroVersion0v2() throws IOException {
         initComponents();
-        n = 64;
+        n = 9;
         //inicial
         offset[0] = 30;
         offset[1] = 50;
@@ -72,9 +76,10 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
         this.add(lp);
         //tablero
         this.dibujarTabla(n);
+        this.cargarScore(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        this.cargarScore(n);
+        this.moverJugador(cP1,5);
     }
 
     public void cargarFrame(int celdas) {
@@ -202,7 +207,7 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
             case 49:
                 for (Jugador p : players) {
                     int n = p.getNumero();
-                    if ( n== 1) {
+                    if (n == 1) {
                         lbScoreApodo1 = new Celda(new JLabel(), 0, p);
                         lbScoreScore1 = new Celda(new JLabel(), 0, p);
                         lbScoreApodo1.cell.setBounds(650, 20, 80, 20);
@@ -249,7 +254,7 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
             case 64:
                 for (Jugador p : players) {
                     int n = p.getNumero();
-                    if ( n== 1) {
+                    if (n == 1) {
                         lbScoreApodo1 = new Celda(new JLabel(), 0, p);
                         lbScoreScore1 = new Celda(new JLabel(), 0, p);
                         lbScoreApodo1.cell.setBounds(670, 20, 80, 20);
@@ -402,40 +407,50 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
 
     public void cargarJugadores() throws IOException {
         //for (int i : this.hash.get(1)) {}
-        Jugador p = new Jugador("benji", 0, 0);
-        Celda cP1 = new Celda(new JLabel(), 0, p);
-        cP1.asignarImagen(3);
-        cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
-        lp.add(cP1.cell, Integer.valueOf(1));
+        if (tipo == 0) {
+            cP1 = new Celda(new JLabel(), 1, players.get(0));
+            cP1.asignarImagen(3);
+            cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
+            lp.add(cP1.cell, Integer.valueOf(1));
 
-        Jugador p2 = new Jugador("benji2", 0, 1);
-        Celda cP2 = new Celda(new JLabel(), 0, p2);
-        cP2.asignarImagen(4);
-        cP2.cell.setBounds(hash.get(1)[0] + offset[1], hash.get(1)[1] + offset[3], 30, 30);
-        lp.add(cP2.cell, Integer.valueOf(1));
-
-        Jugador p3 = new Jugador("benji3", 0, 2);
-        Celda cP3 = new Celda(new JLabel(), 0, p3);
-        cP3.asignarImagen(5);
-        cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
-        lp.add(cP3.cell, Integer.valueOf(1));
-
-        /*  Celda c = new Celda(new JLabel(), 0);
-        c.cell.setBounds(hash.get(2)[0] + 78, hash.get(2)[1] + 25, 30, 30);
-        c.asignarImagen(2);
-        c.cell.setBorder(null);
-        c.cell.setOpaque(false);
-        lp.add(c.cell, Integer.valueOf(1));*/
-        // this.jPanel1.add(cP1.cell);
+            cP3 = new Celda(new JLabel(), 1, null);
+            cP3.asignarImagen(2);
+            cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
+            lp.add(cP3.cell, Integer.valueOf(1));
+        } else {
+            for (Jugador player : players) {
+                if (player.getNumero() == 1) {
+                    cP1 = new Celda(new JLabel(), 1, player);
+                    cP1.asignarImagen(3);
+                    cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
+                    lp.add(cP1.cell, Integer.valueOf(1));
+                }
+                if (player.getNumero() == 2) {
+                    cP2 = new Celda(new JLabel(), 1, player);
+                    cP2.asignarImagen(4);
+                    cP2.cell.setBounds(hash.get(1)[0] + offset[1], hash.get(1)[1] + offset[3], 30, 30);
+                    lp.add(cP2.cell, Integer.valueOf(1));
+                }
+                if (player.getNumero() == 3) {
+                    cP3 = new Celda(new JLabel(), 1, player);
+                    cP3.asignarImagen(5);
+                    cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
+                    lp.add(cP3.cell, Integer.valueOf(1));
+                }
+            }
+        }
     }
 
-    public void moverJugador(int player, int valor, int resultado) {
-        // cP2.cell.setBounds(hash.get(1)[0] + offset[1], hash.get(1)[1] + offset[3], 30, 30);
-        if (player != 1) {
-            lp.getComponentsInLayer(1)[player].setBounds(hash.get(valor)[0] + offsetOut[player], hash.get(valor)[1] + 20, 30, 30);
-        } else {
-            lp.getComponentsInLayer(1)[player].setBounds(hash.get(valor)[0] + offsetOut[player], hash.get(valor)[1] + offsetOut[3], 30, 30);
+    public void moverJugador(Celda c,int nuevoValor) {
+        int num = c.player.getNumero();
+        num--;
+        if (num != 1) {
+            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
+        }else{
+            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3] , 30, 30);
         }
+       
+        
 
     }
 
