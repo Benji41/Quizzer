@@ -20,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import objetos.Celda;
 import objetos.Jugador;
+import objetos.Pregunta;
 import objetos.StopWatch;
 
 /**
@@ -31,10 +32,11 @@ public class VJugar extends javax.swing.JFrame {
     Celda[][] grid;
     Map<Integer, int[]> hash = new HashMap<>();
     JLayeredPane lp = new JLayeredPane();
+    int tipo;
+    int n;
     ArrayList<Jugador> players = new ArrayList<>();
     int[] offset = new int[5];
     int[] offsetOut = new int[4];
-    int n;
     boolean partida = false;
     Celda lbScoreApodo1;
     Celda lbScoreScore1;
@@ -46,11 +48,16 @@ public class VJugar extends javax.swing.JFrame {
     Celda cP2;
     Celda cP3;
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
-    int tipo = 1;
+    
 
     public VJugar() throws IOException {
+    }
+
+    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias) throws IOException {
         initComponents();
-        n = 9;
+        this.n = celdas;
+        this.players = players;
+        this.tipo = tipo;
         //inicial
         offset[0] = 30;
         offset[1] = 50;
@@ -63,12 +70,6 @@ public class VJugar extends javax.swing.JFrame {
         offsetOut[2] = 47;
         offsetOut[3] = 5;
         //players
-        Jugador x = new Jugador("benji", 0, 1);
-        Jugador y = new Jugador("hector", 0, 2);
-        Jugador z = new Jugador("denia", 0, 3);
-        players.add(x);
-        players.add(y);
-        players.add(z);
         grid = new Celda[(int) Math.sqrt(n)][(int) Math.sqrt(n)];
         //frame
         setDefaultCloseOperation(VJugar.EXIT_ON_CLOSE);

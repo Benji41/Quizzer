@@ -8,6 +8,7 @@ package quizzer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import objetos.Jugador;
 import objetos.Pregunta;
 import org.sqlite.JDBC;
 
@@ -54,6 +56,15 @@ public class VPrincipal extends javax.swing.JFrame {
     String queryCatL = "select distinct Categoria from Pregunta;";
     String queryQuest = "SELECT Pregunta,Categoria,RespuestaCorrecta,RespuestaIncorrecta1,RespuestaIncorrecta2 from dbo.Preguntas;";
     String queryQuestL = "SELECT Pregunta,Categoria,RespuestaCorrecta,RespuestaIncorrecta1,RespuestaIncorrecta2 from Pregunta;";
+    int tipo = 1;
+    int celdas=16;
+    ArrayList<Jugador> players = new ArrayList<>();
+    Jugador x = new Jugador("benji", 0, 1);
+    Jugador y = new Jugador("hector", 0, 2);
+    Jugador z = new Jugador("denia", 0, 3);
+    
+
+    
 
     public VPrincipal() throws InterruptedException, ClassNotFoundException {
         initComponents();
@@ -64,6 +75,9 @@ public class VPrincipal extends javax.swing.JFrame {
         this.btnUploadQuestions.setEnabled(false);
         this.btnScores.setEnabled(false);
         this.btnAdmin.setEnabled(false);
+        players.add (x);
+        players.add (y);
+        players.add (z);
         this.lb_conexion.setText("Esperando a servicios online");
         urlR[0] = "jdbc:sqlserver://189.173.160.110:1433;databaseName=Quizzer";
         urlR[1] = "sa";
@@ -73,7 +87,7 @@ public class VPrincipal extends javax.swing.JFrame {
         t = new Timer();
         this.busqueda();
     }
-    
+
     public void busqueda() {
         TimerTask tl = new TimerTask() {
             int time = 2;
@@ -167,7 +181,7 @@ public class VPrincipal extends javax.swing.JFrame {
     }
 
     public Connection connectRemote() {
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException ex) {
@@ -522,7 +536,14 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
-        
+        VJugar vj = null;
+        try {
+            vj = new VJugar(celdas,players,tipo,preguntas, categorias);
+        } catch (IOException ex) {
+            Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        vj.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnPlayActionPerformed
 
     /**
@@ -583,21 +604,20 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pContenedor;
     private javax.swing.JPanel pan_conexion;
     // End of variables declaration//GEN-END:variables
-   class FondoPanel extends JPanel
-    {
+   class FondoPanel extends JPanel {
+
         private Image imagen;
-        
+
         @Override
-        public void paint(Graphics g)
-        {
+        public void paint(Graphics g) {
             imagen = new ImageIcon(url).getImage();
-            
-            g.drawImage(imagen,0, 0, getWidth(), getHeight(),this);
-            
+
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
             setOpaque(false);
-            
+
             super.paint(g);
         }
     }
-   
+
 }
