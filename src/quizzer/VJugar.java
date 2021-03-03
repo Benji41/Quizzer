@@ -8,6 +8,7 @@ package quizzer;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,16 +49,17 @@ public class VJugar extends javax.swing.JFrame {
     Celda cP2;
     Celda cP3;
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
-    
+    Connection con;
 
     public VJugar() throws IOException {
     }
 
-    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias) throws IOException {
+    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con) throws IOException {
         initComponents();
         this.n = celdas;
         this.players = players;
         this.tipo = tipo;
+        this.con=con;
         //inicial
         offset[0] = 30;
         offset[1] = 50;

@@ -77,7 +77,7 @@ public class VPrincipal extends javax.swing.JFrame {
         this.btnAdmin.setEnabled(false);
         players.add (x);
         players.add (y);
-        players.add (z);
+        //players.add (z);
         this.lb_conexion.setText("Esperando a servicios online");
         urlR[0] = "jdbc:sqlserver://189.173.160.110:1433;databaseName=Quizzer";
         urlR[1] = "sa";
@@ -538,7 +538,7 @@ public class VPrincipal extends javax.swing.JFrame {
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
         VJugar vj = null;
         try {
-            vj = new VJugar(celdas,players,tipo,preguntas, categorias);
+            vj = new VJugar(celdas,players,tipo,preguntas, categorias,con2);
         } catch (IOException ex) {
             Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
