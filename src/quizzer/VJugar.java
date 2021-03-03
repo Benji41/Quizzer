@@ -26,7 +26,7 @@ import objetos.StopWatch;
  *
  * @author Benjimon41
  */
-public class TableroVersion0v2 extends javax.swing.JFrame {
+public class VJugar extends javax.swing.JFrame {
 
     Celda[][] grid;
     Map<Integer, int[]> hash = new HashMap<>();
@@ -48,7 +48,7 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
     int tipo = 1;
 
-    public TableroVersion0v2() throws IOException {
+    public VJugar() throws IOException {
         initComponents();
         n = 9;
         //inicial
@@ -71,7 +71,7 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
         players.add(z);
         grid = new Celda[(int) Math.sqrt(n)][(int) Math.sqrt(n)];
         //frame
-        setDefaultCloseOperation(TableroVersion0v2.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(VJugar.EXIT_ON_CLOSE);
         //layered
         cargarFrame(n);
         this.add(lp);
@@ -492,14 +492,16 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TableroVersion0v2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VJugar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TableroVersion0v2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VJugar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TableroVersion0v2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VJugar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TableroVersion0v2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VJugar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -507,9 +509,9 @@ public class TableroVersion0v2 extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new TableroVersion0v2().setVisible(true);
+                    new VJugar().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(TableroVersion0v2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

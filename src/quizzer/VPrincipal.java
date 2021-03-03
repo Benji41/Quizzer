@@ -297,17 +297,20 @@ public class VPrincipal extends javax.swing.JFrame {
 
         btnPlay.setBackground(new java.awt.Color(255, 255, 255));
         btnPlay.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnPlay.setForeground(new java.awt.Color(0, 0, 0));
         btnPlay.setText("Jugar");
         btnPlay.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnPlay.setMaximumSize(new java.awt.Dimension(45, 30));
         btnPlay.setMinimumSize(new java.awt.Dimension(45, 30));
         btnPlay.setOpaque(false);
         btnPlay.setPreferredSize(new java.awt.Dimension(45, 30));
+        btnPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayActionPerformed(evt);
+            }
+        });
 
         btnStudy.setBackground(new java.awt.Color(255, 255, 255));
         btnStudy.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnStudy.setForeground(new java.awt.Color(0, 0, 0));
         btnStudy.setText("Estudiar");
         btnStudy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnStudy.addActionListener(new java.awt.event.ActionListener() {
@@ -318,7 +321,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
         btnScores.setBackground(new java.awt.Color(255, 255, 255));
         btnScores.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnScores.setForeground(new java.awt.Color(0, 0, 0));
         btnScores.setText("Scores");
         btnScores.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnScores.setPreferredSize(new java.awt.Dimension(52, 30));
@@ -330,7 +332,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
         btnUploadQuestions.setBackground(new java.awt.Color(255, 255, 255));
         btnUploadQuestions.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnUploadQuestions.setForeground(new java.awt.Color(0, 0, 0));
         btnUploadQuestions.setText("Subir nuevas preguntas");
         btnUploadQuestions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnUploadQuestions.setPreferredSize(new java.awt.Dimension(141, 30));
@@ -342,7 +343,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
         btnAdmin.setBackground(new java.awt.Color(255, 255, 255));
         btnAdmin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnAdmin.setForeground(new java.awt.Color(0, 0, 0));
         btnAdmin.setText("Administrador");
         btnAdmin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnAdmin.setPreferredSize(new java.awt.Dimension(56, 30));
@@ -354,7 +354,6 @@ public class VPrincipal extends javax.swing.JFrame {
 
         btnQuit.setBackground(new java.awt.Color(255, 255, 255));
         btnQuit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnQuit.setForeground(new java.awt.Color(0, 0, 0));
         btnQuit.setText("Salir");
         btnQuit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         btnQuit.setPreferredSize(new java.awt.Dimension(55, 30));
@@ -521,6 +520,10 @@ public class VPrincipal extends javax.swing.JFrame {
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdminActionPerformed
+
+    private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
+        
+    }//GEN-LAST:event_btnPlayActionPerformed
 
     /**
      * @param args the command line arguments
