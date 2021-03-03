@@ -537,13 +537,16 @@ public class VPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
-        VJugar vj = null;
+        /*VJugar vj = null;
         try {
             vj = new VJugar(celdas,players,tipo,preguntas, categorias,con2);
         } catch (IOException ex) {
             Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         vj.setVisible(true);
+        this.setVisible(false);*/
+        t.cancel();
+        new VPersonalizacion(this.con2).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnPlayActionPerformed
 
