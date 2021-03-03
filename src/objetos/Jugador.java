@@ -11,9 +11,18 @@ package objetos;
  */
 public class Jugador {
 
-    public Jugador(String apodo, double score) {
+    public Jugador(String apodo, int score,int numero) {
         this.apodo = apodo;
         this.score = score;
+        this.numero = numero;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public String getApodo() {
@@ -24,17 +33,20 @@ public class Jugador {
         this.apodo = apodo;
     }
 
-    public double getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(int score) {
         this.score = score;
     }
+
+    
 
     public void responde(int respuesta,Celda imagen ){
         
     }
     private String apodo;
-    private double score;
+    private int score;
+    private int numero;
 }
