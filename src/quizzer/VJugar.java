@@ -30,15 +30,19 @@ import objetos.StopWatch;
  */
 public class VJugar extends javax.swing.JFrame {
 
-    Celda[][] grid;
-    Map<Integer, int[]> hash = new HashMap<>();
-    JLayeredPane lp = new JLayeredPane();
+    //exterior
     int tipo;
     int n;
     ArrayList<Jugador> players = new ArrayList<>();
+    Connection con;
+    ArrayList<objetos.Pregunta> preguntas;
+    ArrayList<String> categorias;
+    //tablero y celdas
+    Celda[][] grid;
+    Map<Integer, int[]> hash = new HashMap<>();
+    JLayeredPane lp = new JLayeredPane();
     int[] offset = new int[5];
     int[] offsetOut = new int[4];
-    boolean partida = false;
     Celda lbScoreApodo1;
     Celda lbScoreScore1;
     Celda lbScoreApodo2;
@@ -49,7 +53,9 @@ public class VJugar extends javax.swing.JFrame {
     Celda cP2;
     Celda cP3;
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
-    Connection con;
+    //partida
+    boolean partida = false;
+    ArrayList<objetos.Pregunta> preguntasCategoria;
 
     public VJugar() throws IOException {
     }
@@ -59,7 +65,9 @@ public class VJugar extends javax.swing.JFrame {
         this.n = celdas;
         this.players = players;
         this.tipo = tipo;
-        this.con=con;
+        this.preguntas = preguntas;
+        this.categorias = categorias;
+        this.con = con;
         //inicial
         offset[0] = 30;
         offset[1] = 50;
@@ -84,9 +92,9 @@ public class VJugar extends javax.swing.JFrame {
         this.cargarValores(n);
         this.cargarJugadores();
         for (Celda cp : celdasPlayers) {
-            System.out.println(cp.cell+" "+cp.player);
+            System.out.println(cp.cell + " " + cp.player);
         }
-        this.moverJugador(cP1,11);
+        this.moverJugador(cP1, 11);
     }
 
     public void cargarFrame(int celdas) {
@@ -451,22 +459,20 @@ public class VJugar extends javax.swing.JFrame {
         }
     }
 
-    public void moverJugador(Celda c,int nuevoValor) {
+    public void moverJugador(Celda c, int nuevoValor) {
         if (nuevoValor < 1) {
-            nuevoValor=1;
+            nuevoValor = 1;
         }
         if (nuevoValor > n) {
-            nuevoValor=n;
+            nuevoValor = n;
         }
         int num = c.player.getNumero();
         num--;
         if (num != 1) {
             c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
-        }else{
-            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3] , 30, 30);
+        } else {
+            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
         }
-       
-        
 
     }
 
