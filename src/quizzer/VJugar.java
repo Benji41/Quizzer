@@ -93,11 +93,7 @@ public class VJugar extends javax.swing.JFrame {
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        for (Celda cp : celdasPlayers) {
-            System.out.println(cp.cell + " " + cp.player);
-        }
         this.moverJugador(cP1, 11);
-        this.moverJugador(cP3, 11);
     }
 
     public void cargarFrame(int celdas) {
@@ -497,13 +493,19 @@ public class VJugar extends javax.swing.JFrame {
     }
 
     public void moverJugador(Celda c, int nuevoValor) {
+        System.out.println("entro aqui en mover");
         if (nuevoValor < 1) {
             nuevoValor = 1;
+            System.out.println("entro move1");
         }
         if (nuevoValor > n) {
+            System.out.println(c.player);
             nuevoValor = n;
+            System.out.println("entro move2");
         }
+        
         int num = c.player.getNumero();
+        System.out.println(num);
         if (num == 4) {
             c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
         } else {

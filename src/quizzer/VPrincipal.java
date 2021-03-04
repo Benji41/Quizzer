@@ -67,8 +67,8 @@ public class VPrincipal extends javax.swing.JFrame {
         initComponents();
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
-        this.preguntas = new ArrayList<Pregunta>();
-        this.categorias = new ArrayList<String>();
+        this.preguntas = new ArrayList<>();
+        this.categorias = new ArrayList<>();
         this.btnPlay.setEnabled(false);
         this.btnStudy.setEnabled(false);
         this.btnUploadQuestions.setEnabled(false);
@@ -545,12 +545,13 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         vj.setVisible(true);
         this.setVisible(false);*/
-//        t.cancel();
-//        new VPersonalizacion(this.con2).setVisible(true);
-//        this.setVisible(false);
-        VPersonalizacion vp = new VPersonalizacion(this.con);
-        vp.setVisible(true);
-        this.dispose();
+        t.cancel();
+        
+        new VPersonalizacion(this.categorias, this.preguntas, this.con2).setVisible(true);
+       this.dispose();
+//        VPersonalizacion vp = new VPersonalizacion(this.categorias);
+//        vp.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_btnPlayActionPerformed
 
     /**
