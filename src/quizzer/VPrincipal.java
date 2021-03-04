@@ -545,9 +545,12 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         vj.setVisible(true);
         this.setVisible(false);*/
-        t.cancel();
-        new VPersonalizacion(this.con2).setVisible(true);
-        this.setVisible(false);
+//        t.cancel();
+//        new VPersonalizacion(this.con2).setVisible(true);
+//        this.setVisible(false);
+        VPersonalizacion vp = new VPersonalizacion(this.con);
+        vp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPlayActionPerformed
 
     /**

@@ -7,7 +7,6 @@ package quizzer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -16,11 +15,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import objetos.Celda;
 import objetos.Jugador;
 import objetos.Pregunta;
@@ -44,7 +43,7 @@ public class VJugar extends javax.swing.JFrame {
     Map<Integer, int[]> hash = new HashMap<>();
     JLayeredPane lp = new JLayeredPane();
     int[] offset = new int[5];
-    int[] offsetOut = new int[4];
+    int[] offsetOut = new int[5];
     Celda lbScoreApodo1;
     Celda lbScoreScore1;
     Celda lbScoreApodo2;
@@ -60,13 +59,10 @@ public class VJugar extends javax.swing.JFrame {
     ArrayList<objetos.Pregunta> preguntasCategoria;
 
     public VJugar() throws IOException {
-
     }
 
     VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con) throws IOException {
         initComponents();
-        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
-        this.setIconImage(icon);
         this.n = celdas;
         this.players = players;
         this.tipo = tipo;
@@ -84,6 +80,7 @@ public class VJugar extends javax.swing.JFrame {
         offsetOut[1] = 27;
         offsetOut[2] = 47;
         offsetOut[3] = 5;
+        offsetOut[4] = 35;
         //players
         grid = new Celda[(int) Math.sqrt(n)][(int) Math.sqrt(n)];
         //frame
@@ -91,23 +88,16 @@ public class VJugar extends javax.swing.JFrame {
         //layered
         cargarFrame(n);
         this.add(lp);
+        this.cargarScore(n);
         //tablero
         this.dibujarTabla(n);
-        this.cargarScore(n);
         this.cargarValores(n);
         this.cargarJugadores();
         for (Celda cp : celdasPlayers) {
-            System.out.println("HOLA" + cp.cell + " " + cp.player);
-
+            System.out.println(cp.cell + " " + cp.player);
         }
-        this.players.get(0).setScore(128);
-        System.out.println("" + this.players.get(0).getScore());
-//        String x = this.players.get(0).getScore() +"";
-//        lbScoreScore1.player.setScore(128);
-        lbScoreScore1.cell.setText(lbScoreScore1.player.getScore() + "");
-    
-        VJugar.this.repaint();
         this.moverJugador(cP1, 11);
+        this.moverJugador(cP3, 11);
     }
 
     public void cargarFrame(int celdas) {
@@ -129,7 +119,7 @@ public class VJugar extends javax.swing.JFrame {
                 break;
 
             case 64:
-                this.setSize(800, 750);
+                this.setSize(800, 730);
                 lp.setBounds(92, 5, 610, 400);
                 break;
 
@@ -337,22 +327,14 @@ public class VJugar extends javax.swing.JFrame {
                 if (i == Math.sqrt(n) - 1 && j == Math.sqrt(n) - 1) {
                     Celda c = new Celda(new JLabel(), 0);
                     c.cell.setBounds(j * 70, i * 50, 120, 50);
-                    c.asignarColor(co);
                     grid[i][j] = c;
                     lp.add(c.cell, Integer.valueOf(0));
                 } else {
                     Celda c = new Celda(new JLabel(), 0);
                     c.cell.setBounds(j * 70, i * 50, 70, 50);
-                    c.asignarColor(co);
                     grid[i][j] = c;
                     lp.add(c.cell, Integer.valueOf(0));
                 }
-                if (co == 0) {
-                    co++;
-                } else {
-                    co = 0;
-                }
-
             }
         }
     }
@@ -367,6 +349,8 @@ public class VJugar extends javax.swing.JFrame {
         int maxRow = 0;
 
         while (value <= n) {
+            int co = 0;
+            int coF = 1;
             for (int i = minCol; i >= maxCol; i--) {
                 grid[minRow][i].setValor(value);
                 this.direccion(value, grid[minRow][i].getPanelPosicion());
@@ -376,13 +360,32 @@ public class VJugar extends javax.swing.JFrame {
                 if (value == 1) {
                     grid[minRow][i].asignarImagen(0);
                     grid[minRow][i].cell.setBackground(Color.white);
+                    grid[minRow][i].cell.setBorder(new LineBorder(Color.yellow));
                 }
                 if (value == n) {
                     grid[minRow][i].asignarImagen(1);
                 }
+                if (value != 1 && value >= Math.sqrt(n) + 1) {
+                    if (co == 0) {
+                        grid[minRow][i].asignarColor(co);
+                        co++;
+                    } else {
+                        grid[minRow][i].asignarColor(co);
+                        co = 0;
+                    }
+                } else if (value != 1) {
+                    if (coF == 0) {
+                        grid[minRow][i].asignarColor(coF);
+                        coF++;
+                    } else {
+                        grid[minRow][i].asignarColor(coF);
+                        coF = 0;
+                    }
+
+                }
                 value++;
             }
-
+            co = 0;
             for (int i = minRow - 1; i >= maxRow; i--) {
                 grid[i][maxCol].setValor(value);
                 if (value % 5 == 0) {
@@ -392,9 +395,16 @@ public class VJugar extends javax.swing.JFrame {
                 if (value == n) {
                     grid[i][maxCol].asignarImagen(1);
                 }
+                if (co == 0) {
+                    grid[i][maxCol].asignarColor(co);
+                    co++;
+                } else {
+                    grid[i][maxCol].asignarColor(co);
+                    co = 0;
+                }
                 value++;
             }
-
+            co = 1;
             for (int i = maxCol + 1; i <= minCol; i++) {
                 grid[maxRow][i].setValor(value);
                 if (value % 5 == 0) {
@@ -404,9 +414,16 @@ public class VJugar extends javax.swing.JFrame {
                 if (value == n) {
                     grid[maxRow][i].asignarImagen(1);
                 }
+                if (co == 0) {
+                    grid[maxRow][i].asignarColor(co);
+                    co++;
+                } else {
+                    grid[maxRow][i].asignarColor(co);
+                    co = 0;
+                }
                 value++;
             }
-
+            co = 0;
             for (int i = maxRow + 1; i <= minRow - 1; i++) {
                 grid[i][minCol].setValor(value);
                 if (value % 5 == 0) {
@@ -415,6 +432,13 @@ public class VJugar extends javax.swing.JFrame {
                 this.direccion(value, grid[i][minCol].getPanelPosicion());
                 if (value == n) {
                     grid[i][minCol].asignarImagen(1);
+                }
+                if (co == 0) {
+                    grid[i][minCol].asignarColor(co);
+                    co++;
+                } else {
+                    grid[i][minCol].asignarColor(co);
+                    co = 0;
                 }
                 value++;
             }
@@ -440,7 +464,7 @@ public class VJugar extends javax.swing.JFrame {
             cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
             lp.add(cP1.cell, Integer.valueOf(1));
             this.celdasPlayers.add(cP1);
-            cP3 = new Celda(new JLabel(), 1, null);
+            cP3 = new Celda(new JLabel(), 1, new Jugador("",0,4));
             cP3.asignarImagen(2);
             cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
             lp.add(cP3.cell, Integer.valueOf(1));
@@ -480,12 +504,22 @@ public class VJugar extends javax.swing.JFrame {
             nuevoValor = n;
         }
         int num = c.player.getNumero();
-        num--;
-        if (num != 1) {
+        if (num == 4) {
             c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
         } else {
-            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
+            num--;
+            if (num != 1) {
+                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
+            } else {
+                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
+            }
         }
+//        num--;
+//        if (num != 1) {
+//            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
+//        } else {
+//            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
+//        }
 
     }
 

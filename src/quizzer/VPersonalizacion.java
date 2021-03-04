@@ -1,4 +1,3 @@
-
 package quizzer;
 
 import java.awt.Checkbox;
@@ -15,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,10 +28,10 @@ import objetos.Pregunta;
 public class VPersonalizacion extends javax.swing.JFrame {
 
     Connection con = null;
-    int categoriasSeleccionadas=0;
+    int categoriasSeleccionadas = 0;
     int celdas;
     int tipo;
-    ArrayList<String> listaCatego=new ArrayList<>();
+    ArrayList<String> listaCatego = new ArrayList<>();
     ArrayList<Jugador> players = new ArrayList<>();
     ArrayList<String> categoriasJugar = new ArrayList<>();
     ArrayList<objetos.Pregunta> preguntas;
@@ -39,13 +39,14 @@ public class VPersonalizacion extends javax.swing.JFrame {
     Jugador j2;
     Jugador j3;
     String queryQuestL = "SELECT Pregunta,Categoria,RespuestaCorrecta,RespuestaIncorrecta1,RespuestaIncorrecta2 from Pregunta;";
-    
+    DefaultListModel list = new DefaultListModel();
+
     public VPersonalizacion(Connection con) {
         initComponents();
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
         this.con = con;
-        
+
         setLocationRelativeTo(null);
         LabelNombrej1.setVisible(false);
         LabelNombrej2.setVisible(false);
@@ -56,21 +57,29 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(false);
         player2.setVisible(false);
         player3.setVisible(false);
-       
+
         this.listaCatego = new ArrayList<String>();
         this.categoriasJugar = new ArrayList<String>();
         this.preguntas = new ArrayList<Pregunta>();
-        
-        
-        datos();
-        cargarCategorias();
-       
+
+        String sql = "SELECT DISTINCT [Categoria] FROM [Quizzer].[dbo].[Preguntas]";
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            CategoriaCB.addItem("---");
+            while (rs.next()) {
+                CategoriaCB.addItem(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     private VPersonalizacion() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,25 +108,18 @@ public class VPersonalizacion extends javax.swing.JFrame {
         RadioButton2j = new javax.swing.JRadioButton();
         nombreJ1 = new javax.swing.JTextField();
         nombreJ2 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
         player1 = new javax.swing.JLabel();
         player2 = new javax.swing.JLabel();
         player3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        CategoriaCB = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ListaCategorias = new javax.swing.JList<>();
+        BorrarBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Personalizar partida");
-        setPreferredSize(new java.awt.Dimension(687, 440));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(52, 64, 53));
@@ -149,7 +151,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 startActionPerformed(evt);
             }
         });
-        jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, 80, 30));
+        jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 420, 80, 30));
 
         nombreJ3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         nombreJ3.setText("nombre");
@@ -170,7 +172,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 comboBoxCasillasActionPerformed(evt);
             }
         });
-        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 91, -1));
+        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, 91, -1));
 
         numJugadores.add(RadioButton1j);
         RadioButton1j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -194,7 +196,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         comboBoxPreguntas.setForeground(new java.awt.Color(255, 255, 255));
         comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:30", "0:40", "0:50", "1:00", "1:30", "2:00" }));
         comboBoxPreguntas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, 91, -1));
+        jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 91, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,7 +218,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Seleccione el número de casillas:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -226,7 +228,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Duración por pregunta:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
 
         numJugadores.add(RadioButton2j);
         RadioButton2j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -253,86 +255,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         nombreJ2.setText("nombre");
         jPanel1.add(nombreJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 100, -1));
 
-        jCheckBox1.setText("jCheckBox2");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, -1));
-
-        jCheckBox2.setText("jCheckBox1");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
-
-        jCheckBox3.setText("jCheckBox3");
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, -1, -1));
-
-        jCheckBox4.setText("jCheckBox4");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, -1, -1));
-
-        jCheckBox5.setText("jCheckBox5");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, -1));
-
-        jCheckBox6.setText("jCheckBox6");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
-
-        jCheckBox7.setText("jCheckBox7");
-        jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox7ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, -1, -1));
-
-        jCheckBox8.setText("jCheckBox8");
-        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox8ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
-
-        jCheckBox9.setText("jCheckBox9");
-        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox9ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
-
-        jCheckBox10.setText("jCheckBox10");
-        jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox10ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jCheckBox10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, -1, -1));
-
         player1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player1.png"))); // NOI18N
         jPanel1.add(player1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 122, -1, -1));
 
@@ -351,15 +273,36 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel7.setText("jLabel6");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 80, 60));
 
+        CategoriaCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoriaCBActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CategoriaCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 150, -1));
+
+        jScrollPane1.setViewportView(ListaCategorias);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 120, 140));
+
+        BorrarBTN.setText("Borrar");
+        BorrarBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BorrarBTNActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BorrarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 350, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -405,7 +348,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(true);
         player2.setVisible(true);
         player3.setVisible(false);
-        
+
         /*if (RadioButton2j.isSelected()==true){
             String name1 = nombreJ1.getText();
             String name2 = nombreJ2.getText();
@@ -416,7 +359,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         }else{
             nombreJ3.setText("");
         }*/
-        tipo=1;
+        tipo = 1;
     }//GEN-LAST:event_RadioButton2jActionPerformed
 
     private void RadioButton3jActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButton3jActionPerformed
@@ -431,7 +374,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(true);
         player2.setVisible(true);
         player3.setVisible(true);
-        
+
         /*if (RadioButton2j.isSelected()==true){
             String name1 = nombreJ1.getText();
             String name2 = nombreJ2.getText();
@@ -443,12 +386,12 @@ public class VPersonalizacion extends javax.swing.JFrame {
             players.add(j2);
             players.add(j3);
         }*/
-        tipo=1;
+        tipo = 1;
     }//GEN-LAST:event_RadioButton3jActionPerformed
 
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
         // TODO add your handling code here:
-       /* if (categoriasSeleccionadas>6){
+        /* if (categoriasSeleccionadas>6){
             //jLabel6.setText("son mas de 8");
             JOptionPane.showMessageDialog(null, "Tiene mas de 6 categorias seleccionadas, quite algunas");
         }else{
@@ -463,141 +406,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         this.setVisible(false);
             //jLabel6.setText("son menos de 8");
         }*/
-        
-        
+
+
     }//GEN-LAST:event_startActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox1.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox1.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox1.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox2.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox2.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox2.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
-
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox3.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox3.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox3.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
-
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox4.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox4.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox4.getText());
-
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
-
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox5.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox5.getText());
-
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox5.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
-
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox6.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox6.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox6.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
-
-    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox7ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox7.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox7.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox7.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox7ActionPerformed
-
-    private void jCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox8ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox8.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox8.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox8.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox8ActionPerformed
-
-    private void jCheckBox9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox9ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox9.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox9.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox9.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox9ActionPerformed
-
-    private void jCheckBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox10ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox10.isSelected()==true){
-            categoriasSeleccionadas= categoriasSeleccionadas+1;
-            categoriasJugar.add(jCheckBox10.getText());
-            //jCheckBox1.setText("seleccionado");
-        }else{
-            categoriasSeleccionadas= categoriasSeleccionadas-1;
-            categoriasJugar.remove(jCheckBox10.getText());
-            //jCheckBox1.setText("no seleccionado");
-        }
-    }//GEN-LAST:event_jCheckBox10ActionPerformed
 
     private void nombreJ1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreJ1ActionPerformed
         // TODO add your handling code here:
@@ -605,53 +416,73 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
     private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
         // TODO add your handling code here:
-        if (categoriasSeleccionadas<=6){
-            
-            if (RadioButton1j.isSelected()==true){
-            String name = nombreJ1.getText();
-            j1 = new Jugador(name, 0, 1);
-            players.add(j1);
+        if (categoriasSeleccionadas <= 6) {
+
+            if (RadioButton1j.isSelected() == true) {
+                String name = nombreJ1.getText();
+                j1 = new Jugador(name, 0, 1);
+                players.add(j1);
             }
-            
-            if (RadioButton2j.isSelected()==true){
-            String name1 = nombreJ1.getText();
-            String name2 = nombreJ2.getText();
-            j1 = new Jugador(name1, 0, 1);
-            j2 = new Jugador(name2, 0, 2);
-            players.add(j1);
-            players.add(j2);
+
+            if (RadioButton2j.isSelected() == true) {
+                String name1 = nombreJ1.getText();
+                String name2 = nombreJ2.getText();
+                j1 = new Jugador(name1, 0, 1);
+                j2 = new Jugador(name2, 0, 2);
+                players.add(j1);
+                players.add(j2);
             }
-            if (RadioButton2j.isSelected()==true){
-            String name1 = nombreJ1.getText();
-            String name2 = nombreJ2.getText();
-            String name3 = nombreJ3.getText();
-            j1 = new Jugador(name1, 0, 1);
-            j2 = new Jugador(name2, 0, 2);
-            j3 = new Jugador(name3, 0, 3);
-            players.add(j1);
-            players.add(j2);
-            players.add(j3);
+            if (RadioButton3j.isSelected() == true) {
+                String name1 = nombreJ1.getText();
+                String name2 = nombreJ2.getText();
+                String name3 = nombreJ3.getText();
+                j1 = new Jugador(name1, 0, 1);
+                j2 = new Jugador(name2, 0, 2);
+                j3 = new Jugador(name3, 0, 3);
+                players.add(j1);
+                players.add(j2);
+                players.add(j3);
             }
-            String valor = (String)comboBoxCasillas.getSelectedItem();
+            String valor = (String) comboBoxCasillas.getSelectedItem();
             celdas = Integer.parseInt(valor);
             VJugar vj = null;
-            try{
-            vj = new VJugar(celdas,players,tipo,preguntas, categoriasJugar,this.con);
-            }catch (IOException ex) {
-            Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                vj = new VJugar(celdas, players, tipo, preguntas, categoriasJugar, this.con);
+            } catch (IOException ex) {
+                Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            vj.setVisible(true);
+            this.setVisible(false);
         }
-        vj.setVisible(true);
-        this.setVisible(false);
-        }
-        
-        if (categoriasSeleccionadas >6){
+
+        if (categoriasSeleccionadas > 6) {
             JOptionPane.showMessageDialog(null, "Tiene mas de 6 categorias seleccionadas, quite algunas");
         }
-            //jLabel6.setText("son menos de 8");
-        
+        //jLabel6.setText("son menos de 8");
+
     }//GEN-LAST:event_startMouseClicked
 
-    public void datos(){
+    private void CategoriaCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaCBActionPerformed
+        String seleccion = CategoriaCB.getSelectedItem().toString();
+        if (!seleccion.equals("---")) {
+            if (ListaCategorias.getModel().getSize() <= 6 & !list.contains(seleccion)) {
+                list.addElement(seleccion);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede repetir o tener más de 6 categorías", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_CategoriaCBActionPerformed
+
+    private void BorrarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarBTNActionPerformed
+        int seleccion = ListaCategorias.getSelectedIndex();
+        System.out.println(seleccion);
+        if (seleccion != -1) {
+            list.remove(seleccion);
+        }
+    }//GEN-LAST:event_BorrarBTNActionPerformed
+
+    public void datos() {
         Statement st = null;
 
         try {
@@ -667,7 +498,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
             }
             rs.close();
             st.close();
-            
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -676,25 +506,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         for (String cate : listaCatego) {
             System.out.println(cate);
         }*/
-        
-        
+
     }
-    
-    public void cargarCategorias(){
-        jCheckBox1.setText(listaCatego.get(0));
-        jCheckBox2.setText(listaCatego.get(1));
-        jCheckBox3.setText(listaCatego.get(2));
-        jCheckBox4.setText(listaCatego.get(3));
-        jCheckBox5.setText(listaCatego.get(4));
-        jCheckBox6.setText(listaCatego.get(5));
-        //jCheckBox7.setText(listaCatego.get(6));
-        //jCheckBox8.setText(listaCatego.get(7));
-        //jCheckBox9.setText(listaCatego.get(8));
-        //jCheckBox10.setText(listaCatego.get(9));
-        
-        
-    }
-    
+
     public void cargarPreguntasCatLocal() throws SQLException {
         Statement st = null;
         con.setAutoCommit(false);
@@ -712,9 +526,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         }
         rs.close();
         st.close();
-        
+
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -751,24 +565,17 @@ public class VPersonalizacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BorrarBTN;
+    private javax.swing.JComboBox<String> CategoriaCB;
     private javax.swing.JLabel LabelNombrej1;
     private javax.swing.JLabel LabelNombrej2;
     private javax.swing.JLabel LabelNombrej3;
+    private javax.swing.JList<String> ListaCategorias;
     private javax.swing.JRadioButton RadioButton1j;
     private javax.swing.JRadioButton RadioButton2j;
     private javax.swing.JRadioButton RadioButton3j;
     private javax.swing.JComboBox<String> comboBoxCasillas;
     private javax.swing.JComboBox<String> comboBoxPreguntas;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -777,6 +584,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombreJ1;
     private javax.swing.JTextField nombreJ2;
     private javax.swing.JTextField nombreJ3;

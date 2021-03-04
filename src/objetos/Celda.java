@@ -15,7 +15,9 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
 
 /**
  *
@@ -26,29 +28,32 @@ public class Celda extends JLabel {
     public JLabel cell;
     public int valor;
     public Jugador player;
-    public int [] pos = new int[2];
+    public int[] pos = new int[2];
 
     public Celda(JLabel panel, int valor) {
         this.cell = panel;
-        this.valor=valor;
+        this.valor = valor;
         this.cell.setSize(30, 30);
         this.cell.setFont(this.cell.getFont().deriveFont(Font.BOLD, this.cell.getFont().getSize()));
         this.cell.setOpaque(true);
-        this.cell.setBorder(new LineBorder(Color.BLACK));
     }
-    
+
     public Celda(JLabel panel, int valor, Jugador player) {
         this.cell = panel;
-        this.valor=valor;
+        this.valor = valor;
         this.player = player;
     }
-    
-    public void asignarColor(int color){
-        if(color ==0) this.cell.setBackground(Color.LIGHT_GRAY);
-        if(color ==1) this.cell.setBackground(Color.blue);
-            
+
+    public void asignarColor(int color) {
+        if (color == 0) {
+            this.cell.setBackground(Color.LIGHT_GRAY);
+        }
+        if (color == 1) {
+            this.cell.setBackground(Color.decode("#05AFF2"));
+        }
+
     }
-    
+
     public void asignarImagen(int SE) throws IOException {
         if (SE == 0) {
             URL path = getClass().getResource("/resource/start.png");
@@ -63,7 +68,7 @@ public class Celda extends JLabel {
             cell.setIcon(new ImageIcon(myPicture));
         }
         if (SE == 2) {
-            URL path = getClass().getResource("/resource/igno.png");
+            URL path = getClass().getResource("/resource/ignorancia.png");
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
@@ -72,19 +77,19 @@ public class Celda extends JLabel {
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
-        
+
         if (SE == 4) {
             URL path = getClass().getResource("/resource/player2.png");
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
-        
+
         if (SE == 5) {
             URL path = getClass().getResource("/resource/player3.png");
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
-        
+
     }
 
     public void asignarPosicionPanel(int x, int y) {
@@ -92,8 +97,8 @@ public class Celda extends JLabel {
     }
 
     public int[] getPanelPosicion() {
-        pos[0]=cell.getLocation().x;
-        pos[1]=cell.getLocation().y;
+        pos[0] = cell.getLocation().x;
+        pos[1] = cell.getLocation().y;
         return pos;
     }
 
@@ -112,8 +117,5 @@ public class Celda extends JLabel {
     public void setPlayer(Jugador player) {
         this.player = player;
     }
-    
-    
-    
-    
+
 }
