@@ -252,7 +252,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jPanel1.add(player2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 123, -1, -1));
 
         player3.setBackground(new java.awt.Color(0, 0, 0));
-        player3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/pj31 (1).png"))); // NOI18N
+        player3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/pj3.png"))); // NOI18N
         player3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255), 2));
         player3.setOpaque(true);
         player3.setPreferredSize(new java.awt.Dimension(43, 40));

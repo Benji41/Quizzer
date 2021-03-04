@@ -115,6 +115,9 @@ public class VJugar extends javax.swing.JFrame {
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
+        this.moverJugador(cP1, 11);
+        this.moverJugador(cP2, 11);
+        this.moverJugador(cP3, 11);
     }
 
     public void cargarFrame(int celdas) {
@@ -172,7 +175,6 @@ public class VJugar extends javax.swing.JFrame {
                 this.lbScoreApodo1.cell.setBackground(Color.WHITE);
                 lbScoreApodo1.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
                 lbScoreApodo1.cell.setForeground(Color.BLACK);
-                
 
                 this.panelScores.add(lbScoreApodo1.cell);
 
@@ -235,6 +237,7 @@ public class VJugar extends javax.swing.JFrame {
                 celdasPlayersScores.add(lbScoreScore3);
             }
         }
+        
 
     }
 
@@ -674,6 +677,7 @@ class FondoPanel extends JPanel {
             super.paint(g);
         }
     }
+
     class FondoPanel2 extends JPanel {
 
         private Image imagen;
