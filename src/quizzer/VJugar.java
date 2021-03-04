@@ -85,22 +85,23 @@ public class VJugar extends javax.swing.JFrame {
         this.tiempoTurno = tiempoTurno;
 
         //inicial
-        offset[0] = 30;
-        offset[1] = 50;
-        offset[2] = 70;
+        offset[0] = 20;
+        offset[1] = 45;
+        offset[2] = 67;
         offset[3] = 20;
         offset[4] = 78;
         //final
-        offsetOut[0] = 7;
-        offsetOut[1] = 27;
-        offsetOut[2] = 47;
-        offsetOut[3] = 5;
+        offsetOut[0] = -5;
+        offsetOut[1] = 19;
+        offsetOut[2] = 40;
+        offsetOut[3] = 2;
         offsetOut[4] = 35;
         //players
         grid = new Celda[(int) Math.sqrt(n)][(int) Math.sqrt(n)];
         //frame
         setDefaultCloseOperation(VJugar.EXIT_ON_CLOSE);
         jlScore.setText("Score");
+        this.jlScore.setFont(new Font("Tahoma", Font.BOLD, 16));
         this.lbA1.setVisible(false);
         this.lbA2.setVisible(false);
         this.lbA3.setVisible(false);
@@ -115,9 +116,9 @@ public class VJugar extends javax.swing.JFrame {
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        this.moverJugador(cP1, 11);
-        this.moverJugador(cP2, 11);
-        this.moverJugador(cP3, 11);
+        /*this.moverJugador(cP1, 2);
+        this.moverJugador(cP2, 2);
+        this.moverJugador(cP3, 2);*/
     }
 
     public void cargarFrame(int celdas) {
@@ -389,7 +390,6 @@ public class VJugar extends javax.swing.JFrame {
             cP3.asignarImagen(2);
             cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
             lp.add(cP3.cell, Integer.valueOf(1));
-            this.celdasPlayers.add(cP3);
         } else {
             for (Jugador player : players) {
                 if (player.getNumero() == 1) {
@@ -441,13 +441,6 @@ public class VJugar extends javax.swing.JFrame {
                 c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
             }
         }
-//        num--;
-//        if (num != 1) {
-//            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
-//        } else {
-//            c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
-//        }
-
     }
 
     void custom() {
@@ -480,7 +473,6 @@ public class VJugar extends javax.swing.JFrame {
 
         btnLanzarDado.setBackground(new java.awt.Color(255, 255, 255));
         btnLanzarDado.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnLanzarDado.setForeground(new java.awt.Color(0, 0, 0));
         btnLanzarDado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/dice.png"))); // NOI18N
         btnLanzarDado.setText("Lanzar dado!");
         btnLanzarDado.setActionCommand("");
@@ -606,7 +598,7 @@ public class VJugar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLanzarDadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarDadoActionPerformed
-        // TODO add your handling code here:
+        System.out.println("pico boton");
     }//GEN-LAST:event_btnLanzarDadoActionPerformed
 
     public static void main(String args[]) {
