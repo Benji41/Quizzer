@@ -34,6 +34,7 @@ public class VJugar extends javax.swing.JFrame {
     //exterior
     int tipo;
     int n;
+    JLabel jlScore = new JLabel();
     ArrayList<Jugador> players = new ArrayList<>();
     Connection con;
     ArrayList<objetos.Pregunta> preguntas;
@@ -53,7 +54,9 @@ public class VJugar extends javax.swing.JFrame {
     Celda cP1;
     Celda cP2;
     Celda cP3;
+    int tiempoTurno;
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
+    ArrayList<Celda> celdasPlayersScores = new ArrayList<>();
     //partida
     boolean partida = false;
     ArrayList<objetos.Pregunta> preguntasCategoria;
@@ -61,7 +64,7 @@ public class VJugar extends javax.swing.JFrame {
     public VJugar() throws IOException {
     }
 
-    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con) throws IOException {
+    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con, int tiempoTurno) throws IOException {
         initComponents();
         this.n = celdas;
         this.players = players;
@@ -69,6 +72,8 @@ public class VJugar extends javax.swing.JFrame {
         this.preguntas = preguntas;
         this.categorias = categorias;
         this.con = con;
+        this.tiempoTurno = tiempoTurno;
+
         //inicial
         offset[0] = 30;
         offset[1] = 50;
@@ -85,233 +90,104 @@ public class VJugar extends javax.swing.JFrame {
         grid = new Celda[(int) Math.sqrt(n)][(int) Math.sqrt(n)];
         //frame
         setDefaultCloseOperation(VJugar.EXIT_ON_CLOSE);
+        jlScore.setText("Score");
+        this.lbA1.setVisible(false);
+        this.lbA2.setVisible(false);
+        this.lbA3.setVisible(false);
+        this.lbS1.setVisible(false);
+        this.lbS2.setVisible(false);
+        this.lbS3.setVisible(false);
         //layered
         cargarFrame(n);
         this.add(lp);
-        this.cargarScore(n);
+        this.cargarScore();
         //tablero
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        this.moverJugador(cP1, 11);
     }
 
     public void cargarFrame(int celdas) {
         switch (celdas) {
             case 9:
-                this.setSize(600, 650);
-                lp.setBounds(170, 20, 260, 150);
+                this.setSize(700, 400);
+                lp.setBounds(170, 35, 260, 150);
+                jlScore.setBounds(261, 190, 60, 20);
+                this.panelDado.setLocation(480, 10);
+                this.panelScores.setLocation(180, 220);
+                this.add(jlScore);
                 break;
 
             case 16:
-                this.setSize(600, 650);
+                this.setSize(700, 400);
                 lp.setBounds(135, 20, 330, 200);
-
+                jlScore.setBounds(265, 230, 60, 20);
+                this.panelDado.setLocation(495, 45);
+                this.panelScores.setLocation(184, 260);
+                this.add(jlScore);
                 break;
 
             case 49:
-                this.setSize(800, 715);
+                this.setSize(850, 520);
                 lp.setBounds(128, 20, 540, 350);
+                jlScore.setBounds(360, 380, 60, 20);
+                this.panelDado.setLocation(650, 85);
+                this.panelScores.setLocation(279, 410);
+                this.add(jlScore);
                 break;
 
             case 64:
-                this.setSize(800, 730);
+                this.setSize(880, 560);
                 lp.setBounds(92, 5, 610, 400);
+                jlScore.setBounds(360, 420, 60, 20);
+                this.panelDado.setLocation(680, 85);
+                this.panelScores.setLocation(280, 440);
+                this.add(jlScore);
                 break;
 
         }
     }
 
-    public void cargarScore(int celdas) {
-        switch (celdas) {
-            case 9:
-                for (Jugador p : players) {
-                    int n = p.getNumero();
-                    if (n == 1) {
-                        lbScoreApodo1 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore1 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo1.cell.setBounds(430, 20, 120, 20);
-                        lbScoreApodo1.cell.setOpaque(true);
-                        lbScoreApodo1.cell.setBackground(Color.green);
-                        lbScoreScore1.cell.setBackground(Color.green);
-                        lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
-                        lbScoreScore1.cell.setBounds(550, 20, 80, 20);
-                        lbScoreScore1.cell.setOpaque(true);
-                        lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
-                        this.add(lbScoreApodo1.cell);
-                        this.add(lbScoreScore1.cell);
-                    }
-                    if (n == 2) {
-                        System.out.println("entro2");
-                        lbScoreApodo2 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore2 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo2.cell.setBounds(430, 40, 120, 20);
-                        lbScoreApodo2.cell.setOpaque(true);
-                        lbScoreApodo2.cell.setBackground(Color.red);
-                        lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
-                        lbScoreScore2.cell.setBounds(550, 40, 80, 20);
-                        lbScoreScore2.cell.setOpaque(true);
-                        lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
-                        this.add(lbScoreApodo2.cell);
-                        this.add(lbScoreScore2.cell);
-                    }
-                    if (n == 3) {
-                        System.out.println("entro3");
-                        lbScoreApodo3 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore3 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo3.cell.setBounds(430, 60, 120, 20);
-                        lbScoreApodo3.cell.setOpaque(true);
-                        lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
-                        lbScoreScore3.cell.setBounds(550, 60, 80, 20);
-                        lbScoreScore3.cell.setOpaque(true);
-                        lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
-                        this.add(lbScoreApodo3.cell);
-                        this.add(lbScoreScore3.cell);
-                    }
-                }
-                break;
+    public void cargarScore() {
 
-            case 16:
-                for (Jugador p : players) {
-                    int n = p.getNumero();
-                    if (n == 1) {
-                        lbScoreApodo1 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore1 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo1.cell.setBounds(430, 20, 120, 20);
-                        lbScoreApodo1.cell.setOpaque(true);
-                        lbScoreApodo1.cell.setBackground(Color.green);
-                        lbScoreScore1.cell.setBackground(Color.green);
-                        lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
-                        lbScoreScore1.cell.setBounds(550, 20, 80, 20);
-                        lbScoreScore1.cell.setOpaque(true);
-                        lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
-                        this.add(lbScoreApodo1.cell);
-                        this.add(lbScoreScore1.cell);
-                    }
-                    if (n == 2) {
-                        System.out.println("entro2");
-                        lbScoreApodo2 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore2 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo2.cell.setBounds(430, 40, 120, 20);
-                        lbScoreApodo2.cell.setOpaque(true);
-                        lbScoreApodo2.cell.setBackground(Color.red);
-                        lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
-                        lbScoreScore2.cell.setBounds(550, 40, 80, 20);
-                        lbScoreScore2.cell.setOpaque(true);
-                        lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
-                        this.add(lbScoreApodo2.cell);
-                        this.add(lbScoreScore2.cell);
-                    }
-                    if (n == 3) {
-                        System.out.println("entro3");
-                        lbScoreApodo3 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore3 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo3.cell.setBounds(430, 60, 120, 20);
-                        lbScoreApodo3.cell.setOpaque(true);
-                        lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
-                        lbScoreScore3.cell.setBounds(550, 60, 80, 20);
-                        lbScoreScore3.cell.setOpaque(true);
-                        lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
-                        this.add(lbScoreApodo3.cell);
-                        this.add(lbScoreScore3.cell);
-                    }
-                }
-                break;
-
-            case 49:
-                for (Jugador p : players) {
-                    int n = p.getNumero();
-                    if (n == 1) {
-                        lbScoreApodo1 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore1 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo1.cell.setBounds(650, 20, 80, 20);
-                        lbScoreApodo1.cell.setOpaque(true);
-                        lbScoreApodo1.cell.setBackground(Color.green);
-                        lbScoreScore1.cell.setBackground(Color.blue);
-                        lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
-                        lbScoreScore1.cell.setBounds(730, 20, 30, 20);
-                        lbScoreScore1.cell.setOpaque(true);
-                        lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
-                        this.add(lbScoreApodo1.cell);
-                        this.add(lbScoreScore1.cell);
-                    }
-                    if (n == 2) {
-                        System.out.println("entro2");
-                        lbScoreApodo2 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore2 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo2.cell.setBounds(650, 40, 80, 20);
-                        lbScoreApodo2.cell.setOpaque(true);
-                        lbScoreApodo2.cell.setBackground(Color.red);
-                        lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
-                        lbScoreScore2.cell.setBounds(730, 40, 30, 20);
-                        lbScoreScore2.cell.setOpaque(true);
-                        lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
-                        this.add(lbScoreApodo2.cell);
-                        this.add(lbScoreScore2.cell);
-                    }
-                    if (n == 3) {
-                        System.out.println("entro3");
-                        lbScoreApodo3 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore3 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo3.cell.setBounds(650, 60, 80, 20);
-                        lbScoreApodo3.cell.setOpaque(true);
-                        lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
-                        lbScoreScore3.cell.setBounds(730, 60, 30, 20);
-                        lbScoreScore3.cell.setOpaque(true);
-                        lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
-                        this.add(lbScoreApodo3.cell);
-                        this.add(lbScoreScore3.cell);
-                    }
-                }
-                break;
-
-            case 64:
-                for (Jugador p : players) {
-                    int n = p.getNumero();
-                    if (n == 1) {
-                        lbScoreApodo1 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore1 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo1.cell.setBounds(670, 20, 80, 20);
-                        lbScoreApodo1.cell.setOpaque(true);
-                        lbScoreApodo1.cell.setBackground(Color.green);
-                        lbScoreScore1.cell.setBackground(Color.blue);
-                        lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
-                        lbScoreScore1.cell.setBounds(750, 20, 30, 20);
-                        lbScoreScore1.cell.setOpaque(true);
-                        lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
-                        this.add(lbScoreApodo1.cell);
-                        this.add(lbScoreScore1.cell);
-                    }
-                    if (n == 2) {
-                        System.out.println("entro2");
-                        lbScoreApodo2 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore2 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo2.cell.setBounds(670, 40, 80, 20);
-                        lbScoreApodo2.cell.setOpaque(true);
-                        lbScoreApodo2.cell.setBackground(Color.red);
-                        lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
-                        lbScoreScore2.cell.setBounds(750, 40, 30, 20);
-                        lbScoreScore2.cell.setOpaque(true);
-                        lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
-                        this.add(lbScoreApodo2.cell);
-                        this.add(lbScoreScore2.cell);
-                    }
-                    if (n == 3) {
-                        System.out.println("entro3");
-                        lbScoreApodo3 = new Celda(new JLabel(), 0, p);
-                        lbScoreScore3 = new Celda(new JLabel(), 0, p);
-                        lbScoreApodo3.cell.setBounds(670, 60, 80, 20);
-                        lbScoreApodo3.cell.setOpaque(true);
-                        lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
-                        lbScoreScore3.cell.setBounds(750, 60, 30, 20);
-                        lbScoreScore3.cell.setOpaque(true);
-                        lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
-                        this.add(lbScoreApodo3.cell);
-                        this.add(lbScoreScore3.cell);
-                    }
-                }
-                break;
-
+        for (Jugador p : players) {
+            int n = p.getNumero();
+            if (n == 1) {
+                lbScoreApodo1 = new Celda(new JLabel(), 0, p);
+                lbScoreApodo1.cell.setBounds(this.lbA1.getBounds());
+                lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
+                this.panelScores.add(lbScoreApodo1.cell);
+                
+                lbScoreScore1 = new Celda(new JLabel(), 0, p);
+                lbScoreScore1.cell.setBounds(this.lbS1.getBounds());
+                lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
+                this.panelScores.add(lbScoreScore1.cell);
+                celdasPlayersScores.add(lbScoreScore1);
+            }
+            if (n == 2) {
+                lbScoreApodo2 = new Celda(new JLabel(), 0, p);
+                lbScoreApodo2.cell.setBounds(this.lbA2.getBounds());
+                lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
+                this.panelScores.add(lbScoreApodo2.cell);
+                
+                lbScoreScore2 = new Celda(new JLabel(), 0, p);
+                lbScoreScore2.cell.setBounds(this.lbS2.getBounds());
+                lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
+                this.panelScores.add(lbScoreScore2.cell);
+                celdasPlayersScores.add(lbScoreScore2);
+            }
+            if (n == 3) {
+                lbScoreApodo3 = new Celda(new JLabel(), 0, p);
+                lbScoreApodo3.cell.setBounds(this.lbA3.getBounds());
+                lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
+                this.panelScores.add(lbScoreApodo3.cell);
+                
+                lbScoreScore3 = new Celda(new JLabel(), 0, p);
+                lbScoreScore3.cell.setBounds(this.lbS3.getBounds());
+                lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
+                this.panelScores.add(lbScoreScore3.cell);
+                celdasPlayersScores.add(lbScoreScore3);
+            }
         }
 
     }
@@ -460,7 +336,7 @@ public class VJugar extends javax.swing.JFrame {
             cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
             lp.add(cP1.cell, Integer.valueOf(1));
             this.celdasPlayers.add(cP1);
-            cP3 = new Celda(new JLabel(), 1, new Jugador("",0,4));
+            cP3 = new Celda(new JLabel(), 1, new Jugador("", 0, 4));
             cP3.asignarImagen(2);
             cP3.cell.setBounds(hash.get(1)[0] + offset[2], hash.get(1)[1] + offset[3], 30, 30);
             lp.add(cP3.cell, Integer.valueOf(1));
@@ -503,7 +379,7 @@ public class VJugar extends javax.swing.JFrame {
             nuevoValor = n;
             System.out.println("entro move2");
         }
-        
+
         int num = c.player.getNumero();
         System.out.println(num);
         if (num == 4) {
@@ -529,9 +405,120 @@ public class VJugar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelDado = new javax.swing.JPanel();
+        btnLanzarDado = new javax.swing.JButton();
+        lbTurno = new javax.swing.JLabel();
+        lbDado = new javax.swing.JLabel();
+        lbCategoria = new javax.swing.JLabel();
+        panelScores = new javax.swing.JPanel();
+        lbA1 = new javax.swing.JLabel();
+        lbS1 = new javax.swing.JLabel();
+        lbA2 = new javax.swing.JLabel();
+        lbS2 = new javax.swing.JLabel();
+        lbA3 = new javax.swing.JLabel();
+        lbS3 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(null);
+
+        btnLanzarDado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/dice.png"))); // NOI18N
+        btnLanzarDado.setText("Lanzar dado!");
+        btnLanzarDado.setActionCommand("");
+
+        lbTurno.setText("jLabel1");
+
+        lbDado.setText("s");
+
+        lbCategoria.setText("Categoria: ");
+
+        javax.swing.GroupLayout panelDadoLayout = new javax.swing.GroupLayout(panelDado);
+        panelDado.setLayout(panelDadoLayout);
+        panelDadoLayout.setHorizontalGroup(
+            panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDadoLayout.createSequentialGroup()
+                .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnLanzarDado, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                    .addGroup(panelDadoLayout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTurno)
+                            .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelDadoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelDadoLayout.setVerticalGroup(
+            panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbTurno)
+                .addGap(18, 18, 18)
+                .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(lbCategoria)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLanzarDado)
+                .addContainerGap())
+        );
+
+        getContentPane().add(panelDado);
+        panelDado.setBounds(170, 20, 160, 180);
+
+        lbA1.setText("jLabel1");
+
+        lbS1.setText("jLabel2");
+
+        lbA2.setText("jLabel3");
+
+        lbS2.setText("jLabel4");
+
+        lbA3.setText("jLabel5");
+
+        lbS3.setText("jLabel6");
+
+        javax.swing.GroupLayout panelScoresLayout = new javax.swing.GroupLayout(panelScores);
+        panelScores.setLayout(panelScoresLayout);
+        panelScoresLayout.setHorizontalGroup(
+            panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelScoresLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbA3, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lbA2, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addComponent(lbA1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbS1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbS2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbS3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18))
+        );
+        panelScoresLayout.setVerticalGroup(
+            panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelScoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbA1)
+                    .addComponent(lbS1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbS2)
+                    .addComponent(lbA2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbS3)
+                    .addComponent(lbA3))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(panelScores);
+        panelScores.setBounds(20, 160, 182, 100);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -576,5 +563,17 @@ public class VJugar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLanzarDado;
+    private javax.swing.JLabel lbA1;
+    private javax.swing.JLabel lbA2;
+    private javax.swing.JLabel lbA3;
+    private javax.swing.JLabel lbCategoria;
+    private javax.swing.JLabel lbDado;
+    private javax.swing.JLabel lbS1;
+    private javax.swing.JLabel lbS2;
+    private javax.swing.JLabel lbS3;
+    private javax.swing.JLabel lbTurno;
+    private javax.swing.JPanel panelDado;
+    private javax.swing.JPanel panelScores;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,6 +31,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
     int categoriasSeleccionadas = 0;
     int celdas;
     int tipo;
+    int tiempoTurno;
     ArrayList<String> listaCatego = new ArrayList<>();
     ArrayList<Jugador> players = new ArrayList<>();
     ArrayList<String> categoriasJugar = new ArrayList<>();
@@ -65,6 +66,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             CategoriaCB.addItem(categoria);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -118,7 +120,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
         start.setBackground(new java.awt.Color(255, 255, 255));
         start.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        start.setForeground(new java.awt.Color(0, 0, 0));
         start.setText("Iniciar");
         start.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         start.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,7 +143,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         LabelNombrej3.setText("Nombre del jugador 3:");
         jPanel1.add(LabelNombrej3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, -1, -1));
 
-        comboBoxCasillas.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxCasillas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         comboBoxCasillas.setForeground(new java.awt.Color(255, 255, 255));
         comboBoxCasillas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "9", "16", "49", "64" }));
@@ -171,10 +171,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel5.setText("Personalice la partida");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
 
-        comboBoxPreguntas.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxPreguntas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         comboBoxPreguntas.setForeground(new java.awt.Color(255, 255, 255));
-        comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:30", "0:40", "0:50", "1:00", "1:30", "2:00" }));
+        comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:40", "1:00", "1:30", " " }));
         comboBoxPreguntas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 91, -1));
 
@@ -354,8 +353,43 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(true);
         player2.setVisible(true);
         player3.setVisible(true);
+        tipo = 1;
+    }//GEN-LAST:event_RadioButton3jActionPerformed
 
-        /*if (RadioButton2j.isSelected()==true){
+    private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
+
+        switch (this.comboBoxPreguntas.getSelectedItem().toString()) {
+            case "0:10":
+                this.tiempoTurno=10;
+                break;
+            case "0:40":
+                this.tiempoTurno=40;
+                break;
+            case "1:00":
+                this.tiempoTurno=60;
+                break;
+            case "1:30":
+                this.tiempoTurno=90;
+                break;
+            case "0:20":
+                this.tiempoTurno=20;
+                break;
+        }
+        if (RadioButton1j.isSelected() == true) {
+            String name = nombreJ1.getText();
+            j1 = new Jugador(name, 0, 1);
+            players.add(j1);
+        }
+
+        if (RadioButton2j.isSelected() == true) {
+            String name1 = nombreJ1.getText();
+            String name2 = nombreJ2.getText();
+            j1 = new Jugador(name1, 0, 1);
+            j2 = new Jugador(name2, 0, 2);
+            players.add(j1);
+            players.add(j2);
+        }
+        if (RadioButton3j.isSelected() == true) {
             String name1 = nombreJ1.getText();
             String name2 = nombreJ2.getText();
             String name3 = nombreJ3.getText();
@@ -365,26 +399,18 @@ public class VPersonalizacion extends javax.swing.JFrame {
             players.add(j1);
             players.add(j2);
             players.add(j3);
-        }*/
-        tipo = 1;
-    }//GEN-LAST:event_RadioButton3jActionPerformed
-
-    private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
-        String celdasN = comboBoxCasillas.getSelectedItem().toString();      
+        }
+        String celdasN = comboBoxCasillas.getSelectedItem().toString();
         if (!celdasN.equals("---")) {
             this.celdas = Integer.parseInt(celdasN);
         }
         for (int i = 0; i < ListaCategorias.getModel().getSize(); i++) {
             this.listaCatego.add(ListaCategorias.getModel().getElementAt(i));
         }
-        
-        for (int i = 0; i < ListaCategorias.getModel().getSize(); i++) {
-            this.listaCatego.add(ListaCategorias.getModel().getElementAt(i));
-        }
         if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
@@ -392,7 +418,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             }
         } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
@@ -400,7 +426,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             }
         } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
@@ -415,50 +441,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreJ1ActionPerformed
 
     private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
-        // TODO add your handling code here:
-        if (categoriasSeleccionadas <= 6) {
-
-            if (RadioButton1j.isSelected() == true) {
-                String name = nombreJ1.getText();
-                j1 = new Jugador(name, 0, 1);
-                players.add(j1);
-            }
-
-            if (RadioButton2j.isSelected() == true) {
-                String name1 = nombreJ1.getText();
-                String name2 = nombreJ2.getText();
-                j1 = new Jugador(name1, 0, 1);
-                j2 = new Jugador(name2, 0, 2);
-                players.add(j1);
-                players.add(j2);
-            }
-            if (RadioButton3j.isSelected() == true) {
-                String name1 = nombreJ1.getText();
-                String name2 = nombreJ2.getText();
-                String name3 = nombreJ3.getText();
-                j1 = new Jugador(name1, 0, 1);
-                j2 = new Jugador(name2, 0, 2);
-                j3 = new Jugador(name3, 0, 3);
-                players.add(j1);
-                players.add(j2);
-                players.add(j3);
-            }
-            String valor = (String) comboBoxCasillas.getSelectedItem();
-            celdas = Integer.parseInt(valor);
-            VJugar vj = null;
-            try {
-                vj = new VJugar(celdas, players, tipo, preguntas, categoriasJugar, this.con);
-            } catch (IOException ex) {
-                Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            vj.setVisible(true);
-            this.setVisible(false);
-        }
-
-        if (categoriasSeleccionadas > 6) {
-            JOptionPane.showMessageDialog(null, "Tiene mas de 6 categorias seleccionadas, quite algunas");
-        }
-        //jLabel6.setText("son menos de 8");
 
     }//GEN-LAST:event_startMouseClicked
 
@@ -480,28 +462,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
             list.remove(seleccion);
         }
     }//GEN-LAST:event_BorrarBTNActionPerformed
-
-   
-
-    public void cargarPreguntasCatLocal() throws SQLException {
-        Statement st = null;
-        con.setAutoCommit(false);
-        st = con.createStatement();
-        ResultSet rs = st.executeQuery(this.queryQuestL);
-
-        while (rs.next()) {
-            String q = rs.getString("Pregunta");
-            String c = rs.getString("Categoria");
-            String ans = rs.getString("RespuestaCorrecta");
-            String wr1 = rs.getString("RespuestaIncorrecta1");
-            String wr2 = rs.getString("RespuestaIncorrecta2");
-            System.out.println(q + c + ans + wr1 + wr2);
-            this.preguntas.add(new Pregunta(q, c, ans, wr1, wr2));
-        }
-        rs.close();
-        st.close();
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
