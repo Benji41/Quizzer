@@ -6,7 +6,11 @@
 package quizzer;
 
 import java.awt.Color;
+import static java.awt.Color.decode;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,11 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import objetos.Celda;
 import objetos.Jugador;
@@ -66,6 +73,9 @@ public class VJugar extends javax.swing.JFrame {
 
     VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con, int tiempoTurno) throws IOException {
         initComponents();
+        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
+        this.setIconImage(icon);
+        custom();
         this.n = celdas;
         this.players = players;
         this.tipo = tipo;
@@ -110,7 +120,7 @@ public class VJugar extends javax.swing.JFrame {
     public void cargarFrame(int celdas) {
         switch (celdas) {
             case 9:
-                this.setSize(700, 400);
+                this.setSize(700, 440);
                 lp.setBounds(170, 35, 260, 150);
                 jlScore.setBounds(261, 190, 60, 20);
                 this.panelDado.setLocation(480, 10);
@@ -119,7 +129,7 @@ public class VJugar extends javax.swing.JFrame {
                 break;
 
             case 16:
-                this.setSize(700, 400);
+                this.setSize(700, 470);
                 lp.setBounds(135, 20, 330, 200);
                 jlScore.setBounds(265, 230, 60, 20);
                 this.panelDado.setLocation(495, 45);
@@ -128,7 +138,8 @@ public class VJugar extends javax.swing.JFrame {
                 break;
 
             case 49:
-                this.setSize(850, 520);
+//                520
+                this.setSize(850, 610);
                 lp.setBounds(128, 20, 540, 350);
                 jlScore.setBounds(360, 380, 60, 20);
                 this.panelDado.setLocation(650, 85);
@@ -137,7 +148,8 @@ public class VJugar extends javax.swing.JFrame {
                 break;
 
             case 64:
-                this.setSize(880, 560);
+//                560
+                this.setSize(880, 640);
                 lp.setBounds(92, 5, 610, 400);
                 jlScore.setBounds(360, 420, 60, 20);
                 this.panelDado.setLocation(680, 85);
@@ -156,11 +168,22 @@ public class VJugar extends javax.swing.JFrame {
                 lbScoreApodo1 = new Celda(new JLabel(), 0, p);
                 lbScoreApodo1.cell.setBounds(this.lbA1.getBounds());
                 lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
-                this.panelScores.add(lbScoreApodo1.cell);
+
+                this.lbScoreApodo1.cell.setBackground(Color.WHITE);
+                lbScoreApodo1.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreApodo1.cell.setForeground(Color.BLACK);
                 
+
+                this.panelScores.add(lbScoreApodo1.cell);
+
                 lbScoreScore1 = new Celda(new JLabel(), 0, p);
                 lbScoreScore1.cell.setBounds(this.lbS1.getBounds());
                 lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
+
+                this.lbScoreScore1.cell.setBackground(Color.WHITE);
+                lbScoreScore1.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreScore1.cell.setForeground(Color.black);
+
                 this.panelScores.add(lbScoreScore1.cell);
                 celdasPlayersScores.add(lbScoreScore1);
             }
@@ -168,11 +191,24 @@ public class VJugar extends javax.swing.JFrame {
                 lbScoreApodo2 = new Celda(new JLabel(), 0, p);
                 lbScoreApodo2.cell.setBounds(this.lbA2.getBounds());
                 lbScoreApodo2.cell.setText(lbScoreApodo2.player.getApodo());
+
+                lbScoreApodo2.cell.setBackground(Color.WHITE);
+                lbScoreApodo2.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreApodo2.cell.setForeground(Color.black);
+
                 this.panelScores.add(lbScoreApodo2.cell);
-                
+
                 lbScoreScore2 = new Celda(new JLabel(), 0, p);
                 lbScoreScore2.cell.setBounds(this.lbS2.getBounds());
                 lbScoreScore2.cell.setText("" + lbScoreScore2.player.getScore());
+
+                lbScoreScore2.cell.setBackground(Color.WHITE);
+                lbScoreScore2.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreScore2.cell.setForeground(Color.black);
+//                lbScoreScore2.cell.setHorizontalAlignment(SwingConstants.CENTER);
+//                lbScoreScore2.cell.setVerticalAlignment(SwingConstants.CENTER);
+//
+
                 this.panelScores.add(lbScoreScore2.cell);
                 celdasPlayersScores.add(lbScoreScore2);
             }
@@ -180,11 +216,21 @@ public class VJugar extends javax.swing.JFrame {
                 lbScoreApodo3 = new Celda(new JLabel(), 0, p);
                 lbScoreApodo3.cell.setBounds(this.lbA3.getBounds());
                 lbScoreApodo3.cell.setText(lbScoreApodo3.player.getApodo());
+
+                lbScoreApodo3.cell.setBackground(Color.WHITE);
+                lbScoreApodo3.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreApodo3.cell.setForeground(Color.black);
+
                 this.panelScores.add(lbScoreApodo3.cell);
-                
+
                 lbScoreScore3 = new Celda(new JLabel(), 0, p);
                 lbScoreScore3.cell.setBounds(this.lbS3.getBounds());
                 lbScoreScore3.cell.setText("" + lbScoreScore3.player.getScore());
+
+                lbScoreScore3.cell.setBackground(Color.WHITE);
+                lbScoreScore3.cell.setFont(new Font("Ink Free", Font.BOLD, 16));
+                lbScoreScore3.cell.setForeground(Color.black);
+
                 this.panelScores.add(lbScoreScore3.cell);
                 celdasPlayersScores.add(lbScoreScore3);
             }
@@ -232,7 +278,7 @@ public class VJugar extends javax.swing.JFrame {
                 if (value == 1) {
                     grid[minRow][i].asignarImagen(0);
                     grid[minRow][i].cell.setBackground(Color.white);
-                    grid[minRow][i].cell.setBorder(new LineBorder(Color.yellow));
+                    grid[minRow][i].cell.setBorder(new LineBorder(Color.WHITE));
                 }
                 if (value == n) {
                     grid[minRow][i].asignarImagen(1);
@@ -401,16 +447,21 @@ public class VJugar extends javax.swing.JFrame {
 
     }
 
+    void custom() {
+        this.getContentPane().setBackground(decode("#344035"));
+        getRootPane().setBorder(BorderFactory.createLineBorder(decode("#8C5423"), 10));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelDado = new javax.swing.JPanel();
+        panelDado = new FondoPanel2();
         btnLanzarDado = new javax.swing.JButton();
         lbTurno = new javax.swing.JLabel();
         lbDado = new javax.swing.JLabel();
         lbCategoria = new javax.swing.JLabel();
-        panelScores = new javax.swing.JPanel();
+        panelScores = new FondoPanel();
         lbA1 = new javax.swing.JLabel();
         lbS1 = new javax.swing.JLabel();
         lbA2 = new javax.swing.JLabel();
@@ -422,52 +473,71 @@ public class VJugar extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(null);
 
+        panelDado.setBackground(new java.awt.Color(52, 64, 53));
+
+        btnLanzarDado.setBackground(new java.awt.Color(255, 255, 255));
+        btnLanzarDado.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLanzarDado.setForeground(new java.awt.Color(0, 0, 0));
         btnLanzarDado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/dice.png"))); // NOI18N
         btnLanzarDado.setText("Lanzar dado!");
         btnLanzarDado.setActionCommand("");
+        btnLanzarDado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnLanzarDado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLanzarDadoActionPerformed(evt);
+            }
+        });
 
-        lbTurno.setText("jLabel1");
+        lbTurno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbTurno.setForeground(new java.awt.Color(255, 255, 255));
+        lbTurno.setText("Turno: ");
+        lbTurno.setPreferredSize(new java.awt.Dimension(85, 25));
 
         lbDado.setText("s");
 
+        lbCategoria.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbCategoria.setForeground(new java.awt.Color(255, 255, 255));
         lbCategoria.setText("Categoria: ");
 
         javax.swing.GroupLayout panelDadoLayout = new javax.swing.GroupLayout(panelDado);
         panelDado.setLayout(panelDadoLayout);
         panelDadoLayout.setHorizontalGroup(
             panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
             .addGroup(panelDadoLayout.createSequentialGroup()
-                .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnLanzarDado, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                    .addGroup(panelDadoLayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTurno)
-                            .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelDadoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(btnLanzarDado, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
         );
         panelDadoLayout.setVerticalGroup(
             panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTurno)
-                .addGap(18, 18, 18)
-                .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
                 .addComponent(lbCategoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLanzarDado)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         getContentPane().add(panelDado);
-        panelDado.setBounds(170, 20, 160, 180);
+        panelDado.setBounds(200, 10, 170, 236);
+
+        panelScores.setBackground(new java.awt.Color(52, 64, 53));
+        panelScores.setForeground(new java.awt.Color(255, 255, 255));
+        panelScores.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
 
         lbA1.setText("jLabel1");
 
@@ -485,43 +555,56 @@ public class VJugar extends javax.swing.JFrame {
         panelScores.setLayout(panelScoresLayout);
         panelScoresLayout.setHorizontalGroup(
             panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelScoresLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbA3, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lbA2, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addComponent(lbA1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelScoresLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbS1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbS2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbS3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18))
+                    .addGroup(panelScoresLayout.createSequentialGroup()
+                        .addComponent(lbA1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbS1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelScoresLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelScoresLayout.createSequentialGroup()
+                                .addComponent(lbA2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbS2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelScoresLayout.createSequentialGroup()
+                                .addComponent(lbA3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbS3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(20, 20, 20))
         );
         panelScoresLayout.setVerticalGroup(
             panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelScoresLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbA1)
-                    .addComponent(lbS1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelScoresLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(lbA1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelScoresLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbS1)))
+                .addGap(16, 16, 16)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbS2)
                     .addComponent(lbA2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbS3)
-                    .addComponent(lbA3))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(panelScoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbA3)
+                    .addComponent(lbS3))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelScores);
-        panelScores.setBounds(20, 160, 182, 100);
+        panelScores.setBounds(10, 140, 200, 144);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLanzarDadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarDadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLanzarDadoActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -576,4 +659,34 @@ public class VJugar extends javax.swing.JFrame {
     private javax.swing.JPanel panelDado;
     private javax.swing.JPanel panelScores;
     // End of variables declaration//GEN-END:variables
+class FondoPanel extends JPanel {
+
+        private Image imagen;
+
+        @Override
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/resource/letreromadera2.png")).getImage();
+
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
+            setOpaque(false);
+
+            super.paint(g);
+        }
+    }
+    class FondoPanel2 extends JPanel {
+
+        private Image imagen;
+
+        @Override
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/resource/letreromadera.png")).getImage();
+
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
+            setOpaque(false);
+
+            super.paint(g);
+        }
+    }
 }

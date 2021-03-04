@@ -48,7 +48,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         this.preguntas = preguntas;
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
-        System.out.println(categorias.get(0));
+//        System.out.println(categorias.get(0));
         setLocationRelativeTo(null);
         LabelNombrej1.setVisible(false);
         LabelNombrej2.setVisible(false);
@@ -120,6 +120,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
         start.setBackground(new java.awt.Color(255, 255, 255));
         start.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        start.setForeground(new java.awt.Color(0, 0, 0));
         start.setText("Iniciar");
         start.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         start.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,9 +133,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 startActionPerformed(evt);
             }
         });
-        jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 420, 80, 30));
+        jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 480, 80, 30));
 
-        nombreJ3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreJ3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         nombreJ3.setText("nombre");
         jPanel1.add(nombreJ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 100, -1));
 
@@ -143,8 +144,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         LabelNombrej3.setText("Nombre del jugador 3:");
         jPanel1.add(LabelNombrej3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, -1, -1));
 
+        comboBoxCasillas.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxCasillas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        comboBoxCasillas.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxCasillas.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxCasillas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "9", "16", "49", "64" }));
         comboBoxCasillas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         comboBoxCasillas.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +154,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 comboBoxCasillasActionPerformed(evt);
             }
         });
-        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, 91, -1));
+        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 91, -1));
 
         numJugadores.add(RadioButton1j);
         RadioButton1j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -169,13 +171,14 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Ink Free", 1, 30)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Personalice la partida");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, -1));
 
+        comboBoxPreguntas.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxPreguntas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        comboBoxPreguntas.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxPreguntas.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:40", "1:00", "1:30", " " }));
         comboBoxPreguntas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 91, -1));
+        jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 250, 91, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -197,17 +200,17 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Seleccione el número de casillas:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Seleccione las categorias (max. 6):");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Duración por pregunta:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, -1, -1));
 
         numJugadores.add(RadioButton2j);
         RadioButton2j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -221,7 +224,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(RadioButton2j, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, -1));
 
-        nombreJ1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreJ1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         nombreJ1.setText("nombre");
         nombreJ1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,58 +233,81 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 100, -1));
 
-        nombreJ2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreJ2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         nombreJ2.setText("nombre");
         jPanel1.add(nombreJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 100, -1));
 
-        player1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player1.png"))); // NOI18N
+        player1.setBackground(new java.awt.Color(0, 0, 0));
+        player1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/pj1.png"))); // NOI18N
+        player1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 51), 2));
+        player1.setOpaque(true);
+        player1.setPreferredSize(new java.awt.Dimension(43, 40));
         jPanel1.add(player1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 122, -1, -1));
 
-        player2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player2.png"))); // NOI18N
-        jPanel1.add(player2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 122, -1, -1));
+        player2.setBackground(new java.awt.Color(0, 0, 0));
+        player2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/pj2.png"))); // NOI18N
+        player2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 51), 2));
+        player2.setOpaque(true);
+        player2.setPreferredSize(new java.awt.Dimension(43, 36));
+        jPanel1.add(player2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 123, -1, -1));
 
-        player3.setBackground(new java.awt.Color(255, 255, 255));
-        player3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player3.png"))); // NOI18N
+        player3.setBackground(new java.awt.Color(0, 0, 0));
+        player3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/pj31 (1).png"))); // NOI18N
+        player3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255), 2));
+        player3.setOpaque(true);
+        player3.setPreferredSize(new java.awt.Dimension(43, 40));
         jPanel1.add(player3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 122, -1, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
         jLabel6.setText("jLabel6");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 80, 60));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 80, 60));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
         jLabel7.setText("jLabel6");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 80, 60));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 80, 60));
 
+        CategoriaCB.setBackground(new java.awt.Color(255, 255, 255));
+        CategoriaCB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        CategoriaCB.setForeground(new java.awt.Color(0, 0, 0));
+        CategoriaCB.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         CategoriaCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CategoriaCBActionPerformed(evt);
             }
         });
-        jPanel1.add(CategoriaCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 150, -1));
+        jPanel1.add(CategoriaCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 150, -1));
 
+        ListaCategorias.setBackground(new java.awt.Color(52, 64, 53));
+        ListaCategorias.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        ListaCategorias.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(ListaCategorias);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 120, 140));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 180, 170));
 
+        BorrarBTN.setBackground(new java.awt.Color(255, 255, 255));
+        BorrarBTN.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BorrarBTN.setForeground(new java.awt.Color(0, 0, 0));
         BorrarBTN.setText("Borrar");
+        BorrarBTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        BorrarBTN.setPreferredSize(new java.awt.Dimension(65, 30));
         BorrarBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BorrarBTNActionPerformed(evt);
             }
         });
-        jPanel1.add(BorrarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 360, -1, -1));
+        jPanel1.add(BorrarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
         );
 
         pack();
