@@ -7,6 +7,7 @@ package quizzer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
@@ -29,6 +31,7 @@ import objetos.StopWatch;
  * @author Benjimon41
  */
 public class VJugar extends javax.swing.JFrame {
+
     //exterior
     int tipo;
     int n;
@@ -57,10 +60,13 @@ public class VJugar extends javax.swing.JFrame {
     ArrayList<objetos.Pregunta> preguntasCategoria;
 
     public VJugar() throws IOException {
+
     }
 
     VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con) throws IOException {
         initComponents();
+        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
+        this.setIconImage(icon);
         this.n = celdas;
         this.players = players;
         this.tipo = tipo;
@@ -91,8 +97,16 @@ public class VJugar extends javax.swing.JFrame {
         this.cargarValores(n);
         this.cargarJugadores();
         for (Celda cp : celdasPlayers) {
-            System.out.println(cp.cell + " " + cp.player);
+            System.out.println("HOLA" + cp.cell + " " + cp.player);
+
         }
+        this.players.get(0).setScore(128);
+        System.out.println("" + this.players.get(0).getScore());
+//        String x = this.players.get(0).getScore() +"";
+//        lbScoreScore1.player.setScore(128);
+        lbScoreScore1.cell.setText(lbScoreScore1.player.getScore() + "");
+    
+        VJugar.this.repaint();
         this.moverJugador(cP1, 11);
     }
 

@@ -2,6 +2,7 @@
 package quizzer;
 
 import java.awt.Checkbox;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import objetos.Jugador;
@@ -40,7 +42,8 @@ public class VPersonalizacion extends javax.swing.JFrame {
     
     public VPersonalizacion(Connection con) {
         initComponents();
-        
+        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
+        this.setIconImage(icon);
         this.con = con;
         
         setLocationRelativeTo(null);
@@ -78,21 +81,22 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private void initComponents() {
 
         numJugadores = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        LabelNombrej2 = new javax.swing.JLabel();
+        LabelNombrej1 = new javax.swing.JLabel();
+        start = new javax.swing.JButton();
+        nombreJ3 = new javax.swing.JTextField();
+        LabelNombrej3 = new javax.swing.JLabel();
+        comboBoxCasillas = new javax.swing.JComboBox<>();
+        RadioButton1j = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        comboBoxPreguntas = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        RadioButton3j = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        comboBoxCasillas = new javax.swing.JComboBox<>();
-        comboBoxPreguntas = new javax.swing.JComboBox<>();
-        start = new javax.swing.JButton();
-        RadioButton1j = new javax.swing.JRadioButton();
         RadioButton2j = new javax.swing.JRadioButton();
-        RadioButton3j = new javax.swing.JRadioButton();
-        LabelNombrej1 = new javax.swing.JLabel();
-        LabelNombrej2 = new javax.swing.JLabel();
-        LabelNombrej3 = new javax.swing.JLabel();
-        nombreJ3 = new javax.swing.JTextField();
         nombreJ1 = new javax.swing.JTextField();
         nombreJ2 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -108,44 +112,33 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1 = new javax.swing.JLabel();
         player2 = new javax.swing.JLabel();
         player3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Personalizar partida");
         setPreferredSize(new java.awt.Dimension(687, 440));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Número de jugadores:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, -1));
+        jPanel1.setBackground(new java.awt.Color(52, 64, 53));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(140, 84, 35), 10));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Seleccione las categorias (max. 6):");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
+        LabelNombrej2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LabelNombrej2.setForeground(new java.awt.Color(255, 255, 255));
+        LabelNombrej2.setText("Nombre del jugador 2:");
+        jPanel1.add(LabelNombrej2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Duración por pregunta:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, -1, -1));
+        LabelNombrej1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LabelNombrej1.setForeground(new java.awt.Color(255, 255, 255));
+        LabelNombrej1.setText("Nombre del jugador 1:");
+        jPanel1.add(LabelNombrej1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Seleccione el número de casillas:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel5.setText("Personalice la partida");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 11, -1, -1));
-
-        comboBoxCasillas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "9", "16", "49", "64" }));
-        comboBoxCasillas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxCasillasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, 91, -1));
-
-        comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:30", "0:40", "0:50", "1:00", "1:30", "2:00" }));
-        getContentPane().add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 350, 91, -1));
-
+        start.setBackground(new java.awt.Color(255, 255, 255));
+        start.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        start.setForeground(new java.awt.Color(0, 0, 0));
         start.setText("Iniciar");
+        start.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         start.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startMouseClicked(evt);
@@ -156,57 +149,109 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 startActionPerformed(evt);
             }
         });
-        getContentPane().add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 370, 80, 30));
+        jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, 80, 30));
+
+        nombreJ3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreJ3.setText("nombre");
+        jPanel1.add(nombreJ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 100, -1));
+
+        LabelNombrej3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LabelNombrej3.setForeground(new java.awt.Color(255, 255, 255));
+        LabelNombrej3.setText("Nombre del jugador 3:");
+        jPanel1.add(LabelNombrej3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, -1, -1));
+
+        comboBoxCasillas.setBackground(new java.awt.Color(255, 255, 255));
+        comboBoxCasillas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        comboBoxCasillas.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxCasillas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "9", "16", "49", "64" }));
+        comboBoxCasillas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        comboBoxCasillas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCasillasActionPerformed(evt);
+            }
+        });
+        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 91, -1));
 
         numJugadores.add(RadioButton1j);
+        RadioButton1j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        RadioButton1j.setForeground(new java.awt.Color(255, 255, 255));
         RadioButton1j.setText("1 jugador");
+        RadioButton1j.setPreferredSize(new java.awt.Dimension(128, 28));
         RadioButton1j.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RadioButton1jActionPerformed(evt);
             }
         });
-        getContentPane().add(RadioButton1j, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+        jPanel1.add(RadioButton1j, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 120, -1));
 
-        numJugadores.add(RadioButton2j);
-        RadioButton2j.setText("2 jugadores");
-        RadioButton2j.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RadioButton2jActionPerformed(evt);
-            }
-        });
-        getContentPane().add(RadioButton2j, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
+        jLabel5.setFont(new java.awt.Font("Ink Free", 1, 30)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Personalice la partida");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+
+        comboBoxPreguntas.setBackground(new java.awt.Color(255, 255, 255));
+        comboBoxPreguntas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        comboBoxPreguntas.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxPreguntas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "0:10", "0:20", "0:30", "0:40", "0:50", "1:00", "1:30", "2:00" }));
+        comboBoxPreguntas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        jPanel1.add(comboBoxPreguntas, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, 91, -1));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Número de jugadores:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 
         numJugadores.add(RadioButton3j);
+        RadioButton3j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        RadioButton3j.setForeground(new java.awt.Color(255, 255, 255));
         RadioButton3j.setText("3 jugadores");
+        RadioButton3j.setPreferredSize(new java.awt.Dimension(128, 28));
         RadioButton3j.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RadioButton3jActionPerformed(evt);
             }
         });
-        getContentPane().add(RadioButton3j, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, -1, -1));
+        jPanel1.add(RadioButton3j, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, -1, -1));
 
-        LabelNombrej1.setText("Nombre del jugador 1:");
-        getContentPane().add(LabelNombrej1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Seleccione el número de casillas:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, -1));
 
-        LabelNombrej2.setText("Nombre del jugador 2:");
-        getContentPane().add(LabelNombrej2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, -1, -1));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Seleccione las categorias (max. 6):");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, -1, -1));
 
-        LabelNombrej3.setText("Nombre del jugador 3:");
-        getContentPane().add(LabelNombrej3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, -1, -1));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Duración por pregunta:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, -1, -1));
 
-        nombreJ3.setText("nombre");
-        getContentPane().add(nombreJ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 100, -1));
+        numJugadores.add(RadioButton2j);
+        RadioButton2j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        RadioButton2j.setForeground(new java.awt.Color(255, 255, 255));
+        RadioButton2j.setText("2 jugadores");
+        RadioButton2j.setPreferredSize(new java.awt.Dimension(128, 28));
+        RadioButton2j.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RadioButton2jActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RadioButton2j, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, -1));
 
+        nombreJ1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         nombreJ1.setText("nombre");
         nombreJ1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreJ1ActionPerformed(evt);
             }
         });
-        getContentPane().add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 100, -1));
+        jPanel1.add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 100, -1));
 
+        nombreJ2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         nombreJ2.setText("nombre");
-        getContentPane().add(nombreJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 100, -1));
+        jPanel1.add(nombreJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 100, -1));
 
         jCheckBox1.setText("jCheckBox2");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -214,7 +259,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
+        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, -1));
 
         jCheckBox2.setText("jCheckBox1");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -222,7 +267,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, -1, -1));
+        jPanel1.add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
 
         jCheckBox3.setText("jCheckBox3");
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -230,7 +275,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, -1));
+        jPanel1.add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, -1, -1));
 
         jCheckBox4.setText("jCheckBox4");
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +283,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, -1, -1));
+        jPanel1.add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, -1, -1));
 
         jCheckBox5.setText("jCheckBox5");
         jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +291,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox5ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, -1, -1));
+        jPanel1.add(jCheckBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, -1));
 
         jCheckBox6.setText("jCheckBox6");
         jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +299,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox6ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
+        jPanel1.add(jCheckBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         jCheckBox7.setText("jCheckBox7");
         jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +307,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox7ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, -1, -1));
+        jPanel1.add(jCheckBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, -1, -1));
 
         jCheckBox8.setText("jCheckBox8");
         jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
@@ -270,7 +315,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox8ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, -1, -1));
+        jPanel1.add(jCheckBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
 
         jCheckBox9.setText("jCheckBox9");
         jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
@@ -278,7 +323,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox9ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, -1, -1));
+        jPanel1.add(jCheckBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
 
         jCheckBox10.setText("jCheckBox10");
         jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
@@ -286,16 +331,36 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 jCheckBox10ActionPerformed(evt);
             }
         });
-        getContentPane().add(jCheckBox10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, -1, -1));
+        jPanel1.add(jCheckBox10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, -1, -1));
 
         player1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player1.png"))); // NOI18N
-        getContentPane().add(player1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
+        jPanel1.add(player1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 122, -1, -1));
 
         player2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player2.png"))); // NOI18N
-        getContentPane().add(player2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, -1, -1));
+        jPanel1.add(player2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 122, -1, -1));
 
+        player3.setBackground(new java.awt.Color(255, 255, 255));
         player3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/player3.png"))); // NOI18N
-        getContentPane().add(player3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 120, -1, -1));
+        jPanel1.add(player3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 122, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 80, 60));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
+        jLabel7.setText("jLabel6");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 80, 60));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -709,6 +774,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField nombreJ1;
     private javax.swing.JTextField nombreJ2;
     private javax.swing.JTextField nombreJ3;

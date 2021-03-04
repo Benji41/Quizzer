@@ -57,17 +57,16 @@ public class VPrincipal extends javax.swing.JFrame {
     String queryQuest = "SELECT Pregunta,Categoria,RespuestaCorrecta,RespuestaIncorrecta1,RespuestaIncorrecta2 from dbo.Preguntas;";
     String queryQuestL = "SELECT Pregunta,Categoria,RespuestaCorrecta,RespuestaIncorrecta1,RespuestaIncorrecta2 from Pregunta;";
     int tipo = 1;
-    int celdas=16;
+    int celdas = 16;
     ArrayList<Jugador> players = new ArrayList<>();
     Jugador x = new Jugador("benji", 0, 1);
     Jugador y = new Jugador("hector", 0, 2);
     Jugador z = new Jugador("denia", 0, 3);
-    
-
-    
 
     public VPrincipal() throws InterruptedException, ClassNotFoundException {
         initComponents();
+        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
+        this.setIconImage(icon);
         this.preguntas = new ArrayList<Pregunta>();
         this.categorias = new ArrayList<String>();
         this.btnPlay.setEnabled(false);
@@ -75,9 +74,9 @@ public class VPrincipal extends javax.swing.JFrame {
         this.btnUploadQuestions.setEnabled(false);
         this.btnScores.setEnabled(false);
         this.btnAdmin.setEnabled(false);
-        players.add (x);
-        players.add (y);
-        players.add (z);
+        players.add(x);
+        players.add(y);
+        players.add(z);
         //players.add (z);
         this.lb_conexion.setText("Esperando a servicios online");
         urlR[0] = "jdbc:sqlserver://189.173.160.110:1433;databaseName=Quizzer";
@@ -307,6 +306,7 @@ public class VPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menú");
         setBackground(new java.awt.Color(140, 84, 35));
         setResizable(false);
 

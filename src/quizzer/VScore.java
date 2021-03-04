@@ -8,6 +8,7 @@ package quizzer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +35,8 @@ public class VScore extends javax.swing.JFrame {
     public VScore(Connection con) {
 
         initComponents();
+        Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
+        this.setIconImage(icon);
         this.con = con;
         tablaMulti.setVisible(false);
         ShowtableSingle();
@@ -43,9 +47,9 @@ public class VScore extends javax.swing.JFrame {
     }
 
     void custom1() {
-        tablaMulti.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
-        tablaMulti.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
-        tablaMulti.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaMulti.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
+        tablaMulti.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
+        tablaMulti.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
         tablaMulti.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("respuesta"));
         tablaMulti.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("pregunta"));
         tablaMulti.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("pregunta"));
@@ -55,10 +59,10 @@ public class VScore extends javax.swing.JFrame {
     }
 
     void custom2() {
-        tablaSingle.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
-        tablaSingle.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
-        tablaSingle.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
-        tablaSingle.getColumnModel().getColumn(3).setHeaderRenderer(new MyRenderer(new Color(191, 135, 86), Color.BLACK));
+        tablaSingle.getColumnModel().getColumn(0).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
+        tablaSingle.getColumnModel().getColumn(1).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
+        tablaSingle.getColumnModel().getColumn(2).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
+        tablaSingle.getColumnModel().getColumn(3).setHeaderRenderer(new MyRenderer(new Color (140,84,35),Color.WHITE));
         tablaSingle.getColumnModel().getColumn(0).setCellRenderer(new GestionCeldas("respuesta"));
         tablaSingle.getColumnModel().getColumn(1).setCellRenderer(new GestionCeldas("pregunta"));
         tablaSingle.getColumnModel().getColumn(2).setCellRenderer(new GestionCeldas("pregunta"));
@@ -85,8 +89,10 @@ public class VScore extends javax.swing.JFrame {
         jBack = new javax.swing.JButton();
         jBPlayer = new javax.swing.JButton();
         jBMulti = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Scores");
         setBackground(new java.awt.Color(52, 64, 53));
         setMinimumSize(new java.awt.Dimension(475, 420));
         setResizable(false);
@@ -95,11 +101,11 @@ public class VScore extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(140, 84, 35), 10));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        label.setFont(new java.awt.Font("Ink Free", 1, 30)); // NOI18N
         label.setForeground(new java.awt.Color(255, 255, 255));
         label.setText("Puntuación: Un jugador");
         label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel1.add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 500, 49));
+        jPanel1.add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 500, 49));
 
         tablaSingle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tablaSingle.setModel(new javax.swing.table.DefaultTableModel(
@@ -126,7 +132,7 @@ public class VScore extends javax.swing.JFrame {
             tablaSingle.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 500, 390));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 500, 390));
 
         tablaMulti.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tablaMulti.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,7 +165,7 @@ public class VScore extends javax.swing.JFrame {
             tablaMulti.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 500, 390));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 500, 390));
 
         jBack.setBackground(new java.awt.Color(255, 255, 255));
         jBack.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -201,11 +207,14 @@ public class VScore extends javax.swing.JFrame {
         });
         jPanel1.add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 80, 80));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,6 +377,7 @@ public class VScore extends javax.swing.JFrame {
     private javax.swing.JButton jBMulti;
     private javax.swing.JButton jBPlayer;
     private javax.swing.JButton jBack;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
