@@ -139,7 +139,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 comboBoxCasillasActionPerformed(evt);
             }
         });
-        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 320, 91, -1));
+        jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 240, 91, -1));
 
         jLabel5.setFont(new java.awt.Font("Ink Free", 1, 30)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,7 +149,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Seleccione el número de casillas:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -225,7 +225,12 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(BorrarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, -1, -1));
 
+        RegresarBTN.setBackground(new java.awt.Color(255, 255, 255));
+        RegresarBTN.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        RegresarBTN.setForeground(new java.awt.Color(0, 0, 0));
         RegresarBTN.setText("Regresar");
+        RegresarBTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        RegresarBTN.setPreferredSize(new java.awt.Dimension(75, 30));
         RegresarBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegresarBTNActionPerformed(evt);

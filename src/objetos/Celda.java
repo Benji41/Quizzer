@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
@@ -36,6 +37,7 @@ public class Celda extends JLabel {
         this.cell.setSize(30, 30);
         this.cell.setFont(this.cell.getFont().deriveFont(Font.BOLD, this.cell.getFont().getSize()));
         this.cell.setOpaque(true);
+        this.cell.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
     }
 
     public Celda(JLabel panel, int valor, Jugador player) {

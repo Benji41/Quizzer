@@ -183,6 +183,7 @@ public class VJugar extends javax.swing.JFrame {
             if (n == 1) {
                 lbScoreApodo1 = new Celda(new JLabel(), 0, p);
                 lbScoreApodo1.cell.setBounds(this.lbA1.getBounds());
+                lbScoreApodo1.cell.setBounds(27,31,81,16);
                 lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
 
                 this.lbScoreApodo1.cell.setBackground(Color.WHITE);
@@ -193,6 +194,7 @@ public class VJugar extends javax.swing.JFrame {
 
                 lbScoreScore1 = new Celda(new JLabel(), 0, p);
                 lbScoreScore1.cell.setBounds(this.lbS1.getBounds());
+                lbScoreScore1.cell.setBounds(126,31,54,16);
                 lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
 
                 this.lbScoreScore1.cell.setBackground(Color.WHITE);
@@ -708,9 +710,9 @@ public class VJugar extends javax.swing.JFrame {
         imagen = new ImageIcon(getClass().getResource("/resource/dado" + numDado + ".png"));
         this.lbDado.setIcon(imagen);
         this.lbDado.setVisible(true);
-        String c = this.lbCategoria.getText();
+//        String c = this.lbCategoria.getText();
         String cate = busquedaCategoria(numDado);
-        this.lbCategoria.setText(c + " " + cate);
+        this.lbCategoria.setText("Categoria: " + " " + cate);
         Pregunta p = this.busquedaPreguntas(cate);
         String respuesta = this.mostrarPregunta(p);
         if (!respuesta.equals("")) {
@@ -740,7 +742,7 @@ public class VJugar extends javax.swing.JFrame {
                             ps.setString(4, formatter.format(date));
                             ps.executeUpdate();
                             ps.close();
-                            JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player, "GANADOR", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player.getApodo(), "GANADOR", JOptionPane.INFORMATION_MESSAGE);
                             VPrincipal vp;
                             try {
                                 vp = new VPrincipal();

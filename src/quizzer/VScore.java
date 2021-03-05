@@ -38,6 +38,8 @@ public class VScore extends javax.swing.JFrame {
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
         this.con = con;
+        jBMulti.setVisible(false);
+        jBPlayer.setVisible(false);
         tablaMulti.setVisible(false);
         ShowtableSingle();
     }
@@ -187,7 +189,7 @@ public class VScore extends javax.swing.JFrame {
                 jBPlayerActionPerformed(evt);
             }
         });
-        jPanel1.add(jBPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 500, -1, -1));
+        jPanel1.add(jBPlayer, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 500, -1, -1));
 
         jBMulti.setBackground(new java.awt.Color(255, 255, 255));
         jBMulti.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -200,7 +202,7 @@ public class VScore extends javax.swing.JFrame {
                 jBMultiActionPerformed(evt);
             }
         });
-        jPanel1.add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, -1, -1));
+        jPanel1.add(jBMulti, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 500, 60, 20));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/book.png"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 80, 80));
