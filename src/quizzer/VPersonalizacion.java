@@ -21,10 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import objetos.Jugador;
 import objetos.Pregunta;
 
-/**
- *
- * @author denia
- */
 public class VPersonalizacion extends javax.swing.JFrame {
 
     Connection con = null;
@@ -48,7 +44,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         this.preguntas = preguntas;
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
-//        System.out.println(categorias.get(0));
         setLocationRelativeTo(null);
         LabelNombrej1.setVisible(false);
         LabelNombrej2.setVisible(false);
@@ -63,6 +58,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         this.listaCatego = new ArrayList<>();
         CategoriaCB.addItem("---");
         for (String categoria : categorias) {
+            System.out.println(categoria);
             CategoriaCB.addItem(categoria);
         }
     }
@@ -99,6 +95,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaCategorias = new javax.swing.JList<>();
         BorrarBTN = new javax.swing.JButton();
+        RegresarBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Personalizar partida");
@@ -199,7 +196,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Seleccione las categorias (max. 6):");
+        jLabel2.setText("Seleccione 6 categorías:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -288,6 +285,14 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(BorrarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, -1, -1));
 
+        RegresarBTN.setText("Regresar");
+        RegresarBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarBTNActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RegresarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -320,15 +325,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(true);
         player2.setVisible(false);
         player3.setVisible(false);
-        /*if (RadioButton1j.isSelected()==true){
-            String name = nombreJ1.getText();
-            j1 = new Jugador(name, 0, 1);
-            players.add(j1);
-        }else{
-            nombreJ2.setText("");
-            nombreJ3.setText("");
-            
-        }*/
         tipo = 0;
     }//GEN-LAST:event_RadioButton1jActionPerformed
 
@@ -344,17 +340,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player1.setVisible(true);
         player2.setVisible(true);
         player3.setVisible(false);
-
-        /*if (RadioButton2j.isSelected()==true){
-            String name1 = nombreJ1.getText();
-            String name2 = nombreJ2.getText();
-            j1 = new Jugador(name1, 0, 1);
-            j2 = new Jugador(name2, 0, 2);
-            players.add(j1);
-            players.add(j2);
-        }else{
-            nombreJ3.setText("");
-        }*/
         tipo = 1;
     }//GEN-LAST:event_RadioButton2jActionPerformed
 
@@ -377,19 +362,19 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
         switch (this.comboBoxPreguntas.getSelectedItem().toString()) {
             case "0:10":
-                this.tiempoTurno=10;
+                this.tiempoTurno = 10;
                 break;
             case "0:40":
-                this.tiempoTurno=40;
+                this.tiempoTurno = 40;
                 break;
             case "1:00":
-                this.tiempoTurno=60;
+                this.tiempoTurno = 60;
                 break;
             case "1:30":
-                this.tiempoTurno=90;
+                this.tiempoTurno = 90;
                 break;
             case "0:20":
-                this.tiempoTurno=20;
+                this.tiempoTurno = 20;
                 break;
         }
         if (RadioButton1j.isSelected()) {
@@ -424,7 +409,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         for (int i = 0; i < ListaCategorias.getModel().getSize(); i++) {
             this.listaCatego.add(ListaCategorias.getModel().getElementAt(i));
         }
-        if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {            
+        if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
@@ -432,7 +417,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
+        } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
@@ -440,7 +425,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
+        } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
@@ -448,6 +433,8 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Algo está vacío", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_startActionPerformed
@@ -463,7 +450,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private void CategoriaCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaCBActionPerformed
         String seleccion = CategoriaCB.getSelectedItem().toString();
         if (!seleccion.equals("---")) {
-            if (ListaCategorias.getModel().getSize() <= 6 & !list.contains(seleccion)) {
+            if (ListaCategorias.getModel().getSize() <= 5 & !list.contains(seleccion)) {
                 list.addElement(seleccion);
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede repetir o tener más de 6 categorías", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -479,6 +466,19 @@ public class VPersonalizacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BorrarBTNActionPerformed
 
+    private void RegresarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarBTNActionPerformed
+        VPrincipal VP = null;
+        try {
+            VP = new VPrincipal();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(VPersonalizacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VPersonalizacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        VP.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_RegresarBTNActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BorrarBTN;
@@ -490,6 +490,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private javax.swing.JRadioButton RadioButton1j;
     private javax.swing.JRadioButton RadioButton2j;
     private javax.swing.JRadioButton RadioButton3j;
+    private javax.swing.JButton RegresarBTN;
     private javax.swing.JComboBox<String> comboBoxCasillas;
     private javax.swing.JComboBox<String> comboBoxPreguntas;
     private javax.swing.JLabel jLabel1;

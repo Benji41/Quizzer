@@ -145,17 +145,20 @@ public class VPrincipal extends javax.swing.JFrame {
                         try {
                             Thread.sleep(1000);
                             lb_conexion.setText("Conectado con servicio online");
-                            VPrincipal.this.btnPlay.setEnabled(true);
-                            VPrincipal.this.btnStudy.setEnabled(true);
-                            VPrincipal.this.btnUploadQuestions.setEnabled(true);
-                            VPrincipal.this.pan_conexion.setBackground(Color.green.brighter());
+                            VPrincipal.this.pan_conexion.setBackground(Color.green.brighter()); 
                             VPrincipal.this.repaint();
-                            Thread.sleep(500);
                             try {
                                 VPrincipal.this.cargarPreguntasCatRemoto();
                             } catch (SQLException ex) {
                                 Logger.getLogger(VPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            }                        
+                                                       
+                            Thread.sleep(500);
+                            VPrincipal.this.btnPlay.setEnabled(true);
+                            VPrincipal.this.btnStudy.setEnabled(true);
+                            VPrincipal.this.btnUploadQuestions.setEnabled(true);
+                            VPrincipal.this.repaint();
+                            
                             VPrincipal.this.pan_conexion.setVisible(false);
                             cancel();
                         } catch (InterruptedException ex) {
@@ -545,9 +548,9 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         vj.setVisible(true);
         this.setVisible(false);*/
-    //    t.cancel();
-        
-  //      new VPersonalizacion(this.categorias, this.preguntas, this.con2).setVisible(true);
+        //    t.cancel();
+
+        //      new VPersonalizacion(this.categorias, this.preguntas, this.con2).setVisible(true);
 //       this.dispose();
         VPersonalizacion vp = new VPersonalizacion(this.categorias, this.preguntas, this.con2);
         vp.setVisible(true);
