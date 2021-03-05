@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -65,11 +66,9 @@ public class VJugar extends javax.swing.JFrame {
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
     ArrayList<Celda> celdasPlayersScores = new ArrayList<>();
     //partida
-    boolean partida = false;
-    ArrayList<objetos.Pregunta> preguntasCategoria;
-
-    public VJugar() throws IOException {
-    }
+    Random d = new Random();
+    //boolean partida = false;
+    ArrayList<objetos.Pregunta> preguntasCategoria = new ArrayList<>();
 
     VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con, int tiempoTurno) throws IOException {
         initComponents();
@@ -108,17 +107,15 @@ public class VJugar extends javax.swing.JFrame {
         this.lbS1.setVisible(false);
         this.lbS2.setVisible(false);
         this.lbS3.setVisible(false);
+        this.lbDado.setVisible(false);
         //layered
         cargarFrame(n);
-        this.add(lp);
         this.cargarScore();
         //tablero
         this.dibujarTabla(n);
         this.cargarValores(n);
         this.cargarJugadores();
-        /*this.moverJugador(cP1, 2);
-        this.moverJugador(cP2, 2);
-        this.moverJugador(cP3, 2);*/
+        this.partida();
     }
 
     public void cargarFrame(int celdas) {
@@ -162,6 +159,7 @@ public class VJugar extends javax.swing.JFrame {
                 break;
 
         }
+        this.add(lp);
     }
 
     public void cargarScore() {
@@ -238,7 +236,6 @@ public class VJugar extends javax.swing.JFrame {
                 celdasPlayersScores.add(lbScoreScore3);
             }
         }
-        
 
     }
 
@@ -417,20 +414,61 @@ public class VJugar extends javax.swing.JFrame {
         }
     }
 
+    public void partida() {
+        for (Celda jugador : celdasPlayers) {
+            if (tipo == 0) {
+                this.lbApodo.setForeground(Color.RED);
+                this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
+                this.lbApodo.setText(jugador.player.getApodo());
+            } else {
+                this.lbApodo.setText(jugador.player.getApodo());
+                switch (jugador.player.getNumero()) {
+                    case 1:
+                        this.lbApodo.setForeground(Color.RED);
+                        this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
+                        break;
+                    case 2:
+                        this.lbApodo.setForeground(Color.YELLOW);
+                        this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
+                        break;
+                    case 3:
+                        this.lbApodo.setForeground(Color.green);
+                        this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
+                        break;
+                }
+            }
+
+        }
+    }
+
+    public String busquedaCategoria(int resDado) {
+        return this.categorias.get(resDado--);
+    }
+    public Pregunta busquedaPreguntas(String cate) {
+        Pregunta p = null;
+        for (Pregunta q : preguntas) {
+            if (q.getCategoria().equals(cate)) {
+                this.preguntasCategoria.add(q);
+            }
+        }
+        do {
+            int numPregunta = d.nextInt((this.preguntasCategoria.size()- 0) + 1) + 0;
+            System.out.println("entro do wwhi"+numPregunta);
+            p = this.preguntasCategoria.get(numPregunta);
+        } while (p.isUsada());
+        p.setUsada(true);
+        return p;
+    }
+
     public void moverJugador(Celda c, int nuevoValor) {
-        System.out.println("entro aqui en mover");
         if (nuevoValor < 1) {
             nuevoValor = 1;
-            System.out.println("entro move1");
         }
         if (nuevoValor > n) {
-            System.out.println(c.player);
             nuevoValor = n;
-            System.out.println("entro move2");
         }
 
         int num = c.player.getNumero();
-        System.out.println(num);
         if (num == 4) {
             c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
         } else {
@@ -457,6 +495,7 @@ public class VJugar extends javax.swing.JFrame {
         lbTurno = new javax.swing.JLabel();
         lbDado = new javax.swing.JLabel();
         lbCategoria = new javax.swing.JLabel();
+        lbApodo = new javax.swing.JLabel();
         panelScores = new FondoPanel();
         lbA1 = new javax.swing.JLabel();
         lbS1 = new javax.swing.JLabel();
@@ -494,6 +533,8 @@ public class VJugar extends javax.swing.JFrame {
         lbCategoria.setForeground(new java.awt.Color(255, 255, 255));
         lbCategoria.setText("Categoria: ");
 
+        lbApodo.setText("jLabel1");
+
         javax.swing.GroupLayout panelDadoLayout = new javax.swing.GroupLayout(panelDado);
         panelDado.setLayout(panelDadoLayout);
         panelDadoLayout.setHorizontalGroup(
@@ -510,15 +551,20 @@ public class VJugar extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                    .addGroup(panelDadoLayout.createSequentialGroup()
+                        .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         panelDadoLayout.setVerticalGroup(
             panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(lbCategoria)
@@ -598,16 +644,26 @@ public class VJugar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLanzarDadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarDadoActionPerformed
-        System.out.println("pico boton");
+        int numDado = 1 + d.nextInt(6);
+        System.out.println(numDado);
+        ImageIcon imagen;
+        imagen = new ImageIcon(getClass().getResource("/resource/dado" + numDado + ".png"));
+        this.lbDado.setIcon(imagen);
+        this.lbDado.setVisible(true);
+        String c = this.lbCategoria.getText();
+        String cate = busquedaCategoria(numDado);
+        this.lbCategoria.setText(c + " " + cate);
+        this.busquedaPreguntas(cate);
+        this.btnLanzarDado.setEnabled(false);
     }//GEN-LAST:event_btnLanzarDadoActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLanzarDado;
     private javax.swing.JLabel lbA1;
     private javax.swing.JLabel lbA2;
     private javax.swing.JLabel lbA3;
+    private javax.swing.JLabel lbApodo;
     private javax.swing.JLabel lbCategoria;
     private javax.swing.JLabel lbDado;
     private javax.swing.JLabel lbS1;
