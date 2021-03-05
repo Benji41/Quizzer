@@ -79,7 +79,7 @@ public class VPrincipal extends javax.swing.JFrame {
         players.add(z);
         //players.add (z);
         this.lb_conexion.setText("Esperando a servicios online");
-        urlR[0] = "jdbc:sqlserver://189.173.160.110:1433;databaseName=Quizzer";
+        urlR[0] = "jdbc:sqlserver://localhost:1433;databaseName=Quizzer";
         urlR[1] = "sa";
         urlR[2] = "lalito24";
         urlL = "jdbc:sqlite:" + path.getFile().substring(1);
@@ -545,13 +545,13 @@ public class VPrincipal extends javax.swing.JFrame {
         }
         vj.setVisible(true);
         this.setVisible(false);*/
-        t.cancel();
+    //    t.cancel();
         
-        new VPersonalizacion(this.categorias, this.preguntas, this.con2).setVisible(true);
-       this.dispose();
-//        VPersonalizacion vp = new VPersonalizacion(this.categorias);
-//        vp.setVisible(true);
-//        this.dispose();
+  //      new VPersonalizacion(this.categorias, this.preguntas, this.con2).setVisible(true);
+//       this.dispose();
+        VPersonalizacion vp = new VPersonalizacion(this.categorias, this.preguntas, this.con2);
+        vp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPlayActionPerformed
 
     /**

@@ -61,7 +61,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         player3.setVisible(false);
         ListaCategorias.setModel(list);
         this.listaCatego = new ArrayList<>();
-
+        CategoriaCB.addItem("---");
         for (String categoria : categorias) {
             CategoriaCB.addItem(categoria);
         }
@@ -392,13 +392,13 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 this.tiempoTurno=20;
                 break;
         }
-        if (RadioButton1j.isSelected() == true) {
+        if (RadioButton1j.isSelected()) {
             String name = nombreJ1.getText();
             j1 = new Jugador(name, 0, 1);
             players.add(j1);
         }
 
-        if (RadioButton2j.isSelected() == true) {
+        if (RadioButton2j.isSelected()) {
             String name1 = nombreJ1.getText();
             String name2 = nombreJ2.getText();
             j1 = new Jugador(name1, 0, 1);
@@ -406,7 +406,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             players.add(j1);
             players.add(j2);
         }
-        if (RadioButton3j.isSelected() == true) {
+        if (RadioButton3j.isSelected()) {
             String name1 = nombreJ1.getText();
             String name2 = nombreJ2.getText();
             String name3 = nombreJ3.getText();
@@ -424,26 +424,25 @@ public class VPersonalizacion extends javax.swing.JFrame {
         for (int i = 0; i < ListaCategorias.getModel().getSize(); i++) {
             this.listaCatego.add(ListaCategorias.getModel().getElementAt(i));
         }
-        if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
-            
+        if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {            
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
+        } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & ListaCategorias.getModel().getSize() != 0 & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
+        } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & (ListaCategorias.getModel().getSize() != 0 |  ListaCategorias.getModel().getSize() <= 6) & !comboBoxCasillas.getSelectedItem().equals("---") & !comboBoxPreguntas.getSelectedItem().equals("---")) {
             try {
-                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con,this.tiempoTurno);
+                VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con, this.tiempoTurno);
                 vj.setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
