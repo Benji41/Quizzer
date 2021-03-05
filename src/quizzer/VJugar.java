@@ -84,9 +84,10 @@ public class VJugar extends javax.swing.JFrame {
     VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con /*int tiempoTurno*/) throws IOException {
         initComponents();
         start = System.currentTimeMillis();
+        this.setLocationRelativeTo(null);
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
-        this.setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
         custom();
         this.n = celdas;
         this.players = players;
@@ -306,8 +307,7 @@ public class VJugar extends javax.swing.JFrame {
                         grid[minRow][i].asignarColor(co);
                         co = 0;
                     }
-                }
-                else if (value != 1) {
+                } else if (value != 1) {
                     if (coF == 0) {
                         grid[minRow][i].asignarColor(coF);
                         coF++;
@@ -452,10 +452,9 @@ public class VJugar extends javax.swing.JFrame {
                         this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
                         break;
                 }
-            }          
+            }
         }
     }
-    
 
     public String busquedaCategoria(int resDado) {
         resDado--;
@@ -533,11 +532,15 @@ public class VJugar extends javax.swing.JFrame {
         for (int i = 0; i < 3; i++) {
             res[i] = lista.get(i);
         }
-        int indiceRes = JOptionPane.showOptionDialog(null, preg.getPregunta(), "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icono("/resource/Thinking.png", 40, 40), res, res[0]);
-        if (indiceRes == -1) {
+        try {
+            int indiceRes = JOptionPane.showOptionDialog(null, preg.getPregunta(), "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icono("/resource/Thinking.png", 40, 40), res, res[0]);
+            return res[indiceRes].toString();
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se escogió respuesta", "", JOptionPane.INFORMATION_MESSAGE);
-        }
-        return res[indiceRes].toString();
+            System.out.println(ex.getMessage());
+            return "";
+        }      
+
     }
 
     @SuppressWarnings("unchecked")
@@ -694,11 +697,11 @@ public class VJugar extends javax.swing.JFrame {
         getContentPane().add(panelScores);
         panelScores.setBounds(10, 140, 200, 144);
 
-        pack();
+        setBounds(0, 0, 416, 339);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLanzarDadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarDadoActionPerformed
-      
+
         int numDado = 1 + d.nextInt(6);
         System.out.println(numDado);
         ImageIcon imagen;
@@ -710,137 +713,143 @@ public class VJugar extends javax.swing.JFrame {
         this.lbCategoria.setText(c + " " + cate);
         Pregunta p = this.busquedaPreguntas(cate);
         String respuesta = this.mostrarPregunta(p);
-        if (respuesta.equals(p.getRespuestaCorrecta())) {
-            System.out.println(jugadorEnTurno.valor);
-            jugadorEnTurno.valor += 2;
-            int numero = this.lbScoreScore1.player.getScore();
-            this.lbScoreScore1.player.setScore(numero + 2);
-            this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore()+"");
-            System.out.println("Puntaje: " + jugadorEnTurno.player.getScore());           
-            this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
-            if (jugadorEnTurno.valor >= n) {
-                end = System.currentTimeMillis();
-                long elapsedTime = end - start;
-                System.out.println(elapsedTime);
-                if (tipo == 0) {
-                    //Ganar singleplayer
-                    String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
-                    try {
-                        PreparedStatement ps = con.prepareStatement(sql);
-                        ps.setString(1, "Ganó");
-                        ps.setInt(2, jugadorEnTurno.player.getScore());
-                        Date date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                        ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
-                        ps.setString(4, formatter.format(date));
-                        ps.executeUpdate();
-                        ps.close();
-                        JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player, "GANADOR", JOptionPane.INFORMATION_MESSAGE);
-                        VPrincipal vp;
-                        try {
-                            vp = new VPrincipal();
-                            vp.setVisible(true);
-                            this.dispose();
-                        } catch (InterruptedException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
-                        } catch (ClassNotFoundException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    System.out.println("entro ganar solo");
-                } else {
-                    //Ganar multijugador
-                    String sql = "INSERT INTO ScoreMulti (Winner, ScoreM, Date) VALUES (?, ?, ?)";
-                    try {
-                        PreparedStatement ps = con.prepareStatement(sql);
-                        ps.setString(1, jugadorEnTurno.player.getApodo());
-                        ps.setInt(2, jugadorEnTurno.player.getScore());
-                        Date date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                        ps.setString(3, formatter.format(date));
-                        ps.executeUpdate();
-                        ps.close();
-                        JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player + " con: " + jugadorEnTurno.player.getScore(), "GANADOR", JOptionPane.INFORMATION_MESSAGE);
-                        VPrincipal vp;
-                        try {
-                            vp = new VPrincipal();
-                            vp.setVisible(true);
-                            this.dispose();
-                        } catch (InterruptedException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
-                        } catch (ClassNotFoundException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-
-                }
-                System.out.println("entro ganar multijugador");
-            } else {
-                //Contesto bien pero no gano
-                System.out.println("entro contestar bien pero no ganar");
-                btnLanzarDado.setEnabled(true);
-
-            }
-            btnLanzarDado.setEnabled(true);
-        } else {
-            //No contesto bien
-            jugadorEnTurno.valor -= 1;
-            this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
-            int numero = this.lbScoreScore1.player.getScore();
-            this.lbScoreScore1.player.setScore(numero - 1);
-           
-            System.out.println("entro no contestar bien");
-            if (tipo == 0) {
-                this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore()+"");
+        if (!respuesta.equals("")) {
+            if (respuesta.equals(p.getRespuestaCorrecta())) {
+                JOptionPane.showMessageDialog(null, "Correcto! Subes 2 casillas", "Respondido", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(jugadorEnTurno.valor);
+                jugadorEnTurno.valor += 2;
+                int numero = this.lbScoreScore1.player.getScore();
+                this.lbScoreScore1.player.setScore(numero + 2);
+                this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore() + "");
                 System.out.println("Puntaje: " + jugadorEnTurno.player.getScore());
-                this.cP3.valor += 2;
-                this.moverJugador(cP3, cP3.valor);
-                if (this.cP3.valor >= n) {
-                    //Gano ignorancia
+                this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
+                if (jugadorEnTurno.valor >= n) {
                     end = System.currentTimeMillis();
                     long elapsedTime = end - start;
-                    String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
-                    try {
-                        PreparedStatement ps = con.prepareStatement(sql);
-                        ps.setString(1, "Perdió");
-                        ps.setInt(2, jugadorEnTurno.player.getScore());
-                        Date date = new Date();
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                        ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
-                        ps.setString(4, formatter.format(date));
-                        ps.executeUpdate();
-                        ps.close();
-                        JOptionPane.showMessageDialog(null, "Ganó la ignorancia", "SAD", JOptionPane.INFORMATION_MESSAGE);
-                        VPrincipal vp;
+                    System.out.println(elapsedTime);
+                    if (tipo == 0) {
+                        //Ganar singleplayer
+                        String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
                         try {
-                            vp = new VPrincipal();
-                            vp.setVisible(true);
-                            this.dispose();
-                        } catch (InterruptedException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
-                        } catch (ClassNotFoundException ex) {
-                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
-                            System.err.println(ex.getMessage());
+                            PreparedStatement ps = con.prepareStatement(sql);
+                            ps.setString(1, "Ganó");
+                            ps.setInt(2, jugadorEnTurno.player.getScore());
+                            Date date = new Date();
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
+                            ps.setString(4, formatter.format(date));
+                            ps.executeUpdate();
+                            ps.close();
+                            JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player, "GANADOR", JOptionPane.INFORMATION_MESSAGE);
+                            VPrincipal vp;
+                            try {
+                                vp = new VPrincipal();
+                                vp.setVisible(true);
+                                this.dispose();
+                            } catch (InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            } catch (ClassNotFoundException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                        System.out.println("entro ganar solo");
+                    } else {
+                        //Ganar multijugador
+                        String sql = "INSERT INTO ScoreMulti (Winner, ScoreM, Date) VALUES (?, ?, ?)";
+                        try {
+                            PreparedStatement ps = con.prepareStatement(sql);
+                            ps.setString(1, jugadorEnTurno.player.getApodo());
+                            ps.setInt(2, jugadorEnTurno.player.getScore());
+                            Date date = new Date();
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            ps.setString(3, formatter.format(date));
+                            ps.executeUpdate();
+                            ps.close();
+                            JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player + " con: " + jugadorEnTurno.player.getScore(), "GANADOR", JOptionPane.INFORMATION_MESSAGE);
+                            VPrincipal vp;
+                            try {
+                                vp = new VPrincipal();
+                                vp.setVisible(true);
+                                this.dispose();
+                            } catch (InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            } catch (ClassNotFoundException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
 
-                    //cargarScore();
-                    System.out.println("entro ganar la ignorancia");
+                    }
+                    System.out.println("entro ganar multijugador");
+                } else {
+                    //Contesto bien pero no gano
+                    System.out.println("entro contestar bien pero no ganar");
+                    btnLanzarDado.setEnabled(true);
+
                 }
+                btnLanzarDado.setEnabled(true);
+            } else {
+                //No contesto bien
+                JOptionPane.showMessageDialog(null, "Incorrecto, bajas una casilla", "Respondido", JOptionPane.INFORMATION_MESSAGE);
+                jugadorEnTurno.valor -= 1;
+                this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
+                int numero = this.lbScoreScore1.player.getScore();
+                this.lbScoreScore1.player.setScore(numero - 1);
+
+                System.out.println("entro no contestar bien");
+                if (tipo == 0) {
+                    this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore() + "");
+                    System.out.println("Puntaje: " + jugadorEnTurno.player.getScore());
+                    this.cP3.valor += 2;
+                    this.moverJugador(cP3, cP3.valor);
+                    if (this.cP3.valor >= n) {
+                        //Gano ignorancia
+                        end = System.currentTimeMillis();
+                        long elapsedTime = end - start;
+                        String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
+                        try {
+                            PreparedStatement ps = con.prepareStatement(sql);
+                            ps.setString(1, "Perdió");
+                            ps.setInt(2, jugadorEnTurno.player.getScore());
+                            Date date = new Date();
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
+                            ps.setString(4, formatter.format(date));
+                            ps.executeUpdate();
+                            ps.close();
+                            JOptionPane.showMessageDialog(null, "Ganó la ignorancia", "SAD", JOptionPane.INFORMATION_MESSAGE);
+                            VPrincipal vp;
+                            try {
+                                vp = new VPrincipal();
+                                vp.setVisible(true);
+                                this.dispose();
+                            } catch (InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            } catch (ClassNotFoundException ex) {
+                                JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                                System.err.println(ex.getMessage());
+                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        //cargarScore();
+                        System.out.println("entro ganar la ignorancia");
+                    }
+                }
+                btnLanzarDado.setEnabled(true);
+                System.out.println("entro no contesto bien");
             }
-            btnLanzarDado.setEnabled(true);
-            System.out.println("entro no contesto bien");
+        } else {
+
         }
     }//GEN-LAST:event_btnLanzarDadoActionPerformed
 

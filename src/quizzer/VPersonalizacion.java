@@ -45,10 +45,8 @@ public class VPersonalizacion extends javax.swing.JFrame {
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
         setLocationRelativeTo(null);
-        LabelNombrej1.setVisible(false);
         LabelNombrej2.setVisible(false);
         LabelNombrej3.setVisible(false);
-        nombreJ1.setVisible(false);
         nombreJ2.setVisible(false);
         nombreJ3.setVisible(false);
         player1.setVisible(false);
@@ -74,13 +72,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         nombreJ3 = new javax.swing.JTextField();
         LabelNombrej3 = new javax.swing.JLabel();
         comboBoxCasillas = new javax.swing.JComboBox<>();
-        RadioButton1j = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        RadioButton3j = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        RadioButton2j = new javax.swing.JRadioButton();
         nombreJ1 = new javax.swing.JTextField();
         nombreJ2 = new javax.swing.JTextField();
         player1 = new javax.swing.JLabel();
@@ -110,7 +104,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         LabelNombrej1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LabelNombrej1.setForeground(new java.awt.Color(255, 255, 255));
         LabelNombrej1.setText("Nombre del jugador 1:");
-        jPanel1.add(LabelNombrej1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, -1));
+        jPanel1.add(LabelNombrej1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
         start.setBackground(new java.awt.Color(255, 255, 255));
         start.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -147,39 +141,10 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(comboBoxCasillas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 320, 91, -1));
 
-        numJugadores.add(RadioButton1j);
-        RadioButton1j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        RadioButton1j.setForeground(new java.awt.Color(255, 255, 255));
-        RadioButton1j.setText("1 jugador");
-        RadioButton1j.setPreferredSize(new java.awt.Dimension(128, 28));
-        RadioButton1j.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RadioButton1jActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RadioButton1j, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 120, -1));
-
         jLabel5.setFont(new java.awt.Font("Ink Free", 1, 30)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Personalice la partida");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, -1));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Número de jugadores:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
-
-        numJugadores.add(RadioButton3j);
-        RadioButton3j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        RadioButton3j.setForeground(new java.awt.Color(255, 255, 255));
-        RadioButton3j.setText("3 jugadores");
-        RadioButton3j.setPreferredSize(new java.awt.Dimension(128, 28));
-        RadioButton3j.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RadioButton3jActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RadioButton3j, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,19 +154,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Seleccione 6 categorías:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
-
-        numJugadores.add(RadioButton2j);
-        RadioButton2j.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        RadioButton2j.setForeground(new java.awt.Color(255, 255, 255));
-        RadioButton2j.setText("2 jugadores");
-        RadioButton2j.setPreferredSize(new java.awt.Dimension(128, 28));
-        RadioButton2j.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RadioButton2jActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RadioButton2j, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
         nombreJ1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         nombreJ1.setText("Jugador 1");
@@ -210,7 +163,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 nombreJ1ActionPerformed(evt);
             }
         });
-        jPanel1.add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 100, -1));
+        jPanel1.add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 100, -1));
 
         nombreJ2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         nombreJ2.setText("Jugador2");
@@ -251,7 +204,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 CategoriaCBActionPerformed(evt);
             }
         });
-        jPanel1.add(CategoriaCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 150, -1));
+        jPanel1.add(CategoriaCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 150, -1));
 
         ListaCategorias.setBackground(new java.awt.Color(52, 64, 53));
         ListaCategorias.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
@@ -300,51 +253,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxCasillasActionPerformed
 
-    private void RadioButton1jActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButton1jActionPerformed
-        // TODO add your handling code here:
-        players.clear();
-        LabelNombrej1.setVisible(true);
-        nombreJ1.setVisible(true);
-        LabelNombrej2.setVisible(false);
-        nombreJ2.setVisible(false);
-        LabelNombrej3.setVisible(false);
-        nombreJ3.setVisible(false);
-        player1.setVisible(true);
-        player2.setVisible(false);
-        player3.setVisible(false);
-        tipo = 0;
-    }//GEN-LAST:event_RadioButton1jActionPerformed
-
-    private void RadioButton2jActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButton2jActionPerformed
-        // TODO add your handling code here:
-        players.clear();
-        LabelNombrej1.setVisible(true);
-        nombreJ1.setVisible(true);
-        LabelNombrej2.setVisible(true);
-        nombreJ2.setVisible(true);
-        LabelNombrej3.setVisible(false);
-        nombreJ3.setVisible(false);
-        player1.setVisible(true);
-        player2.setVisible(true);
-        player3.setVisible(false);
-        tipo = 1;
-    }//GEN-LAST:event_RadioButton2jActionPerformed
-
-    private void RadioButton3jActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButton3jActionPerformed
-        // TODO add your handling code here:
-        players.clear();
-        LabelNombrej1.setVisible(true);
-        nombreJ1.setVisible(true);
-        LabelNombrej2.setVisible(true);
-        nombreJ2.setVisible(true);
-        LabelNombrej3.setVisible(true);
-        nombreJ3.setVisible(true);
-        player1.setVisible(true);
-        player2.setVisible(true);
-        player3.setVisible(true);
-        tipo = 1;
-    }//GEN-LAST:event_RadioButton3jActionPerformed
-
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
 
 //        switch (this.comboBoxPreguntas.getSelectedItem().toString()) {
@@ -364,31 +272,31 @@ public class VPersonalizacion extends javax.swing.JFrame {
 //                this.tiempoTurno = 20;
 //                break;
 //        }
-        if (RadioButton1j.isSelected()) {
+
             String name = nombreJ1.getText();
             j1 = new Jugador(name, 0, 1);
             players.add(j1);
-        }
+        
 
-        if (RadioButton2j.isSelected()) {
-            String name1 = nombreJ1.getText();
-            String name2 = nombreJ2.getText();
-            j1 = new Jugador(name1, 0, 1);
-            j2 = new Jugador(name2, 0, 2);
-            players.add(j1);
-            players.add(j2);
-        }
-        if (RadioButton3j.isSelected()) {
-            String name1 = nombreJ1.getText();
-            String name2 = nombreJ2.getText();
-            String name3 = nombreJ3.getText();
-            j1 = new Jugador(name1, 0, 1);
-            j2 = new Jugador(name2, 0, 2);
-            j3 = new Jugador(name3, 0, 3);
-            players.add(j1);
-            players.add(j2);
-            players.add(j3);
-        }
+//        if (RadioButton2j.isSelected()) {
+//            String name1 = nombreJ1.getText();
+//            String name2 = nombreJ2.getText();
+//            j1 = new Jugador(name1, 0, 1);
+//            j2 = new Jugador(name2, 0, 2);
+//            players.add(j1);
+//            players.add(j2);
+//        }
+//        if (RadioButton3j.isSelected()) {
+//            String name1 = nombreJ1.getText();
+//            String name2 = nombreJ2.getText();
+//            String name3 = nombreJ3.getText();
+//            j1 = new Jugador(name1, 0, 1);
+//            j2 = new Jugador(name2, 0, 2);
+//            j3 = new Jugador(name3, 0, 3);
+//            players.add(j1);
+//            players.add(j2);
+//            players.add(j3);
+//        }
         String celdasN = comboBoxCasillas.getSelectedItem().toString();
         if (!celdasN.equals("---")) {
             this.celdas = Integer.parseInt(celdasN);
@@ -396,7 +304,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
         for (int i = 0; i < ListaCategorias.getModel().getSize(); i++) {
             this.listaCatego.add(ListaCategorias.getModel().getElementAt(i));
         }
-        if (RadioButton1j.isSelected() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
+        if (!nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con/* this.tiempoTurno*/);
                 vj.setVisible(true);
@@ -404,7 +312,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton2j.isSelected() & !nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
+        } else if (!nombreJ2.getText().isEmpty() & !nombreJ1.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con /*this.tiempoTurno*/);
                 vj.setVisible(true);
@@ -412,7 +320,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else if (RadioButton3j.isSelected() & !nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
+        } else if (!nombreJ1.getText().isEmpty() & !nombreJ2.getText().isEmpty() & !nombreJ3.getText().isEmpty() & ListaCategorias.getModel().getSize() == 6 & !comboBoxCasillas.getSelectedItem().equals("---") /*& !comboBoxPreguntas.getSelectedItem().equals("---")*/) {
             try {
                 VJugar vj = new VJugar(this.celdas, this.players, this.tipo, this.preguntas, this.listaCatego, this.con /*this.tiempoTurno*/);
                 vj.setVisible(true);
@@ -474,12 +382,8 @@ public class VPersonalizacion extends javax.swing.JFrame {
     private javax.swing.JLabel LabelNombrej2;
     private javax.swing.JLabel LabelNombrej3;
     private javax.swing.JList<String> ListaCategorias;
-    private javax.swing.JRadioButton RadioButton1j;
-    private javax.swing.JRadioButton RadioButton2j;
-    private javax.swing.JRadioButton RadioButton3j;
     private javax.swing.JButton RegresarBTN;
     private javax.swing.JComboBox<String> comboBoxCasillas;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
