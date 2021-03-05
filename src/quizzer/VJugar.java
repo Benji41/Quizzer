@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package quizzer;
 
 import java.awt.Color;
@@ -13,8 +8,15 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
@@ -24,7 +26,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.Icon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -65,15 +73,20 @@ public class VJugar extends javax.swing.JFrame {
     int tiempoTurno;
     ArrayList<Celda> celdasPlayers = new ArrayList<>();
     ArrayList<Celda> celdasPlayersScores = new ArrayList<>();
+    ListIterator<Celda> t;
     //partida
     Random d = new Random();
+    Celda jugadorEnTurno;
+    long start, end;
     //boolean partida = false;
     ArrayList<objetos.Pregunta> preguntasCategoria = new ArrayList<>();
 
-    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con, int tiempoTurno) throws IOException {
+    VJugar(int celdas, ArrayList<Jugador> players, int tipo, ArrayList<Pregunta> preguntas, ArrayList<String> categorias, Connection con /*int tiempoTurno*/) throws IOException {
         initComponents();
+        start = System.currentTimeMillis();
         Image icon = new ImageIcon(getClass().getResource("/resource/minilogo.png")).getImage();
         this.setIconImage(icon);
+        this.setLocationRelativeTo(null);
         custom();
         this.n = celdas;
         this.players = players;
@@ -284,6 +297,7 @@ public class VJugar extends javax.swing.JFrame {
                 if (value == n) {
                     grid[minRow][i].asignarImagen(1);
                 }
+
                 if (value != 1 && value >= Math.sqrt(n) + 1) {
                     if (co == 0) {
                         grid[minRow][i].asignarColor(co);
@@ -292,7 +306,8 @@ public class VJugar extends javax.swing.JFrame {
                         grid[minRow][i].asignarColor(co);
                         co = 0;
                     }
-                } else if (value != 1) {
+                }
+                else if (value != 1) {
                     if (coF == 0) {
                         grid[minRow][i].asignarColor(coF);
                         coF++;
@@ -416,6 +431,7 @@ public class VJugar extends javax.swing.JFrame {
 
     public void partida() {
         for (Celda jugador : celdasPlayers) {
+            this.jugadorEnTurno = jugador;
             if (tipo == 0) {
                 this.lbApodo.setForeground(Color.RED);
                 this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
@@ -436,14 +452,16 @@ public class VJugar extends javax.swing.JFrame {
                         this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
                         break;
                 }
-            }
-
+            }          
         }
     }
+    
 
     public String busquedaCategoria(int resDado) {
-        return this.categorias.get(resDado--);
+        resDado--;
+        return this.categorias.get(resDado);
     }
+
     public Pregunta busquedaPreguntas(String cate) {
         Pregunta p = null;
         for (Pregunta q : preguntas) {
@@ -452,8 +470,8 @@ public class VJugar extends javax.swing.JFrame {
             }
         }
         do {
-            int numPregunta = d.nextInt((this.preguntasCategoria.size()- 0) + 1) + 0;
-            System.out.println("entro do wwhi"+numPregunta);
+            int numPregunta = d.nextInt((this.preguntasCategoria.size() - 0) + 1) + 0;
+            System.out.println("entro do wwhi" + numPregunta);
             p = this.preguntasCategoria.get(numPregunta);
         } while (p.isUsada());
         p.setUsada(true);
@@ -467,16 +485,26 @@ public class VJugar extends javax.swing.JFrame {
         if (nuevoValor > n) {
             nuevoValor = n;
         }
-
+        c.valor = nuevoValor;
+        System.out.println("mover jugador " + c.valor);
         int num = c.player.getNumero();
         if (num == 4) {
             c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
         } else {
             num--;
-            if (num != 1) {
-                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
+            if (c.valor == 1) {
+                //cP1.cell.setBounds(hash.get(1)[0] + offset[0], hash.get(1)[1] + offset[3], 30, 30);
+                if (num != 1) {
+                    c.cell.setBounds(hash.get(1)[0] + offset[num], hash.get(1)[1] + 20, 30, 30);
+                } else {
+                    c.cell.setBounds(hash.get(1)[0] + offset[num], hash.get(1)[1] + offset[3], 30, 30);
+                }
             } else {
-                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
+                if (num != 1) {
+                    c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
+                } else {
+                    c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
+                }
             }
         }
     }
@@ -484,6 +512,32 @@ public class VJugar extends javax.swing.JFrame {
     void custom() {
         this.getContentPane().setBackground(decode("#344035"));
         getRootPane().setBorder(BorderFactory.createLineBorder(decode("#8C5423"), 10));
+    }
+
+    public Icon icono(String path, int width, int height) {
+        Icon img = new ImageIcon(new ImageIcon(getClass().getResource(path)).getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH));
+        return img;
+    }
+
+    public String mostrarPregunta(Pregunta preg) {
+        ArrayList<String> respuestas = new ArrayList<>();
+        respuestas.add(preg.getRespuestaCorrecta());
+        respuestas.add(preg.getRespuestaIncorrecta1());
+        respuestas.add(preg.getRespuestaIncorrecta2());
+        List<String> lista = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            lista.add(respuestas.get(i));
+        }
+        Collections.shuffle(lista);
+        Object[] res = new Object[3];
+        for (int i = 0; i < 3; i++) {
+            res[i] = lista.get(i);
+        }
+        int indiceRes = JOptionPane.showOptionDialog(null, preg.getPregunta(), "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icono("/resource/Thinking.png", 40, 40), res, res[0]);
+        if (indiceRes == -1) {
+            JOptionPane.showMessageDialog(null, "No se escogió respuesta", "", JOptionPane.INFORMATION_MESSAGE);
+        }
+        return res[indiceRes].toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -644,6 +698,7 @@ public class VJugar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLanzarDadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarDadoActionPerformed
+      
         int numDado = 1 + d.nextInt(6);
         System.out.println(numDado);
         ImageIcon imagen;
@@ -653,8 +708,140 @@ public class VJugar extends javax.swing.JFrame {
         String c = this.lbCategoria.getText();
         String cate = busquedaCategoria(numDado);
         this.lbCategoria.setText(c + " " + cate);
-        this.busquedaPreguntas(cate);
-        this.btnLanzarDado.setEnabled(false);
+        Pregunta p = this.busquedaPreguntas(cate);
+        String respuesta = this.mostrarPregunta(p);
+        if (respuesta.equals(p.getRespuestaCorrecta())) {
+            System.out.println(jugadorEnTurno.valor);
+            jugadorEnTurno.valor += 2;
+            int numero = this.lbScoreScore1.player.getScore();
+            this.lbScoreScore1.player.setScore(numero + 2);
+            this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore()+"");
+            System.out.println("Puntaje: " + jugadorEnTurno.player.getScore());           
+            this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
+            if (jugadorEnTurno.valor >= n) {
+                end = System.currentTimeMillis();
+                long elapsedTime = end - start;
+                System.out.println(elapsedTime);
+                if (tipo == 0) {
+                    //Ganar singleplayer
+                    String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
+                    try {
+                        PreparedStatement ps = con.prepareStatement(sql);
+                        ps.setString(1, "Ganó");
+                        ps.setInt(2, jugadorEnTurno.player.getScore());
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
+                        ps.setString(4, formatter.format(date));
+                        ps.executeUpdate();
+                        ps.close();
+                        JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player, "GANADOR", JOptionPane.INFORMATION_MESSAGE);
+                        VPrincipal vp;
+                        try {
+                            vp = new VPrincipal();
+                            vp.setVisible(true);
+                            this.dispose();
+                        } catch (InterruptedException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        } catch (ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    System.out.println("entro ganar solo");
+                } else {
+                    //Ganar multijugador
+                    String sql = "INSERT INTO ScoreMulti (Winner, ScoreM, Date) VALUES (?, ?, ?)";
+                    try {
+                        PreparedStatement ps = con.prepareStatement(sql);
+                        ps.setString(1, jugadorEnTurno.player.getApodo());
+                        ps.setInt(2, jugadorEnTurno.player.getScore());
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        ps.setString(3, formatter.format(date));
+                        ps.executeUpdate();
+                        ps.close();
+                        JOptionPane.showMessageDialog(null, "Ganó " + jugadorEnTurno.player + " con: " + jugadorEnTurno.player.getScore(), "GANADOR", JOptionPane.INFORMATION_MESSAGE);
+                        VPrincipal vp;
+                        try {
+                            vp = new VPrincipal();
+                            vp.setVisible(true);
+                            this.dispose();
+                        } catch (InterruptedException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        } catch (ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+                System.out.println("entro ganar multijugador");
+            } else {
+                //Contesto bien pero no gano
+                System.out.println("entro contestar bien pero no ganar");
+                btnLanzarDado.setEnabled(true);
+
+            }
+            btnLanzarDado.setEnabled(true);
+        } else {
+            //No contesto bien
+            jugadorEnTurno.valor -= 1;
+            this.moverJugador(jugadorEnTurno, jugadorEnTurno.valor);
+            int numero = this.lbScoreScore1.player.getScore();
+            this.lbScoreScore1.player.setScore(numero - 1);
+           
+            System.out.println("entro no contestar bien");
+            if (tipo == 0) {
+                this.lbScoreScore1.cell.setText(jugadorEnTurno.player.getScore()+"");
+                System.out.println("Puntaje: " + jugadorEnTurno.player.getScore());
+                this.cP3.valor += 2;
+                this.moverJugador(cP3, cP3.valor);
+                if (this.cP3.valor >= n) {
+                    //Gano ignorancia
+                    end = System.currentTimeMillis();
+                    long elapsedTime = end - start;
+                    String sql = "INSERT INTO ScoreSingle (Outcome, Score, Duration, Date) VALUES (?, ?, ?, ?)";
+                    try {
+                        PreparedStatement ps = con.prepareStatement(sql);
+                        ps.setString(1, "Perdió");
+                        ps.setInt(2, jugadorEnTurno.player.getScore());
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        ps.setInt(3, (int) ((elapsedTime / 1000) / 60));
+                        ps.setString(4, formatter.format(date));
+                        ps.executeUpdate();
+                        ps.close();
+                        JOptionPane.showMessageDialog(null, "Ganó la ignorancia", "SAD", JOptionPane.INFORMATION_MESSAGE);
+                        VPrincipal vp;
+                        try {
+                            vp = new VPrincipal();
+                            vp.setVisible(true);
+                            this.dispose();
+                        } catch (InterruptedException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        } catch (ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null, "Intentar de nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.err.println(ex.getMessage());
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "No se conectó con la base de datos interna.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    //cargarScore();
+                    System.out.println("entro ganar la ignorancia");
+                }
+            }
+            btnLanzarDado.setEnabled(true);
+            System.out.println("entro no contesto bien");
+        }
     }//GEN-LAST:event_btnLanzarDadoActionPerformed
 
 

@@ -92,6 +92,18 @@ public class Celda extends JLabel {
             BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
             cell.setIcon(new ImageIcon(myPicture));
         }
+        if (SE == 6) {
+//            URL path = getClass().getResource("/resource/player3.png");
+            URL path = getClass().getResource("/resource/pistaV.png");
+            BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
+            cell.setIcon(new ImageIcon(myPicture));
+        }
+        if (SE == 7) {
+//            URL path = getClass().getResource("/resource/player3.png");
+            URL path = getClass().getResource("/resource/pistaH.png");
+            BufferedImage myPicture = ImageIO.read(new File(path.getFile().substring(1)));
+            cell.setIcon(new ImageIcon(myPicture));
+        }
 
     }
 
