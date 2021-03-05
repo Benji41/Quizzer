@@ -58,7 +58,6 @@ public class VPersonalizacion extends javax.swing.JFrame {
         this.listaCatego = new ArrayList<>();
         CategoriaCB.addItem("---");
         for (String categoria : categorias) {
-            System.out.println(categoria);
             CategoriaCB.addItem(categoria);
         }
     }
