@@ -1,6 +1,7 @@
 package quizzer;
 
 import java.awt.Checkbox;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import objetos.Jugador;
 import objetos.Pregunta;
@@ -57,6 +60,23 @@ public class VPersonalizacion extends javax.swing.JFrame {
         CategoriaCB.addItem("---");
         for (String categoria : categorias) {
             CategoriaCB.addItem(categoria);
+        }
+    }
+    void customJOptionPane() {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            UIManager.put("OptionPane.background", Color.decode("#FFFFF6"));
+            UIManager.put("Panel.background", Color.decode("#FFFFF6"));
+            UIManager.put("OptionPane.messageForeground", new Color(13,13,13));
+            UIManager.put("Button.background", Color.WHITE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,6 +128,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
 
         start.setBackground(new java.awt.Color(255, 255, 255));
         start.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        start.setForeground(new java.awt.Color(0, 0, 0));
         start.setText("Iniciar");
         start.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         start.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -122,7 +143,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 480, 80, 30));
 
+        nombreJ3.setBackground(new java.awt.Color(255, 255, 255));
         nombreJ3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nombreJ3.setForeground(new java.awt.Color(0, 0, 0));
         nombreJ3.setText("Jugador3");
         jPanel1.add(nombreJ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 100, -1));
 
@@ -131,7 +154,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         LabelNombrej3.setText("Nombre del jugador 3:");
         jPanel1.add(LabelNombrej3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, -1, -1));
 
+        comboBoxCasillas.setBackground(new java.awt.Color(255, 255, 255));
         comboBoxCasillas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        comboBoxCasillas.setForeground(new java.awt.Color(0, 0, 0));
         comboBoxCasillas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "9", "16", "49", "64" }));
         comboBoxCasillas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         comboBoxCasillas.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +181,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel2.setText("Seleccione 6 categorías:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
+        nombreJ1.setBackground(new java.awt.Color(255, 255, 255));
         nombreJ1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nombreJ1.setForeground(new java.awt.Color(0, 0, 0));
         nombreJ1.setText("Jugador 1");
         nombreJ1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,7 +192,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         });
         jPanel1.add(nombreJ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 100, -1));
 
+        nombreJ2.setBackground(new java.awt.Color(255, 255, 255));
         nombreJ2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nombreJ2.setForeground(new java.awt.Color(0, 0, 0));
         nombreJ2.setText("Jugador2");
         jPanel1.add(nombreJ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 100, -1));
 
@@ -197,7 +226,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
         jLabel7.setText("jLabel6");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 80, 60));
 
+        CategoriaCB.setBackground(new java.awt.Color(255, 255, 255));
         CategoriaCB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        CategoriaCB.setForeground(new java.awt.Color(0, 0, 0));
         CategoriaCB.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         CategoriaCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,12 +240,15 @@ public class VPersonalizacion extends javax.swing.JFrame {
         ListaCategorias.setBackground(new java.awt.Color(52, 64, 53));
         ListaCategorias.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         ListaCategorias.setForeground(new java.awt.Color(255, 255, 255));
+        ListaCategorias.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        ListaCategorias.setSelectionForeground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(ListaCategorias);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 180, 170));
 
         BorrarBTN.setBackground(new java.awt.Color(255, 255, 255));
         BorrarBTN.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BorrarBTN.setForeground(new java.awt.Color(0, 0, 0));
         BorrarBTN.setText("Borrar");
         BorrarBTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         BorrarBTN.setPreferredSize(new java.awt.Dimension(65, 30));
@@ -236,7 +270,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
                 RegresarBTNActionPerformed(evt);
             }
         });
-        jPanel1.add(RegresarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, -1, -1));
+        jPanel1.add(RegresarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 480, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,11 +311,9 @@ public class VPersonalizacion extends javax.swing.JFrame {
 //                this.tiempoTurno = 20;
 //                break;
 //        }
-
-            String name = nombreJ1.getText();
-            j1 = new Jugador(name, 0, 1);
-            players.add(j1);
-        
+        String name = nombreJ1.getText();
+        j1 = new Jugador(name, 0, 1);
+        players.add(j1);
 
 //        if (RadioButton2j.isSelected()) {
 //            String name1 = nombreJ1.getText();
@@ -333,7 +365,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Algo está vacío", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -353,6 +385,7 @@ public class VPersonalizacion extends javax.swing.JFrame {
             if (ListaCategorias.getModel().getSize() <= 5 & !list.contains(seleccion)) {
                 list.addElement(seleccion);
             } else {
+                customJOptionPane();
                 JOptionPane.showMessageDialog(null, "No se puede repetir o tener más de 6 categorías", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }

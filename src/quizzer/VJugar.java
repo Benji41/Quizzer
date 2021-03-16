@@ -35,7 +35,10 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ColorUIResource;
 import objetos.Celda;
 import objetos.Jugador;
 import objetos.Pregunta;
@@ -78,6 +81,7 @@ public class VJugar extends javax.swing.JFrame {
     Random d = new Random();
     Celda jugadorEnTurno;
     long start, end;
+
     //boolean partida = false;
     ArrayList<objetos.Pregunta> preguntasCategoria = new ArrayList<>();
 
@@ -115,6 +119,7 @@ public class VJugar extends javax.swing.JFrame {
         setDefaultCloseOperation(VJugar.EXIT_ON_CLOSE);
         jlScore.setText("Score");
         this.jlScore.setFont(new Font("Tahoma", Font.BOLD, 16));
+        this.jlScore.setForeground(Color.decode("#FFFFF6"));
         this.lbA1.setVisible(false);
         this.lbA2.setVisible(false);
         this.lbA3.setVisible(false);
@@ -183,7 +188,7 @@ public class VJugar extends javax.swing.JFrame {
             if (n == 1) {
                 lbScoreApodo1 = new Celda(new JLabel(), 0, p);
                 lbScoreApodo1.cell.setBounds(this.lbA1.getBounds());
-                lbScoreApodo1.cell.setBounds(27,31,81,16);
+                lbScoreApodo1.cell.setBounds(27, 31, 81, 16);
                 lbScoreApodo1.cell.setText(lbScoreApodo1.player.getApodo());
 
                 this.lbScoreApodo1.cell.setBackground(Color.WHITE);
@@ -194,7 +199,7 @@ public class VJugar extends javax.swing.JFrame {
 
                 lbScoreScore1 = new Celda(new JLabel(), 0, p);
                 lbScoreScore1.cell.setBounds(this.lbS1.getBounds());
-                lbScoreScore1.cell.setBounds(126,31,54,16);
+                lbScoreScore1.cell.setBounds(126, 31, 54, 16);
                 lbScoreScore1.cell.setText("" + lbScoreScore1.player.getScore());
 
                 this.lbScoreScore1.cell.setBackground(Color.WHITE);
@@ -435,7 +440,7 @@ public class VJugar extends javax.swing.JFrame {
         for (Celda jugador : celdasPlayers) {
             this.jugadorEnTurno = jugador;
             if (tipo == 0) {
-                this.lbApodo.setForeground(Color.RED);
+                this.lbApodo.setForeground(new Color(13,13,13));
                 this.lbApodo.setFont(new Font("Ink Free", Font.BOLD, 16));
                 this.lbApodo.setText(jugador.player.getApodo());
             } else {
@@ -500,13 +505,29 @@ public class VJugar extends javax.swing.JFrame {
                 } else {
                     c.cell.setBounds(hash.get(1)[0] + offset[num], hash.get(1)[1] + offset[3], 30, 30);
                 }
+            } else if (num != 1) {
+                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
             } else {
-                if (num != 1) {
-                    c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + 20, 30, 30);
-                } else {
-                    c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
-                }
+                c.cell.setBounds(hash.get(nuevoValor)[0] + offsetOut[num], hash.get(nuevoValor)[1] + offsetOut[3], 30, 30);
             }
+        }
+    }
+
+    void customJOptionPane() {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            UIManager.put("OptionPane.background", Color.decode("#FFFFF6"));
+            UIManager.put("Panel.background", Color.decode("#FFFFF6"));
+            UIManager.put("OptionPane.messageForeground",new Color(13,13,13));
+            UIManager.put("Button.background", Color.WHITE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(VJugar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -531,17 +552,19 @@ public class VJugar extends javax.swing.JFrame {
         }
         Collections.shuffle(lista);
         Object[] res = new Object[3];
+
         for (int i = 0; i < 3; i++) {
             res[i] = lista.get(i);
         }
         try {
+            customJOptionPane();
             int indiceRes = JOptionPane.showOptionDialog(null, preg.getPregunta(), "", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icono("/resource/Thinking.png", 40, 40), res, res[0]);
             return res[indiceRes].toString();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "No se escogió respuesta", "", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(ex.getMessage());
             return "";
-        }      
+        }
 
     }
 
@@ -602,18 +625,19 @@ public class VJugar extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
-            .addGroup(panelDadoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnLanzarDado, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadoLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLanzarDado, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                     .addGroup(panelDadoLayout.createSequentialGroup()
-                        .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelDadoLayout.setVerticalGroup(
@@ -623,7 +647,7 @@ public class VJugar extends javax.swing.JFrame {
                 .addGroup(panelDadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbApodo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(lbDado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(lbCategoria)
@@ -877,7 +901,7 @@ class FondoPanel extends JPanel {
 
         @Override
         public void paint(Graphics g) {
-            imagen = new ImageIcon(getClass().getResource("/resource/letreromadera2.png")).getImage();
+            imagen = new ImageIcon(getClass().getResource("/resource/letreroh.png")).getImage();
 
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
 
@@ -893,7 +917,7 @@ class FondoPanel extends JPanel {
 
         @Override
         public void paint(Graphics g) {
-            imagen = new ImageIcon(getClass().getResource("/resource/letreromadera.png")).getImage();
+            imagen = new ImageIcon(getClass().getResource("/resource/letrerov.png")).getImage();
 
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
 
